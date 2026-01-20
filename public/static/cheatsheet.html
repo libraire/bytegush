@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cheatsheet</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .title-bar {
+        color: rgb(69, 69, 69);
+        font-size: 3rem;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-around;
+      }
+      .button {
+        border: none;
+        background-color: transparent;
+        color: rgb(69, 69, 69);
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .container {
+        width: 80%;
+      }
+    </style>
+    <script>
+      function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-bar">
+        <div style="flex: 1">Cheatsheet</div>
+        <button class="button" onclick="scrollToSection('js-section')">
+          JavaScript
+        </button>
+        <button class="button" onclick="scrollToSection('go-section')">
+          Go
+        </button>
+      </div>
+
+      <div id="go-section">
+        <h2>Golang (Go)</h2>
+        <table>
+          <tr>
+            <th>Topic</th>
+            <th>Code Sample</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Variables</td>
+            <td>
+              <code>var x int = 5</code><br />
+              <code>y := 5</code>
+            </td>
+            <td>Declare and initialize a variable</td>
+          </tr>
+          <tr>
+            <td>Define a Struct</td>
+            <td>
+              <code>type Person struct {</code><br />
+              <code>&nbsp;&nbsp;Name string `json:"name"`</code><br />
+              <code>&nbsp;&nbsp;Age int `json:"age"`</code><br />
+              <code>&nbsp;&nbsp;Email string `json:"email,omitempty"`</code
+              ><br />
+              <code>}</code>
+            </td>
+            <td>Define a struct named `Person` with JSON annotations.</td>
+          </tr>
+          <tr>
+            <td>Functions</td>
+            <td>
+              <code>func add(a, b int) int {</code><br />
+              <code>&nbsp;&nbsp;return a + b</code><br />
+              <code>}</code>
+            </td>
+            <td>Define a function</td>
+          </tr>
+          <tr>
+            <td>Multiple return Values</td>
+            <td>
+              <code>func foo(a, b int) (int, int) {</code><br />
+              <code>&nbsp;&nbsp;return b, a</code><br />
+              <code>}</code><br />
+              <br />
+              <code>result1, result2 := foo(10, 3)</code>
+            </td>
+            <td>Define a function returns two values</td>
+          </tr>
+
+          <tr>
+            <td>Initialize an Array</td>
+            <td>
+              <code
+                >var myArray [5]int <br />
+                myArray = [5]int{1, 2, 3, 4, 5}</code
+              >
+            </td>
+            <td>Declare and initialize an array with values</td>
+          </tr>
+
+          <tr>
+            <td>Initialize a slice</td>
+            <td>
+              <code>mySlice := make([]int, 0)</code><br />
+              <code>mySlice = append(mySlice, 1, 2, 3, 4, 5)</code>
+            </td>
+            <td>Create an empty slice and append values to it</td>
+          </tr>
+
+          <tr>
+            <td>For Loop</td>
+            <td>
+              <code
+                >for i := 0; i < len(myArray); i++ {<br />
+                &nbsp;&nbsp;// Code to be executed<br />
+                }<br
+              /></code>
+              <br />
+              <code>for index,value := range myArray {</code><br />
+              <code>&nbsp;&nbsp;// Code to be executed</code><br />
+              <code>}</code>
+            </td>
+            <td>Execute a block of code repeatedly</td>
+          </tr>
+
+          <tr>
+            <td>Initialize a Map</td>
+            <td>
+              <code>myMap := make(map[string]int)</code><br />
+              <code>myMap["key1"] = 100</code><br />
+              <code>value1 := myMap["key1"]</code><br />
+            </td>
+            <td>
+              Create a map named `myMap` with string keys and integer values
+            </td>
+          </tr>
+          <tr>
+            <td>Loop through a Map</td>
+            <td>
+              <code>for key, value := range myMap {</code><br />
+              <code
+                >&nbsp;&nbsp;// Code to be executed for each key-value
+                pair</code
+              ><br />
+              <code>}</code>
+            </td>
+            <td>Iterate through a map named `myMap`</td>
+          </tr>
+          <tr>
+            <td>Format Log</td>
+            <td>
+              <code>&nbsp;&nbsp;name := "John"</code><br />
+              <code>&nbsp;&nbsp;age := 30</code><br />
+              <br />
+              <code
+                >&nbsp;&nbsp;fmt.Printf("Name: %s, Age: %d\n", name, age)</code
+              ><br />
+            </td>
+            <td>
+              Use `Printf` function from the "fmt" package to format and print
+              log output with mixed parameters.
+            </td>
+          </tr>
+          <tr>
+            <td>Using Regex Match</td>
+            <td>
+              <code>&nbsp;&nbsp;str := "Hello, World!"</code><br />
+              <br />
+              <code>&nbsp;&nbsp;pattern := regexp.MustCompile("Hello")</code
+              ><br />
+              <code>&nbsp;&nbsp;result := pattern.FindString(str)</code><br />
+              <br />
+              <code>&nbsp;&nbsp;fmt.Println(result)</code><br />
+            </td>
+            <td>
+              Use the `FindString()` method of the pattern to find the
+              first match in the string. Print the result.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="js-section">
+        <h2>JavaScript (JS)</h2>
+        <table>
+          <tr>
+            <th>Topic</th>
+            <th>Code Sample</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Variables</td>
+            <td><code>let x = 5;</code></td>
+            <td>Declare and initialize a variable</td>
+          </tr>
+          <tr>
+            <td>Functions</td>
+            <td>
+              <code>function add(a, b) {</code><br />
+              <code>&nbsp;&nbsp;return a + b;</code><br />
+              <code>}</code>
+            </td>
+            <td>Define a function</td>
+          </tr>
+          <tr>
+            <td>Iterate over Object Properties</td>
+            <td>
+              <code>const myObject = { prop1: 'value1', prop2: 'value2' };</code
+              ><br />
+              <br />
+              <code>for (let key in myObject) {</code><br />
+              <code>&nbsp;&nbsp;if (myObject.hasOwnProperty(key)) {</code><br />
+              <code>&nbsp;&nbsp;&nbsp;&nbsp;const value = myObject[key];</code
+              ><br />
+              <code
+                >&nbsp;&nbsp;&nbsp;&nbsp;// Code to be executed for each
+                property and its value</code
+              ><br />
+              <code>&nbsp;&nbsp;}</code><br />
+              <code>}</code>
+            </td>
+            <td>Iterate over the properties of an object named `myObject`</td>
+          </tr>
+          <tr>
+            <td>Initialize an Object (Dictionary)</td>
+            <td>
+              <code>const myDictionary = { key1: value1, key2: value2 };</code
+              ><br />
+              <br />
+              <code>myDictionary["key1"] = newValue1;</code><br />
+              <code>myDictionary.key2 = newValue2;</code><br />
+              <br />
+              <code>const value1 = myDictionary["key1"];</code><br />
+              <code>const value2 = myDictionary.key2;</code>
+            </td>
+            <td>Create an object named `myDictionary` with key-value pairs.</td>
+          </tr>
+          <tr>
+            <td>Initialize an Array and Append Elements</td>
+            <td>
+              <code>const myArray = [element1, element2];</code><br />
+              <br />
+              <code>myArray.push(newElement1);</code><br />
+              <code>myArray.push(newElement2);</code>
+            </td>
+            <td>
+              Create an array named `myArray` with initial elements. Use the
+              `push` method to append new elements to the end of the array.
+            </td>
+          </tr>
+          <tr>
+            <td>Iterate over Array Elements</td>
+            <td>
+              <code>const myArray = ['element1', 'element2', 'element3'];</code
+              ><br />
+              <br />
+              <code>for (let index in myArray) {</code><br />
+              <code>&nbsp;&nbsp;if (myArray.hasOwnProperty(index)) {</code
+              ><br />
+              <code
+                >&nbsp;&nbsp;&nbsp;&nbsp;const element = myArray[index];</code
+              ><br />
+              <code
+                >&nbsp;&nbsp;&nbsp;&nbsp;// Code to be executed for each array
+                element</code
+              ><br />
+              <code>&nbsp;&nbsp;}</code><br />
+              <code>}</code>
+            </td>
+            <td>Iterate over the elements of an array named `myArray`</td>
+          </tr>
+          <tr>
+            <td>Format Log</td>
+            <td>
+              <code>const name = "John";</code><br />
+              <code>const age = 30;</code><br />
+              <br />
+              <code>console.log(`Name: ${name}, Age: ${age}`);</code>
+            </td>
+            <td>
+              Use template literals (backticks) to format and log output strings
+              with mixed parameters.
+            </td>
+          </tr>
+          <tr>
+            <td>Using Regex Match</td>
+            <td>
+              <code>const str = "Hello, World!";</code><br />
+              <br />
+              <code>const pattern = /.o/g;</code><br />
+              <code>const result = str.match(pattern);</code><br />
+              <br />
+              <code>console.log(result); // [ 'lo', 'Wo' ]</code>
+            </td>
+            <td>
+              Create a string (`str` in this example). Define a regex pattern
+              (`pattern` in this example) using the forward slash notation. Use
+              the `match()` method on the string with the pattern to find
+              matches. The method returns an array of matched substrings or
+              `null` if no match is found.
+            </td>
+          </tr>
+          <!-- Add more JavaScript cheatsheet entries as needed -->
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

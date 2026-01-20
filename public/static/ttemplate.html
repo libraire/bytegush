@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Text Templates Markdown Image 小红书 " />
+    <title>Text Show Template</title>
+    <style>
+      body {
+        background-color: black;
+        padding: 0 5%;
+      }
+
+      .note {
+        background-color: #ffffff;
+        padding: 20px;
+        height: 100%;
+        min-height: 400px;
+        width: 600px;
+        font-family: cursive;
+        box-sizing: border-box;
+        color: #4e4e4e;
+        white-space: pre-wrap;
+        font-size: 25px;
+      }
+
+      .note2 {
+        background-color: #1e8609;
+        padding: 20px;
+        height: 100%;
+        min-height: 400px;
+        width: 600px;
+        font-family: cursive;
+        box-sizing: border-box;
+        color: #4e4e4e;
+        white-space: pre-wrap;
+        font-size: 25px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .editArea {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+      }
+
+      #inputText {
+        padding: 20px;
+        border: none;
+        resize: none;
+        width: 300px;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .title {
+        color: #ffffff;
+        font-family: cursive;
+        font-size: 60px;
+        text-align: center;
+        margin-top: 60px;
+      }
+
+      .theme-panel {
+        display: flex;
+        direction: row;
+        width: 100%;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+      }
+
+      .color-picker {
+        width: 30px;
+        height: 30px;
+        border-width: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      .picker-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 5px;
+      }
+
+      .grid {
+        margin: 0;
+        background-image: repeating-linear-gradient(
+            #cccccc7a 0 1px,
+            transparent 1px 100%
+          ),
+          repeating-linear-gradient(
+            90deg,
+            #cccccc7a 0 1px,
+            transparent 1px 100%
+          );
+        background-size: 10px 10px;
+      }
+
+      .theme-container {
+        display: flex;
+        width: 100%;
+        align-content: center;
+        justify-content: end;
+      }
+
+      .theme {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background-color: #1e8609;
+      }
+
+      .theme2 {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background-color: #1e1e1e;
+      }
+
+      .head1 {
+        font-size: 70px;
+        font-weight: bolder;
+        text-align: center;
+        width: 100%;
+        padding: 0;
+        margin: 10px 0;
+        white-space: initial;
+        line-break: anywhere;
+      }
+
+      .head2 {
+        font-size: 50px;
+        font-weight: bolder;
+        text-align: center;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        white-space: initial;
+        line-break: anywhere;
+      }
+
+      .head3 {
+        font-size: 30px;
+        text-align: center;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        white-space: initial;
+        line-break: anywhere;
+      }
+    </style>
+    <script>
+      function generateNoteImage() {
+        var inputText = document.getElementById("inputText").value;
+        var noteElement = document.getElementById("note");
+        noteElement.innerHTML = "";
+
+        var lines = [];
+        var index = inputText.indexOf("\n");
+        while (index != -1) {
+          if (index == 0) {
+            if (lines.length > 0) {
+              lines[lines.length - 1] += "\n";
+            } else {
+              lines.push("\n");
+            }
+            inputText = inputText.substring(index + 1);
+            index = inputText.indexOf("\n");
+            continue;
+          } else if (index > 0) {
+            lines.push(inputText.substring(0, index).trimStart());
+            inputText = inputText.substring(index + 1);
+            index = inputText.indexOf("\n");
+            continue;
+          } else if (index == -1) {
+            break;
+          }
+        }
+
+        if (inputText.length > 0) {
+          lines.push(inputText.trimStart());
+        }
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          var head = document.createElement("div");
+          if (i > 0 && lines[i - 1].startsWith(">") && !line.startsWith(">")) {
+            var tweak = lines[i - 1];
+            var index = tweak.indexOf("+");
+            if (index > 0) {
+              head.style.marginTop = tweak.substring(tweak.indexOf("+")) + "px";
+            }
+
+            index = tweak.indexOf("-");
+            if (index > 0) {
+              head.style.marginTop =
+                tweak.substring(tweak.indexOf("-") - 1) + "px";
+            }
+          }
+          if (line.startsWith("###")) {
+            head.className = "head3";
+            head.innerText = line.substring(3);
+            noteElement.appendChild(head);
+          } else if (line.startsWith("##")) {
+            head.className = "head2";
+            head.innerText = line.substring(2);
+            noteElement.appendChild(head);
+          } else if (line.startsWith("#")) {
+            head.className = "head1";
+            head.innerText = line.substring(1);
+            noteElement.appendChild(head);
+          } else if (line.startsWith(">")) {
+            continue;
+          } else {
+            head.innerText = line;
+            noteElement.appendChild(head);
+          }
+        }
+
+        elements.forEach((line) => {
+          if (line.startsWith("###")) {
+            var head = document.createElement("div");
+            head.className = "head3";
+            head.innerText = line.substring(3);
+            return head;
+          } else if (line.startsWith("##")) {
+            var head = document.createElement("div");
+            head.className = "head2";
+            head.innerText = line.substring(2);
+            return head;
+          } else if (line.startsWith("#")) {
+            var head = document.createElement("div");
+            head.className = "head1";
+            head.innerText = line.substring(1);
+            noteElement.appendChild(head);
+            return head;
+          } else {
+            var head = document.createElement("div");
+            head.innerText = line;
+            return head;
+          }
+
+          noteElement.appendChild(element);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var inputText = document.getElementById("inputText");
+        inputText.addEventListener("input", generateNoteImage);
+
+        var backgroundColorInput = document.getElementById("backgroundColor");
+        var textColorInput = document.getElementById("textColor");
+        var contentElement = document.getElementById("note");
+
+        backgroundColorInput.addEventListener("change", function () {
+          var backgroundColor = backgroundColorInput.value;
+          contentElement.style.backgroundColor = backgroundColor;
+        });
+
+        textColorInput.addEventListener("change", function () {
+          var textColor = textColorInput.value;
+          contentElement.style.color = textColor;
+        });
+
+        var divElement = document.getElementById("theme1");
+        divElement.addEventListener("click", function () {
+          contentElement.className = "note2";
+          contentElement.style.backgroundColor = "#1e8609";
+          contentElement.style.color = "#ffffff";
+          textColorInput.value = "#ffffff";
+          backgroundColorInput.value = "#1e8609";
+        });
+
+        var th2 = document.getElementById("theme2");
+        th2.addEventListener("click", function () {
+          contentElement.className = "note2";
+          contentElement.style.backgroundColor = "#1e1e1e";
+          contentElement.style.color = "#ffffff";
+          textColorInput.value = "#ffffff";
+          backgroundColorInput.value = "#1e1e1e";
+        });
+
+        var th3 = document.getElementById("theme3");
+        th3.addEventListener("click", function () {
+          contentElement.className = "note2";
+          contentElement.style.backgroundColor = "#FA4B4B";
+          contentElement.style.color = "#ffffff";
+          textColorInput.value = "#ffffff";
+          backgroundColorInput.value = "#FA4B4B";
+        });
+
+        var th4 = document.getElementById("theme4");
+        th4.addEventListener("click", function () {
+          contentElement.className = "note2";
+          contentElement.style.backgroundColor = "#f6db4c";
+          contentElement.style.color = "#4e4e4e";
+          textColorInput.value = "#4e4e4e";
+          backgroundColorInput.value = "#f6db4c";
+        });
+
+        generateNoteImage();
+      });
+    </script>
+  </head>
+  <body>
+    <div class="title">Text Template</div>
+    <div style="width: 100%; text-align: center; color: white">
+      Text driven layout for capturing as an image
+    </div>
+    <div
+      style="width: 100%; text-align: center; color: white; margin-bottom: 30px"
+    >
+      小红书图片截图模版
+    </div>
+    <div class="container">
+      <div class="editArea">
+        <div class="theme-panel">
+          <div class="picker-container">
+            <label for="backgroundColor">Color </label>
+            <input
+              class="color-picker"
+              type="color"
+              id="backgroundColor"
+              value="#1e1e1e"
+            />
+          </div>
+          <div class="picker-container">
+            <label for="textColor">Text</label>
+            <input
+              class="color-picker"
+              type="color"
+              id="textColor"
+              value="#ffffff"
+            />
+          </div>
+          <div class="picker-container" id="theme1">
+            <label>Theme</label>
+            <div class="theme"></div>
+          </div>
+
+          <div class="picker-container" id="theme2">
+            <label> B </label>
+            <div class="theme2"></div>
+          </div>
+
+          <div class="picker-container" id="theme3">
+            <label> R </label>
+            <div class="theme2" style="background-color: #fa4b4b"></div>
+          </div>
+
+          <div class="picker-container" id="theme4">
+            <label> Y </label>
+            <div class="theme2" style="background-color: #f6db4c"></div>
+          </div>
+        </div>
+
+        <textarea id="inputText" placeholder="">
+
+# head1
+
+> -20
+## head2 moves up 20px
+
+> +50
+### head3 mvoes down 50px
+
+> +40
+Plain text 
+with line break
+        
+        </textarea>
+      </div>
+
+      <div class="note grid" id="note"></div>
+    </div>
+    <div style="width: 100%; text-align: center; margin-top: 30px">
+      <a
+        style="color: white"
+        href="https://chromewebstore.google.com/detail/html-elements-screenshot/mckfdaahjhmnchjihljdiakamamondld"
+      >
+        Plugin Recommended for Element ScreenShoot
+      </a>
+    </div>
+    <div style="width: 100%; text-align: center">
+      <a
+        style="color: white"
+        href="https://chromewebstore.google.com/detail/html-elements-screenshot/mckfdaahjhmnchjihljdiakamamondld"
+      >
+        截图插件推荐
+      </a>
+    </div>
+  </body>
+</html>
