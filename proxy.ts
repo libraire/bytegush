@@ -10,9 +10,9 @@ function signToken(payload: Record<string, unknown>) {
 }
 
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 
-  const session = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET }); 
+  const session = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('user', signToken(session as Record<string, unknown>))
 
