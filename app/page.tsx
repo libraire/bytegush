@@ -54,10 +54,9 @@ const featuredProducts = [
     name: 'Focus AI',
     description: 'Uninterrupted intelligence for Gemini. Ask questions and get AI insights without switching tabs or losing your place.',
     icon: Puzzle,
-    href: '#',
     color: 'bg-gray-400',
     shadow: 'shadow-gray-200',
-    isComingSoon: true,
+    href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea'
   },
 ]
 
