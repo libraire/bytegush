@@ -56,7 +56,8 @@ const featuredProducts = [
     icon: Puzzle,
     color: 'bg-gray-400',
     shadow: 'shadow-gray-200',
-    href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea'
+    href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea',
+    isComingSoon: false,
   },
 ]
 
