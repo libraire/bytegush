@@ -12,7 +12,10 @@ export function SignIn({
   return (
     <form
       action={async () => {
-        redirect("https://app.bytegush.com/auth/login")
+        // Get current page URL for redirect after login
+        const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+        const loginUrl = `https://app.bytegush.com/auth/login?redirect_url=${encodeURIComponent(currentUrl)}`;
+        redirect(loginUrl);
       }}
     >
       <Button className="ml-2 mr-2 text-gray-800" {...props}>Sign In</Button>
@@ -22,10 +25,10 @@ export function SignIn({
 
 export function SignOut(props: React.ComponentPropsWithRef<typeof Button>) {
   return (
-      <Button onClick={()=>{
-        signOut({ redirect: false });
-      }} variant="ghost" className="w-full p-0" {...props}>
-        Sign Out
-      </Button>
+    <Button onClick={() => {
+      signOut({ redirect: false });
+    }} variant="ghost" className="w-full p-0" {...props}>
+      Sign Out
+    </Button>
   )
 }
