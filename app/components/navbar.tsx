@@ -2,7 +2,7 @@
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import NavDropDown from './dropdown';
-import UserButton from "./user-button"
+import AuthButton from "./AuthButton"
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Logo from './logo';
@@ -103,7 +103,7 @@ export default function Navbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
-                <UserButton />
+                <AuthButton />
               </div>
             </div>
           </div>

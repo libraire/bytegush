@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import AuthProvider from "./context/AuthProvider";
+import { CustomAuthProvider } from "./context/CustomAuthProvider";
 import Navbar from "./components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,12 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
+        <CustomAuthProvider>
           <Navbar />
           <div className="pt-[64px]  min-h-screen">
             {children}
           </div>
-        </AuthProvider>
+        </CustomAuthProvider>
         <div className="grow-0 text-center text-gray-900 mb-4 mt-[-44px]">© 2024 Bytegush. All rights reserved.</div>
       </body>
     </html>
