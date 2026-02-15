@@ -14,7 +14,8 @@ export function SignIn({
       action={async () => {
         // Get current page URL for redirect after login
         const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-        const loginUrl = `https://app.bytegush.com/auth/login?redirect_url=${encodeURIComponent(currentUrl)}`;
+        const apiHost = process.env.NEXT_PUBLIC_API_HOST || 'https://app.bytegush.com';
+        const loginUrl = `${apiHost}/auth/login?redirect_url=${encodeURIComponent(currentUrl)}`;
         redirect(loginUrl);
       }}
     >
