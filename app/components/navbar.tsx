@@ -71,27 +71,12 @@ export default function Navbar() {
                     Archive
                   </a>
 
-                  <div
-                    className={classNames(pathname, ['/about', '/about/feedback'], "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700")}
+                  <a
+                    href="/about"
+                    className={classNames(pathname, ["/about"], "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium hover:border-gray-300 hover:text-gray-700")}
                   >
-                    <NavDropDown name="About" active={['/about', '/about/feedback'].some(v => v == pathname)}
-                      items={
-                        [
-                          {
-                            name: 'Donation',
-                            href: 'https://bytegush.lemonsqueezy.com/buy/229d1aed-9c23-426f-9c34-c584381ba777?embed=1',
-                          },
-                          {
-                            name: 'About',
-                            href: '/about',
-                          },
-                          {
-                            name: 'Feedback',
-                            href: '/about/feedback',
-                          }
-                        ]
-                      } />
-                  </div>
+                    About
+                  </a>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -134,26 +119,12 @@ export default function Navbar() {
                 Archive
               </a>
 
-              <div
-                className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+              <a
+                href="/about"
+                className={classNames(pathname, ["/about"], "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700")}
               >
-                <NavDropDown name="About" items={
-                  [
-                    {
-                      name: 'Donation',
-                      href: 'https://bytegush.lemonsqueezy.com/buy/229d1aed-9c23-426f-9c34-c584381ba777?embed=1',
-                    },
-                    {
-                      name: 'About',
-                      href: '/about',
-                    },
-                    {
-                      name: 'Feedback',
-                      href: '/about/feedback',
-                    }
-                  ]
-                } />
-              </div>
+                About
+              </a>
 
             </div>
           </Disclosure.Panel>
