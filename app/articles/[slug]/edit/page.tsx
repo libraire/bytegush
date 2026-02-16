@@ -99,6 +99,39 @@ export default function EditArticlePage() {
         }
     };
 
+    const [uploading, setUploading] = useState(false);
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        const data = new FormData();
+        data.append('image', file);
+
+        try {
+            const res = await fetch('/api/v1/articles/upload/image', {
+                method: 'POST',
+                body: data,
+            });
+
+            if (!res.ok) throw new Error('Upload failed');
+
+            const { url } = await res.json();
+
+            setFormData(prev => ({
+                ...prev,
+                content: prev.content + `\n![Image](${url})\n`
+            }));
+        } catch (error) {
+            console.error(error);
+            alert('Failed to upload image');
+        } finally {
+            setUploading(false);
+            e.target.value = '';
+        }
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -178,7 +211,25 @@ export default function EditArticlePage() {
                             </div>
 
                             <div className="flex-1 flex flex-col min-h-0">
-                                <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">Content (Markdown)</label>
+                                <div className="flex justify-between items-center mb-1">
+                                    <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content (Markdown)</label>
+                                    <div className="relative">
+                                        <input
+                                            type="file"
+                                            id="image-upload"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleImageUpload}
+                                            disabled={uploading}
+                                        />
+                                        <label
+                                            htmlFor="image-upload"
+                                            className={`cursor-pointer text-xs font-medium text-indigo-600 hover:text-indigo-500 ${uploading ? 'opacity-50' : ''}`}
+                                        >
+                                            {uploading ? 'Uploading...' : 'Insert Image'}
+                                        </label>
+                                    </div>
+                                </div>
                                 <textarea
                                     name="content"
                                     id="content"
