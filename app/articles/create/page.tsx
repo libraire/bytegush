@@ -42,7 +42,7 @@ export default function CreateArticlePage() {
         setError('');
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/articles`, {
+            const res = await fetch(`/api/v1/articles`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
