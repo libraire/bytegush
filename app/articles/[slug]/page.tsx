@@ -10,7 +10,7 @@ type Props = {
 }
 
 async function getArticle(slug: string) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/articles/${slug}`, {
+    const res = await fetch(`/api/v1/articles/${slug}`, {
         next: { revalidate: 3600 },
     });
 
