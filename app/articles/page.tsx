@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 async function getArticles() {
-    const res = await fetch(`/api/v1/articles`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/articles`, {
         cache: 'no-store',
     });
 
