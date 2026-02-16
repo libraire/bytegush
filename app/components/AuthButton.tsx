@@ -9,6 +9,12 @@ function classNames(...classes: string[]): string {
     return classes.filter(Boolean).join(' ')
 }
 
+function isAdmin(email: string | null | undefined) {
+    if (!email) return false;
+    const admins = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "").split(",");
+    return admins.includes(email);
+}
+
 export default function AuthButton() {
     const { user, isLoading, login, logout } = useCustomAuth()
 
@@ -67,6 +73,21 @@ export default function AuthButton() {
                                 </button>
                             )}
                         </Menu.Item>
+                        {isAdmin(user.email) && (
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <a
+                                        href="/articles/create"
+                                        className={classNames(
+                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                            'block w-full text-left px-4 py-2 text-sm'
+                                        )}
+                                    >
+                                        Create Article
+                                    </a>
+                                )}
+                            </Menu.Item>
+                        )}
                     </div>
                 </Menu.Items>
             </Transition>

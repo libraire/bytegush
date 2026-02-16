@@ -65,10 +65,10 @@ export default function Navbar() {
                   </div>
 
                   <a
-                    href="/archive"
-                    className={classNames(pathname, ["/archive"], "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium hover:border-gray-300 hover:text-gray-700")}
+                    href="/articles"
+                    className={classNames(pathname, ["/articles"], "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium hover:border-gray-300 hover:text-gray-700")}
                   >
-                    Archive
+                    Articles
                   </a>
 
                   <a
@@ -113,10 +113,10 @@ export default function Navbar() {
               </div>
 
               <a
-                href="/archive"
-                className={classNames(pathname, ["/archive"], "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700")}
+                href="/articles"
+                className={classNames(pathname, ["/articles"], "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700")}
               >
-                Archive
+                Articles
               </a>
 
               <a
