@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 
 interface User {
+    id: number
     email: string
     isPro?: boolean
     expire?: string
@@ -44,6 +45,7 @@ export function CustomAuthProvider({ children }: { children: ReactNode }) {
                 const data = await response.json()
                 if (data && data.email) {
                     setUser({
+                        id: data.user_id || data.id,
                         email: data.email,
                         isPro: data.isPro,
                         expire: data.expire
@@ -90,8 +92,16 @@ export function CustomAuthProvider({ children }: { children: ReactNode }) {
                 })
             }
 
+
             // Clear cookie
+            // Clear for current domain (host-only or current)
+            document.cookie = 'bytegush_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+            // Clear for .bytegush.com as fallback/production
             document.cookie = 'bytegush_session=; path=/; domain=.bytegush.com; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+            // Clear auth_token if it exists (from custom verify flow)
+            document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+            document.cookie = 'auth_token=; path=/; domain=.bytegush.com; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
             setUser(null)
         } catch (error) {
             console.error('Logout failed:', error)

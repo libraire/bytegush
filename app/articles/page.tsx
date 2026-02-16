@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import type { Metadata } from 'next'
 import { Search, Heart, MessageCircle, Share2 } from 'lucide-react'
 import LatestButton from "./LatestButton";
+import ArticleEditButton from "./ArticleEditButton";
 
 export const metadata: Metadata = {
     title: 'Articles - Bytegush',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 async function getArticles() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/articles`, {
-        next: { revalidate: 3600 },
+        cache: 'no-store',
     });
 
     if (!res.ok) {
@@ -96,6 +97,7 @@ export default async function ArticlesPage() {
                                                 <button className="text-gray-400 hover:text-gray-600 transition-colors">
                                                     <Share2 className="h-4 w-4" />
                                                 </button>
+                                                <ArticleEditButton articleUserId={article.user_id} slug={article.slug} />
                                             </div>
                                         </div>
 

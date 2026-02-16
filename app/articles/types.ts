@@ -8,6 +8,7 @@ export interface Article {
     is_active: boolean;
     created_at: string;
     updated_at: string;
+    user_id?: number;
 }
 
 export interface PaginatedResponse<T> {
