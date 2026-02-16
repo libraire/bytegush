@@ -2,6 +2,8 @@ import { Article, PaginatedResponse } from "./types";
 import Link from "next/link";
 import { format } from "date-fns";
 import type { Metadata } from 'next'
+import { Search, Heart, MessageCircle, Share2 } from 'lucide-react'
+import LatestButton from "./LatestButton";
 
 export const metadata: Metadata = {
     title: 'Articles - Bytegush',
@@ -14,57 +16,108 @@ async function getArticles() {
     });
 
     if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
         throw new Error('Failed to fetch articles');
     }
 
     return res.json() as Promise<PaginatedResponse<Article>>;
 }
 
+type GroupedArticles = {
+    [key: string]: Article[];
+};
+
 export default async function ArticlesPage() {
     const data = await getArticles();
     const articles = data.data;
 
+    // Group articles by Month Year
+    const groupedArticles: GroupedArticles = {};
+    articles.forEach(article => {
+        if (!article.published_at) return;
+        const date = new Date(article.published_at);
+        const key = format(date, 'MMMM yyyy').toUpperCase();
+        if (!groupedArticles[key]) {
+            groupedArticles[key] = [];
+        }
+        groupedArticles[key].push(article);
+    });
+
+    const sections = Object.keys(groupedArticles).map(key => ({
+        month: key,
+        articles: groupedArticles[key]
+    }));
+
     return (
-        <div className="min-h-screen bg-[#fcfcfd] py-20 pb-40">
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="border-b border-gray-200 pb-10 mb-10">
-                    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Articles</h1>
-                    <p className="mt-4 text-xl text-gray-500">
-                        Thoughts, updates, and insights from the team.
-                    </p>
+        <div className="min-h-screen bg-white selection:bg-orange-100">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+
+                <div className="flex items-center justify-between border-b border-gray-100 mb-12">
+                    <div className="flex space-x-8">
+                        <LatestButton />
+                    </div>
                 </div>
 
-                <div className="grid gap-16 lg:grid-cols-2 lg:gap-x-8 lg:gap-y-12">
-                    {articles.map((article) => (
-                        <div key={article.id} className="flex flex-col items-start">
-                            {article.published_at && (
-                                <div className="text-sm text-gray-500 mb-2">
-                                    <time dateTime={article.published_at}>
-                                        {format(new Date(article.published_at), 'MMMM d, yyyy')}
-                                    </time>
-                                </div>
-                            )}
-                            <Link href={`/articles/${article.slug}`} className="block group">
-                                <h2 className="text-2xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
-                                    {article.title}
-                                </h2>
-                                <p className="mt-3 text-lg text-gray-600 line-clamp-3">
-                                    {article.summary}
-                                </p>
-                                <div className="mt-4 flex items-center text-indigo-600 font-medium group-hover:text-indigo-500">
-                                    Read more
-                                    <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </div>
-                            </Link>
+                <div className="space-y-16">
+                    {sections.map((section) => (
+                        <div key={section.month}>
+                            <h2 className="text-xs font-bold tracking-widest text-orange-600 mb-8">
+                                {section.month}
+                            </h2>
+                            <div className="space-y-12">
+                                {section.articles.map((article) => (
+                                    <article key={article.id} className="group relative flex flex-col md:flex-row gap-8 items-start pb-12 border-b border-gray-50 last:border-0 last:pb-0">
+                                        <div className="flex-1 space-y-3">
+                                            <div className="space-y-2">
+                                                <h3 className="text-2xl font-serif font-bold text-gray-900 leading-tight group-hover:text-orange-600 transition-colors">
+                                                    <Link href={`/articles/${article.slug}`}>
+                                                        {article.title}
+                                                    </Link>
+                                                </h3>
+                                                <p className="text-gray-500 line-clamp-2 text-[17px] leading-relaxed font-sans">
+                                                    {article.summary}
+                                                </p>
+                                            </div>
+
+                                            <div className="flex items-center space-x-2 text-[13px] font-medium text-gray-400 uppercase tracking-wide">
+                                                {article.published_at && (
+                                                    <span>{format(new Date(article.published_at), 'MMM d, yyyy').toUpperCase()}</span>
+                                                )}
+                                            </div>
+
+                                            <div className="flex items-center space-x-6 pt-2">
+                                                <button className="flex items-center space-x-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+                                                    <Heart className="h-4 w-4" />
+                                                    <span className="text-sm">0</span>
+                                                </button>
+                                                <button className="flex items-center space-x-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+                                                    <MessageCircle className="h-4 w-4" />
+                                                    <span className="text-sm">0</span>
+                                                </button>
+                                                <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                                                    <Share2 className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="w-full md:w-40 flex-shrink-0">
+                                            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-100 relative group-hover:opacity-90 transition-opacity">
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&auto=format&fit=crop&q=60"
+                                                    alt={article.title}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
                         </div>
                     ))}
 
                     {articles.length === 0 && (
-                        <div className="col-span-full text-center py-20 text-gray-500">
-                            No articles found.
+                        <div className="text-center py-20">
+                            <h3 className="text-sm font-semibold text-gray-900">No articles found</h3>
+                            <p className="mt-1 text-sm text-gray-500">Get started by creating a new article.</p>
                         </div>
                     )}
                 </div>
