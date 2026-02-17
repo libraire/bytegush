@@ -25,7 +25,7 @@ export default function RootLayout({
             {children}
           </div>
         </CustomAuthProvider>
-        <div className="grow-0 text-center text-gray-900 mb-4 mt-[-44px]">© 2024 Bytegush. All rights reserved.</div>
+        <div className="grow-0 text-center text-gray-900 mb-[40px] mt-[100px]">© 2024 Bytegush. All rights reserved.</div>
       </body>
     </html>
   );
