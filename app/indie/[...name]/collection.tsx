@@ -272,15 +272,6 @@ const collection = [
       { name: 'Awesome Mac', herf: 'https://github.com/jaywcjlove/awesome-mac' },
     ]
   },
-  {
-    id: 16,
-    name: 'Awesome Bytegush',
-    key: 'bytegush',
-    emoji: "🔥",
-    rows: [
-      { name: 'Quoteworthy', herf: 'https://quoteworthy.bytegush.com/notes' },
-    ]
-  }
 
 ]
 

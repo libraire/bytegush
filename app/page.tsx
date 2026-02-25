@@ -3,6 +3,7 @@ import { ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Link from "next/link";
 import collection from './indie/[...name]/collection';
 import { useRouter } from 'next/navigation'
+import { useState } from 'react';
 import { LucideIcon, Languages, Sparkles, Wrench, Puzzle, ExternalLink, FileText, PlayCircle } from 'lucide-react';
 
 function classNames(...classes: string[]) {
@@ -61,15 +62,16 @@ const featuredProducts = [
   },
 ]
 
-const items = collection.map((item) => {
-  const newItem = { ...item };
-  newItem.rows = item.rows.slice(0, 3)
-  newItem.rows.push({ name: "View More", herf: "/indie/" + item.key })
-  return newItem
-})
+// The full collection will be used directly within the component state
 
 export default function Home() {
   const router = useRouter()
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
+
+  const toggleExpand = (key: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setExpandedItems(prev => ({ ...prev, [key]: !prev[key] }))
+  }
 
   return (
     <div className="min-h-screen bg-[#fcfcfd] selection:bg-indigo-100 selection:text-indigo-700">
@@ -138,42 +140,57 @@ export default function Home() {
         {/* Collection Section */}
         <section className="animate-slide-up animate-delayed-2">
           <div className="flex items-center justify-between mb-12">
-            <h2 className="text-2xl font-bold text-gray-900">Explore Collection</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Indie Dev Toolkit</h2>
             <div className="h-px flex-1 bg-gray-100 mx-8 hidden sm:block"></div>
           </div>
           <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((client) => (
-              <li key={client.id} className="group overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
-                <div className="flex items-center gap-x-4 border-b border-gray-50 bg-gray-50/50 p-6">
-                  <div className="h-10 w-10 flex justify-center items-center text-xl rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5">
-                    {client.emoji}
+            {collection.map((client) => {
+              const isExpanded = !!expandedItems[client.key];
+              const displayRows = isExpanded ? client.rows : client.rows.slice(0, 3);
+              const hasMore = client.rows.length > 3;
+
+              return (
+                <li key={client.id} className="group overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="flex items-center gap-x-4 border-b border-gray-50 bg-gray-50/50 p-6">
+                    <div className="h-10 w-10 flex justify-center items-center text-xl rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5">
+                      {client.emoji}
+                    </div>
+                    <div className="text-sm font-bold text-gray-900">{client.name}</div>
+                    <div className="flex-1"></div>
+                    <Link href={`/indie/${client.key}`} className="text-gray-400 hover:text-gray-600">
+                      <ChevronRightIcon className="h-5 w-5" />
+                    </Link>
                   </div>
-                  <div className="text-sm font-bold text-gray-900">{client.name}</div>
-                  <div className="flex-1"></div>
-                  <Link href={`/indie/${client.key}`} className="text-gray-400 hover:text-gray-600">
-                    <ChevronRightIcon className="h-5 w-5" />
-                  </Link>
-                </div>
-                <div className="divide-y divide-gray-50 px-6 py-2">
-                  {client.rows.map((row) => (
-                    <a
-                      key={row.name}
-                      href={row.herf}
-                      className="flex justify-between items-center py-4 group/item hover:translate-x-1 transition-transform"
-                    >
-                      <span className="text-sm text-gray-600 group-hover/item:text-gray-900 transition-colors">
-                        {row.name}
-                      </span>
-                      {row.name !== "View More" ? (
+                  <div className="divide-y divide-gray-50 px-6 py-2">
+                    {displayRows.map((row) => (
+                      <a
+                        key={row.name}
+                        href={row.herf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex justify-between items-center py-4 group/item hover:translate-x-1 transition-transform"
+                      >
+                        <span className="text-sm text-gray-600 group-hover/item:text-gray-900 transition-colors">
+                          {row.name}
+                        </span>
                         <ChevronRightIcon className="h-4 w-4 text-gray-300 group-hover/item:text-gray-500 transition-colors" />
-                      ) : (
-                        <ChevronUpDownIcon className="h-4 w-4 text-indigo-400" />
-                      )}
-                    </a>
-                  ))}
-                </div>
-              </li>
-            ))}
+                      </a>
+                    ))}
+                    {hasMore && (
+                      <div className="py-3">
+                        <button
+                          onClick={(e) => toggleExpand(client.key, e)}
+                          className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gray-50 hover:bg-indigo-50 text-sm font-semibold text-gray-600 hover:text-indigo-600 transition-all duration-300 border border-transparent hover:border-indigo-100"
+                        >
+                          <span>{isExpanded ? "View Less" : "View More"}</span>
+                          <ChevronRightIcon className={classNames("h-4 w-4 transition-transform duration-300", isExpanded ? "-rotate-90" : "rotate-90")} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </section>
       </div>
