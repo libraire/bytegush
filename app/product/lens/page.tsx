@@ -5,14 +5,6 @@ import { GalleryUser } from "./components/types";
 import styles from "./components/PhotoComponent.module.css";
 
 const LensTitle: React.FC = ({ }) => {
-
-  const [url, setURL] = useState<string>('/signin');
-  useEffect(() => {
-    const token = localStorage.getItem("token") ?? "";
-    const u = token != "" ? '/profile' : '/signin';
-    setURL(u)
-  })
-
   return (
     <div style={{ display: "flex", flexDirection: "column", position: "fixed", width: "100%", background: "rgb(0 0 0 / 40%)", padding: "40px" }}>
       <div className={styles.subTitle}>What you see, what you think, and what you take.</div>
@@ -47,7 +39,7 @@ const Gallery: React.FC<{ name: string }> = ({ name }) => {
     if (data === undefined) {
       fetchData();
     }
-  }, []);
+  }, [API_HOST, data]);
 
   return (
     <div

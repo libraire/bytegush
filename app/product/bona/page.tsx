@@ -44,8 +44,6 @@ const ProductsPage = () => {
     const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
     const [downloadNumber, setDownload] = useState<number>(1);
     useEffect(() => {
-        const token = localStorage.getItem("token") ?? "";
-        const u = token != "" ? '/profile' : '/signin';
         fetch(API_HOST + "/api/v1/app/Bona").then(response => {
             return response.json()
         }).then(res => {
@@ -59,7 +57,7 @@ const ProductsPage = () => {
             }
         });
 
-    })
+    }, [API_HOST])
 
     return (
         <>
