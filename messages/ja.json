@@ -1,0 +1,86 @@
+{
+  "Common": {
+    "brandName": "Bytegush",
+    "brandSubtitle": "自社開発ツール＆ワークフロー",
+    "brandTagline": "価値あるデジタルツールと実践的なワークフローをお届け",
+    "language": "言語",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  },
+  "Navbar": {
+    "products": "プロダクト",
+    "articles": "コラム",
+    "labs": "Bytegush 研究所 (Labs)",
+    "productList": "プロダクト一覧",
+    "signIn": "ログイン",
+    "signOut": "ログアウト"
+  },
+  "HowToSay": {
+    "metaTitle": "HowToSay - 英単語連続推測チャレンジ · ミニマル単語ゲーム | Bytegush Studio",
+    "metaDescription": "何問連続で英単語を推測できるか挑戦！英英定義による没入型クイズ、リアルな打鍵タイピング、CEFR（A1〜C2）適応型レベルアップ。",
+    "heroPrefix": "何問連続で正解できるか？",
+    "heroHighlight": "英単語コンボチャレンジ",
+    "currentStreak": "CURRENT STREAK",
+    "streaking": "連続正解中",
+    "bestRecord": "最高記録: {count}",
+    "solvedWords": "正解数: {count} 語",
+    "wordDifficulty": "単語レベル (CEFR)",
+    "gameMode": "モード",
+    "soundEnabledTip": "効果音オン (キー M)",
+    "soundDisabledTip": "ミュート中 (キー M)",
+    "modeAdaptive": "適応型レベルアップ",
+    "modeFixed": "固定難易度",
+    "progressNext": "あと {count} 語正解で ➜ {tier}",
+    "progressMax": "最高位 C2 マスター到達",
+    "englishDefHeader": "ENGLISH DEFINITION · 英英定義",
+    "exampleLabel": "例文:",
+    "nativeClueLabel": "ヒント:",
+    "nativeCluePrompt": "💡 翻訳ヒントが必要ですか？クリックして表示 (3)",
+    "hide": "隠す",
+    "correctStreak": "正解！連続記録 +1",
+    "nextWord": "次の単語へ",
+    "comboBroken": "コンボ終了、答えを表示しました",
+    "restartChallenge": "再挑戦する (続ける)",
+    "hintBtn": "ヒント (1)",
+    "backspaceBtn": "削除 ⌫",
+    "skipBtn": "パス / 降参 (→)",
+    "touchKeyboardTitle": "タッチキーボード",
+    "mobileOnly": "スマホ専用",
+    "keyShortcuts": {
+      "typeLetters": "文字を入力",
+      "backspace": "1文字削除",
+      "hint": "ヒント",
+      "pronounce": "音声発音",
+      "nativeHint": "意味ヒント",
+      "skip": "スキップ",
+      "next": "次の単語"
+    },
+    "levels": {
+      "A1": {
+        "badge": "入門",
+        "desc": "日常生活で最もよく使われる基本単語"
+      },
+      "A2": {
+        "badge": "初級",
+        "desc": "日常や職場での基本的なコミュニケーション"
+      },
+      "B1": {
+        "badge": "中級",
+        "desc": "経験や意見、日常の出来事を説明できる表現"
+      },
+      "B2": {
+        "badge": "中上級",
+        "desc": "複雑な文章や学術的な議論に適した語彙"
+      },
+      "C1": {
+        "badge": "上級",
+        "desc": "流暢で自然なネイティブ表現・精密な語彙"
+      },
+      "C2": {
+        "badge": "マスター",
+        "desc": "古典名著、文脈の機微や哲学的な高度な語彙"
+      }
+    }
+  }
+}

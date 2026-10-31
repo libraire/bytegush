@@ -114,7 +114,7 @@ export default function AuthButton() {
                                                 'block w-full text-left px-4 py-2 text-sm'
                                             )}
                                         >
-                                            📝 撰写评测/文章
+                                            📝 撰写专栏文章
                                         </a>
                                     )}
                                 </Menu.Item>

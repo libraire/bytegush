@@ -70,10 +70,10 @@ export const originalProducts: ProductItem[] = [
     color: 'from-indigo-500 to-purple-600',
     emoji: '✨',
     websiteUrl: '/products/bona',
-    platforms: ['Web', 'Mac'],
+    platforms: ['Mac'],
     pricing: 'Freemium',
     rating: 9.6,
-    badge: '网页',
+    badge: 'Mac App',
     isOriginal: true,
     reviewSlug: '/products/bona',
     highlights: ['沉浸式无干扰设计', '双链与卡片敏捷联动', '秒级响应与离线优先'],
@@ -126,13 +126,13 @@ export const originalProducts: ProductItem[] = [
     categoryLabel: '影音与学习',
     color: 'from-rose-500 to-pink-600',
     emoji: '▶️',
-    websiteUrl: 'https://app.bytegush.com/player',
-    platforms: ['Web', 'Chrome'],
+    websiteUrl: '/products/player',
+    platforms: ['Web'],
     pricing: 'Freemium',
     rating: 9.4,
     badge: '网页',
     isOriginal: true,
-    reviewSlug: '/articles',
+    reviewSlug: '/products/player',
     highlights: ['双语字幕与智能分词', 'AI 上下文伴读解构', '生词本一键同步'],
   },
   {
@@ -149,11 +149,15 @@ export const originalProducts: ProductItem[] = [
     platforms: ['Chrome'],
     pricing: 'Free',
     rating: 9.2,
-    badge: '插件',
+    badge: 'Chrome插件',
     isOriginal: true,
     reviewSlug: '/articles',
     highlights: ['任意网页划词快捷召唤', '长文要点精准提炼', '零打扰侧边抽屉设计'],
   },
+];
+
+// 试验场项目单独导出（不混入正式产品列表）
+export const playgroundProducts: ProductItem[] = [
   {
     id: 'gandengyan-poker',
     name: '干瞪眼扑克',
@@ -191,11 +195,6 @@ export const originalProducts: ProductItem[] = [
     highlights: ['端侧视觉姿态捕捉', '无需穿戴零外设', '60FPS 实时体感交互', '隐私保护本地推断'],
   },
 ];
-
-// 试验场项目单独导出
-export const playgroundProducts: ProductItem[] = originalProducts.filter(
-  (p) => p.badge === '试验场'
-);
 
 // 精选软件雷达 (Curated Product Radar)
 export const curatedProducts: ProductItem[] = [

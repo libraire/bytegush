@@ -3,12 +3,11 @@
 import { Disclosure } from '@headlessui/react';
 import { useState, useEffect } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ExternalLink } from 'lucide-react';
 import NavDropDown from './dropdown';
 import AuthButton from './AuthButton';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import Logo from './logo';
+import LanguageSwitcher from './LanguageSwitcher';
+import { Link, usePathname } from '@/i18n/routing';
 
 const originalsNavItems = [
   {
@@ -28,19 +27,19 @@ const originalsNavItems = [
     isExternal: false,
   },
   {
+    name: 'Bona',
+    tagline: '重塑心流的高审美数字工作台',
+    href: '/products/bona',
+    emoji: '✨',
+    badge: 'Mac App',
+    isExternal: false,
+  },
+  {
     name: '造己健身',
     tagline: '纯粹无干扰的三维肌群解剖与动力链科学训练手记',
     href: '/products/workout',
     emoji: '⚡',
     badge: '小程序',
-    isExternal: false,
-  },
-  {
-    name: 'Bona',
-    tagline: '重塑心流的高审美数字工作台',
-    href: '/products/bona',
-    emoji: '✨',
-    badge: '网页',
     isExternal: false,
   },
   {
@@ -61,34 +60,18 @@ const originalsNavItems = [
   },
   {
     name: 'AI Player',
-    tagline: '智能双语伴学媒体播放器',
-    href: 'https://app.bytegush.com/player',
+    tagline: '结合 AI 实时伴学的双语智能播放器',
+    href: '/products/player',
     emoji: '▶️',
     badge: '网页',
-    isExternal: true,
+    isExternal: false,
   },
   {
     name: 'Focus AI',
     tagline: 'Gemini 与网页无缝集成的侧边栏扩展',
     href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea',
     emoji: '🧩',
-    badge: '插件',
-    isExternal: true,
-  },
-  {
-    name: '干瞪眼扑克',
-    tagline: '极具对抗与戏剧性的经典扑克对战游戏',
-    href: 'https://poker.bytegush.com',
-    emoji: '🃏',
-    badge: '试验场',
-    isExternal: true,
-  },
-  {
-    name: 'Motion 体感手势',
-    tagline: '端侧视觉 AI 与摄像头姿态捕捉互动',
-    href: 'https://motion.bytegush.com',
-    emoji: '🦾',
-    badge: '试验场',
+    badge: 'Chrome插件',
     isExternal: true,
   },
 ];
@@ -130,10 +113,9 @@ export default function Navbar() {
         <div className="max-w-[1560px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-2.5">
-                <Logo className="h-7 w-auto" />
+              <Link href="/" className="flex items-center group">
                 <div className="flex flex-col">
-                  <span className="text-lg font-bold tracking-tight text-white leading-none">
+                  <span className="text-lg font-bold tracking-tight text-white leading-none group-hover:text-purple-300 transition-colors">
                     Bytegush
                   </span>
                   <span className="text-[10px] font-mono text-slate-400 tracking-wider uppercase mt-0.5">
@@ -152,7 +134,7 @@ export default function Navbar() {
                   href="/articles"
                   className="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white"
                 >
-                  评测专栏
+                  专栏
                 </Link>
               </div>
             </div>
@@ -171,14 +153,11 @@ export default function Navbar() {
         <>
           <div className="max-w-[1560px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
             <div className="flex h-16 items-center justify-between">
-              {/* 左侧：Logo 与主要导航项 */}
+              {/* 左侧：Brand 与主要导航项 */}
               <div className="flex items-center gap-8">
-                <Link href="/" className="flex items-center gap-2.5 group">
-                  <div className="p-1 rounded-xl group-hover:scale-105 transition-transform">
-                    <Logo className="h-7 w-auto" />
-                  </div>
+                <Link href="/" className="flex items-center group">
                   <div className="flex flex-col">
-                    <span className="text-lg font-bold tracking-tight text-white leading-none">
+                    <span className="text-lg font-bold tracking-tight text-white leading-none group-hover:text-purple-300 transition-colors">
                       Bytegush
                     </span>
                     <span className="text-[10px] font-mono text-slate-400 tracking-wider uppercase mt-0.5">
@@ -214,13 +193,14 @@ export default function Navbar() {
                         : 'text-slate-300 hover:text-white hover:bg-white/5'
                     }`}
                   >
-                    评测专栏
+                    专栏
                   </Link>
                 </div>
               </div>
 
-              {/* 右侧：鉴权按钮 */}
-              <div className="flex items-center gap-3">
+              {/* 右侧：语言切换器与鉴权按钮 */}
+              <div className="flex items-center gap-2.5">
+                <LanguageSwitcher />
                 <AuthButton />
 
                 {/* 移动端菜单切换按钮 */}
@@ -245,7 +225,7 @@ export default function Navbar() {
                 href="/articles"
                 className="px-3 py-2 rounded-xl text-sm font-medium text-slate-200 hover:bg-white/5 hover:text-purple-300 transition-colors"
               >
-                📝 评测专栏
+                📝 专栏
               </Link>
             </div>
 
@@ -254,7 +234,7 @@ export default function Navbar() {
                 <span>🧪</span>
                 <span>Bytegush 试验场 (Labs)</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 mb-3">
+              <div className="grid grid-cols-2 gap-2 mb-4">
                 {playgroundNavItems.map((item) => (
                   <a
                     key={item.name}
@@ -267,9 +247,7 @@ export default function Navbar() {
                       <span>{item.emoji}</span>
                       <span className="truncate">{item.name}</span>
                     </div>
-                    <span className="text-[10px] font-mono px-1 rounded bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/30 flex-shrink-0">
-                      试验场
-                    </span>
+                    <ExternalLink className="w-3 h-3 text-fuchsia-400 opacity-70 ml-1 flex-shrink-0" />
                   </a>
                 ))}
               </div>
@@ -277,26 +255,37 @@ export default function Navbar() {
               <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
                 Bytegush 产品列表
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                {originalsNavItems.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target={item.isExternal ? '_blank' : undefined}
-                    rel={item.isExternal ? 'noopener noreferrer' : undefined}
-                    className="flex items-center justify-between p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-semibold text-slate-200 hover:text-white transition-colors"
-                  >
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span>{item.emoji}</span>
-                      <span className="truncate">{item.name}</span>
+              <div className="space-y-3">
+                {Array.from(new Set(originalsNavItems.map((i) => i.badge))).map((badge) => {
+                  const sectionItems = originalsNavItems.filter((i) => i.badge === badge);
+                  return (
+                    <div key={badge} className="space-y-1.5">
+                      <div className="text-[11px] font-mono font-semibold text-slate-400 px-3 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                        <span>{badge}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {sectionItems.map((item) => (
+                          <a
+                            key={item.name}
+                            href={item.href}
+                            target={item.isExternal ? '_blank' : undefined}
+                            rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                            className="flex items-center justify-between p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-semibold text-slate-200 hover:text-white transition-colors"
+                          >
+                            <div className="flex items-center gap-1.5 truncate">
+                              <span>{item.emoji}</span>
+                              <span className="truncate">{item.name}</span>
+                            </div>
+                            {item.isExternal && (
+                              <ExternalLink className="w-3 h-3 text-slate-400 opacity-70 ml-1 flex-shrink-0" />
+                            )}
+                          </a>
+                        ))}
+                      </div>
                     </div>
-                    {item.badge && (
-                      <span className="text-[10px] font-mono px-1 rounded bg-white/10 text-slate-400 flex-shrink-0">
-                        {item.badge}
-                      </span>
-                    )}
-                  </a>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </Disclosure.Panel>

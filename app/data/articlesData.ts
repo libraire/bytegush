@@ -1,4 +1,4 @@
-import { Article } from '../articles/types';
+import { Article } from '@/app/types/articles';
 
 export const fallbackArticles: Article[] = [
   {

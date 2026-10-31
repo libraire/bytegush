@@ -1,0 +1,86 @@
+{
+  "Common": {
+    "brandName": "Bytegush",
+    "brandSubtitle": "自研产品与效率工坊",
+    "brandTagline": "发现有价值的数字工具与实操工作流",
+    "language": "语言",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  },
+  "Navbar": {
+    "products": "产品",
+    "articles": "专栏",
+    "labs": "Bytegush 试验场 (Labs)",
+    "productList": "Bytegush 产品列表",
+    "signIn": "登录",
+    "signOut": "登出"
+  },
+  "HowToSay": {
+    "metaTitle": "HowToSay - 连击猜单词挑战 · 极简背词游戏 | Bytegush Studio",
+    "metaDescription": "看你能连续猜中多少个单词！HowToSay 连击猜词挑战，采用英文解释（英英释义）沉浸式猜词，沿用经典打字交互一个字母一个字母精准敲击输入，基于国际 CEFR (A1~C2) 难度自适应晋升，挑战连击极限。",
+    "heroPrefix": "看你能连续猜中",
+    "heroHighlight": "多少个单词？",
+    "currentStreak": "CURRENT STREAK",
+    "streaking": "连击中",
+    "bestRecord": "最高: {count}",
+    "solvedWords": "已答对: {count} 词",
+    "wordDifficulty": "单词难度 (CEFR)",
+    "gameMode": "闯关模式",
+    "soundEnabledTip": "音效已开 (快捷键 M)",
+    "soundDisabledTip": "音效已关 (快捷键 M)",
+    "modeAdaptive": "自适应晋级",
+    "modeFixed": "固定难度",
+    "progressNext": "再答对 {count} 词 ➜ {tier}",
+    "progressMax": "已达最高 C2 巅峰",
+    "englishDefHeader": "ENGLISH DEFINITION · 英文释义",
+    "exampleLabel": "例句:",
+    "nativeClueLabel": "中文线索:",
+    "nativeCluePrompt": "💡 需要中文释义线索？点击查看 (3)",
+    "hide": "隐藏",
+    "correctStreak": "拼写正确！连击 +1",
+    "nextWord": "下一个单词",
+    "comboBroken": "连击中断，已揭示答案",
+    "restartChallenge": "重新起步 (继续挑战)",
+    "hintBtn": "提示 (1)",
+    "backspaceBtn": "退格 ⌫",
+    "skipBtn": "跳过/放弃 (→)",
+    "touchKeyboardTitle": "触屏输入键盘",
+    "mobileOnly": "手机专享",
+    "keyShortcuts": {
+      "typeLetters": "键入字母",
+      "backspace": "退格",
+      "hint": "字母提示",
+      "pronounce": "发音朗读",
+      "nativeHint": "中文提示",
+      "skip": "跳过/认输",
+      "next": "下一词"
+    },
+    "levels": {
+      "A1": {
+        "badge": "入门",
+        "desc": "最常用的日常基础词汇，高频无阻力"
+      },
+      "A2": {
+        "badge": "初级",
+        "desc": "日常生活、工作环境的基础交流表达"
+      },
+      "B1": {
+        "badge": "中级",
+        "desc": "能够描述经历、观点与工作日常细节"
+      },
+      "B2": {
+        "badge": "高级",
+        "desc": "复杂文献、学术报告与抽象概念讨论"
+      },
+      "C1": {
+        "badge": "精通",
+        "desc": "自然流利的母语级深度表达、精准修辞"
+      },
+      "C2": {
+        "badge": "大师",
+        "desc": "古典名著精萃、细微语境幽默与哲学词汇"
+      }
+    }
+  }
+}

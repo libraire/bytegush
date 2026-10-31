@@ -1,0 +1,86 @@
+{
+  "Common": {
+    "brandName": "Bytegush",
+    "brandSubtitle": "Originals & Tools",
+    "brandTagline": "Discover valuable digital tools and practical workflows",
+    "language": "Language",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  },
+  "Navbar": {
+    "products": "Products",
+    "articles": "Articles",
+    "labs": "Bytegush Labs",
+    "productList": "Bytegush Products",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "HowToSay": {
+    "metaTitle": "HowToSay - Streak Guessing Challenge · Minimalist Vocabulary Game | Bytegush Studio",
+    "metaDescription": "See how many words you can guess in a row! Immersive guessing via English definitions, tactile letter-by-letter typing, adaptive CEFR progression from A1 to C2.",
+    "heroPrefix": "See how many words you can guess",
+    "heroHighlight": "in a streak!",
+    "currentStreak": "CURRENT STREAK",
+    "streaking": "in streak",
+    "bestRecord": "Best: {count}",
+    "solvedWords": "Solved: {count} words",
+    "wordDifficulty": "Difficulty (CEFR)",
+    "gameMode": "Game Mode",
+    "soundEnabledTip": "Sound On (Press M)",
+    "soundDisabledTip": "Muted (Press M)",
+    "modeAdaptive": "Adaptive",
+    "modeFixed": "Fixed Level",
+    "progressNext": "Next: {count} more ➜ {tier}",
+    "progressMax": "Reached top C2 tier",
+    "englishDefHeader": "ENGLISH DEFINITION",
+    "exampleLabel": "Example:",
+    "nativeClueLabel": "Translation Clue:",
+    "nativeCluePrompt": "💡 Need a translation hint? Click here (3)",
+    "hide": "Hide",
+    "correctStreak": "Correct! Streak +1",
+    "nextWord": "Next Word",
+    "comboBroken": "Streak broken, answer revealed",
+    "restartChallenge": "Try Again (Continue)",
+    "hintBtn": "Hint (1)",
+    "backspaceBtn": "Backspace ⌫",
+    "skipBtn": "Skip / Give Up (→)",
+    "touchKeyboardTitle": "Touch Keyboard",
+    "mobileOnly": "Mobile",
+    "keyShortcuts": {
+      "typeLetters": "Type letters",
+      "backspace": "Backspace",
+      "hint": "Letter Hint",
+      "pronounce": "Audio",
+      "nativeHint": "Translation Hint",
+      "skip": "Skip / Pass",
+      "next": "Next Word"
+    },
+    "levels": {
+      "A1": {
+        "badge": "Beginner",
+        "desc": "Essential everyday vocabulary with zero friction"
+      },
+      "A2": {
+        "badge": "Elementary",
+        "desc": "Basic communication for daily life and work"
+      },
+      "B1": {
+        "badge": "Intermediate",
+        "desc": "Express opinions, describe experiences and routines"
+      },
+      "B2": {
+        "badge": "Upper-Int",
+        "desc": "Complex texts, academic reports, and abstract ideas"
+      },
+      "C1": {
+        "badge": "Advanced",
+        "desc": "Fluent native-level expression and nuance"
+      },
+      "C2": {
+        "badge": "Mastery",
+        "desc": "Literary masterpieces, subtle context, and philosophy"
+      }
+    }
+  }
+}
