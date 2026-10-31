@@ -21,13 +21,13 @@ export default function LatestButton() {
         <button
             onClick={handleRefresh}
             disabled={isPending}
-            className={`pb-4 text-sm font-medium transition-colors relative ${isPending ? 'text-gray-400 cursor-not-allowed' : 'text-gray-900 hover:text-gray-700'}`}
+            className={`pb-1 text-xs font-mono font-medium transition-colors relative ${isPending ? 'text-slate-500 cursor-not-allowed' : 'text-slate-300 hover:text-white'}`}
         >
-            Latest
+            最新更新 (Latest)
             {isPending ? (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-200 animate-pulse" />
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-500/50 animate-pulse" />
             ) : (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-400" />
             )}
         </button>
     )

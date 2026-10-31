@@ -74,19 +74,51 @@ export default function AuthButton() {
                             )}
                         </Menu.Item>
                         {isAdmin(user.email) && (
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <a
-                                        href="/articles/create"
-                                        className={classNames(
-                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                            'block w-full text-left px-4 py-2 text-sm'
-                                        )}
-                                    >
-                                        Create Article
-                                    </a>
-                                )}
-                            </Menu.Item>
+                            <>
+                                <div className="border-t border-gray-100 my-1" />
+                                <div className="px-3 py-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                                    管理员工作台
+                                </div>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="/products/manage"
+                                            className={classNames(
+                                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
+                                                'block w-full text-left px-4 py-2 text-sm'
+                                            )}
+                                        >
+                                            🛠️ 产品库管理
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="/products/create"
+                                            className={classNames(
+                                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
+                                                'block w-full text-left px-4 py-2 text-sm'
+                                            )}
+                                        >
+                                            ➕ 添加新产品
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="/articles/create"
+                                            className={classNames(
+                                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
+                                                'block w-full text-left px-4 py-2 text-sm'
+                                            )}
+                                        >
+                                            📝 撰写评测/文章
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            </>
                         )}
                     </div>
                 </Menu.Items>

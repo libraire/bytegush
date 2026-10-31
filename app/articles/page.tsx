@@ -1,129 +1,117 @@
-import { Article, PaginatedResponse } from "./types";
-import Link from "next/link";
-import { format } from "date-fns";
-import type { Metadata } from 'next'
-import { Search, Heart, MessageCircle, Share2 } from 'lucide-react'
-import LatestButton from "./LatestButton";
-import ArticleEditButton from "./ArticleEditButton";
+import React from 'react';
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { format } from 'date-fns';
+import {
+  BookOpen,
+  Calendar,
+  Clock,
+  ArrowRight,
+  Sparkles,
+  Heart,
+  Share2,
+  Bookmark
+} from 'lucide-react';
+import { fetchArticlesSafe } from '../data/articlesData';
+import ArticleEditButton from './ArticleEditButton';
+import LatestButton from './LatestButton';
 
 export const metadata: Metadata = {
-    title: 'Articles - Bytegush',
-    description: 'Read our latest articles and updates.',
-}
-
-async function getArticles() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/articles`, {
-        cache: 'no-store',
-    });
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch articles');
-    }
-
-    return res.json() as Promise<PaginatedResponse<Article>>;
-}
-
-type GroupedArticles = {
-    [key: string]: Article[];
+  title: '评测专栏 - Bytegush',
+  description:
+    '以真实工作流为核心的数字工具品味策展、独立开发架构手记与自研产品深度复盘。',
 };
 
 export default async function ArticlesPage() {
-    const data = await getArticles();
-    const articles = data.data;
+  const articles = await fetchArticlesSafe();
 
-    // Group articles by Month Year
-    const groupedArticles: GroupedArticles = {};
-    articles.forEach(article => {
-        if (!article.published_at) return;
-        const date = new Date(article.published_at);
-        const key = format(date, 'MMMM yyyy').toUpperCase();
-        if (!groupedArticles[key]) {
-            groupedArticles[key] = [];
-        }
-        groupedArticles[key].push(article);
-    });
+  return (
+    <div className="min-h-screen bg-[#080B14] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 py-12 pb-28">
+      {/* 顶部背景星云光晕 */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] right-[10%] w-[600px] h-[600px] rounded-full bg-purple-600/10 blur-[150px]" />
+        <div className="absolute top-[30%] left-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-[130px]" />
+      </div>
 
-    const sections = Object.keys(groupedArticles).map(key => ({
-        month: key,
-        articles: groupedArticles[key]
-    }));
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* 顶部标题区 */}
+        <div className="border-b border-white/10 pb-8 mb-12 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/70 border border-purple-800/60 text-purple-300 text-xs font-mono">
+            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            <span>BYTEGUSH ESSAYS & REVIEWS</span>
+          </div>
 
-    return (
-        <div className="min-h-screen bg-white selection:bg-orange-100">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+            评测专栏
+          </h1>
 
-                <div className="flex items-center justify-between border-b border-gray-100 mb-12">
-                    <div className="flex space-x-8">
-                        <LatestButton />
-                    </div>
-                </div>
+          <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+            拒绝千篇一律的营销套话。以真实工作流为核心，沉淀挑剔的工具选品体验、独立开发架构实录与自研产品设计复盘。
+          </p>
 
-                <div className="space-y-16">
-                    {sections.map((section) => (
-                        <div key={section.month}>
-                            <h2 className="text-xs font-bold tracking-widest text-orange-600 mb-8">
-                                {section.month}
-                            </h2>
-                            <div className="space-y-12">
-                                {section.articles.map((article) => (
-                                    <article key={article.id} className="group relative flex flex-col md:flex-row gap-8 items-start pb-12 border-b border-gray-50 last:border-0 last:pb-0">
-                                        <div className="flex-1 space-y-3">
-                                            <div className="space-y-2">
-                                                <h3 className="text-2xl font-serif font-bold text-gray-900 leading-tight group-hover:text-orange-600 transition-colors">
-                                                    <Link href={`/articles/${article.slug}`}>
-                                                        {article.title}
-                                                    </Link>
-                                                </h3>
-                                                <p className="text-gray-500 line-clamp-2 text-[17px] leading-relaxed font-sans">
-                                                    {article.summary}
-                                                </p>
-                                            </div>
-
-                                            <div className="flex items-center space-x-2 text-[13px] font-medium text-gray-400 uppercase tracking-wide">
-                                                {article.published_at && (
-                                                    <span>{format(new Date(article.published_at), 'MMM d, yyyy').toUpperCase()}</span>
-                                                )}
-                                            </div>
-
-                                            <div className="flex items-center space-x-6 pt-2">
-                                                <button className="flex items-center space-x-1.5 text-gray-400 hover:text-gray-600 transition-colors">
-                                                    <Heart className="h-4 w-4" />
-                                                    <span className="text-sm">0</span>
-                                                </button>
-                                                <button className="flex items-center space-x-1.5 text-gray-400 hover:text-gray-600 transition-colors">
-                                                    <MessageCircle className="h-4 w-4" />
-                                                    <span className="text-sm">0</span>
-                                                </button>
-                                                <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                                                    <Share2 className="h-4 w-4" />
-                                                </button>
-                                                <ArticleEditButton articleUserId={article.user_id} slug={article.slug} />
-                                            </div>
-                                        </div>
-
-                                        <div className="w-full md:w-40 flex-shrink-0">
-                                            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-100 relative group-hover:opacity-90 transition-opacity">
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&auto=format&fit=crop&q=60"
-                                                    alt={article.title}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            </div>
-                                        </div>
-                                    </article>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-
-                    {articles.length === 0 && (
-                        <div className="text-center py-20">
-                            <h3 className="text-sm font-semibold text-gray-900">No articles found</h3>
-                            <p className="mt-1 text-sm text-gray-500">Get started by creating a new article.</p>
-                        </div>
-                    )}
-                </div>
+          <div className="pt-2 flex items-center justify-between text-xs text-slate-400 font-mono">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>共收录 {articles.length} 篇深度手记</span>
             </div>
+            <LatestButton />
+          </div>
         </div>
-    );
+
+        {/* 文章列表 */}
+        <div className="space-y-8">
+          {articles.map((article, idx) => (
+            <article
+              key={article.id || idx}
+              className="group relative bg-[#0D1222]/70 hover:bg-[#12182D]/80 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-white/10 hover:border-purple-500/40 transition-all duration-300 shadow-xl space-y-4"
+            >
+              {/* 日期与徽标 */}
+              <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-3.5 h-3.5 text-purple-400" />
+                  <span>
+                    {article.published_at
+                      ? format(new Date(article.published_at), 'yyyy-MM-dd')
+                      : '2026-10-31'}
+                  </span>
+                </div>
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
+                  深度专栏 · 0{idx + 1}
+                </span>
+              </div>
+
+              {/* 文章标题 */}
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-purple-300 transition-colors leading-snug">
+                <Link href={`/articles/${article.slug}`}>
+                  {article.title}
+                </Link>
+              </h2>
+
+              {/* 文章摘要 */}
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                {article.summary}
+              </p>
+
+              {/* 底部操作与阅读指引 */}
+              <div className="pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
+                <Link
+                  href={`/articles/${article.slug}`}
+                  className="inline-flex items-center gap-2 text-purple-400 group-hover:text-purple-300 font-semibold group-hover:translate-x-0.5 transition-all"
+                >
+                  <span>阅读全文</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+
+                <div className="flex items-center gap-4">
+                  <ArticleEditButton articleUserId={article.user_id} slug={article.slug} />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
 }

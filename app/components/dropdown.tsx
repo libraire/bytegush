@@ -1,66 +1,116 @@
+"use client";
 
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 function classNames(...classes: string[]): string {
-    return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
+export type NavItemDetail = {
+  name: string;
+  tagline?: string;
+  href: string;
+  emoji?: string;
+  badge?: string;
+  isExternal?: boolean;
+};
+
 type Props = {
-    items: MenuItem[];
-    name: string;
-    active?: boolean
+  name: string;
+  items: NavItemDetail[];
+  active?: boolean;
+  footerHref?: string;
+  footerText?: string;
 };
 
-type MenuItem = {
-    name: string;
-    href: string;
-};
+export default function NavDropDown({ name, items, active, footerHref, footerText }: Props) {
+  return (
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button
+          className={classNames(
+            'inline-flex items-center gap-1 text-sm font-medium transition-colors py-1',
+            active ? 'text-purple-400 font-semibold' : 'text-slate-300 hover:text-white'
+          )}
+        >
+          <span>{name}</span>
+          <ChevronDownIcon className="h-4 w-4 text-slate-400 group-hover:text-slate-200 transition-transform duration-200" />
+        </Menu.Button>
+      </div>
 
-const style = "inline-flex items-center text-sm font-medium hover:text-gray-700"
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-150"
+        enterFrom="transform opacity-0 scale-95 -translate-y-1"
+        enterTo="transform opacity-100 scale-100 translate-y-0"
+        leave="transition ease-in duration-100"
+        leaveFrom="transform opacity-100 scale-100 translate-y-0"
+        leaveTo="transform opacity-0 scale-95 -translate-y-1"
+      >
+        <Menu.Items className="absolute left-0 z-50 mt-2 w-80 sm:w-96 origin-top-left rounded-2xl bg-[#0E1324] p-2 shadow-2xl ring-1 ring-white/10 border border-white/10 focus:outline-none">
+          <div className="grid grid-cols-1 gap-1">
+            {items.map((item) => {
+              const isExt = item.isExternal || item.href.startsWith('http');
+              const Component = isExt ? 'a' : Link;
 
-export default function NavDropDown({ name, items, active }: Props) {
-    return (
-        <Menu as="div" className="relative inline-block text-left">
-            <div>
-                <Menu.Button className={classNames(active ? style + 'text-gray-700' : style + 'text-gray-500')} >
-                    {name}
-                </Menu.Button>
+              return (
+                <Menu.Item key={item.name}>
+                  {({ active: itemActive }) => (
+                    <Component
+                      href={item.href}
+                      {...(isExt ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className={classNames(
+                        itemActive ? 'bg-white/10 text-white' : 'text-slate-200 hover:bg-white/5',
+                        'group flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150'
+                      )}
+                    >
+                      <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg flex-shrink-0 group-hover:bg-white/10 group-hover:shadow-sm transition-colors">
+                        {item.emoji || '🚀'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-bold text-slate-100 group-hover:text-purple-300 transition-colors">
+                            {item.name}
+                          </span>
+                          {item.badge && (
+                            <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-purple-950/80 text-purple-300 border border-purple-800/60">
+                              {item.badge}
+                            </span>
+                          )}
+                          {isExt && (
+                            <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-purple-400 opacity-70 ml-0.5" />
+                          )}
+                        </div>
+                        {item.tagline && (
+                          <p className="text-xs text-slate-400 truncate mt-0.5">
+                            {item.tagline}
+                          </p>
+                        )}
+                      </div>
+                    </Component>
+                  )}
+                </Menu.Item>
+              );
+            })}
+          </div>
+
+          {footerHref && (
+            <div className="mt-2 pt-2 border-t border-white/10 px-2 py-1">
+              <Link
+                href={footerHref}
+                className="flex items-center justify-between text-xs font-semibold text-purple-400 hover:text-purple-300 p-1.5 rounded-lg hover:bg-white/5 transition-colors"
+              >
+                <span>{footerText || '查看所有产品与开发手记'}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
-
-            <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-            >
-                <Menu.Items className="absolute z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-
-                        {
-                            items.map((item) => (
-                                <Menu.Item key={item.name}>
-                                    {({ active }) => (
-                                        <a
-                                            href={item.href}
-                                            className={classNames(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                'block px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            {item.name}
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                            ))
-
-                        }
-                    </div>
-                </Menu.Items>
-            </Transition>
-        </Menu>
-    )
+          )}
+        </Menu.Items>
+      </Transition>
+    </Menu>
+  );
 }
