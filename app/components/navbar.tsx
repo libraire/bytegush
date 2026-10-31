@@ -54,10 +54,10 @@ const originalsNavItems = [
   {
     name: 'Woop',
     tagline: '面向开发者的瑞士军刀效率工具箱',
-    href: 'https://woop.bytegush.com',
+    href: '/products/woop',
     emoji: '🛠️',
     badge: '工具箱',
-    isExternal: true,
+    isExternal: false,
   },
   {
     name: 'AI Player',

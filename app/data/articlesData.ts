@@ -225,43 +225,122 @@ FlappyFeed 借鉴了短视频的手势心流：
   },
 ];
 
+export const initialArticles: Article[] = fallbackArticles;
+
 export async function fetchArticlesSafe(): Promise<Article[]> {
-  const apiHost = process.env.NEXT_PUBLIC_API_HOST;
-  if (apiHost) {
-    try {
-      const res = await fetch(`${apiHost}/api/v1/articles`, {
-        cache: 'no-store',
-      });
-      if (res.ok) {
-        const json = await res.json();
-        if (json && Array.isArray(json.data) && json.data.length > 0) {
-          return json.data;
-        }
-      }
-    } catch {
-      // API 离线时安全降级
+  // 1. 尝试从 PocketBase 获取
+  try {
+    const { getPocketBase } = await import('../lib/pb');
+    const pb = getPocketBase();
+    const records = await pb.collection('articles').getFullList({
+      filter: 'is_active = true',
+      sort: '-created',
+      requestKey: null,
+    });
+    if (records && records.length > 0) {
+      return records.map((r: any, idx: number) => ({
+        id: idx + 1,
+        title: String(r.title),
+        slug: String(r.slug),
+        summary: String(r.summary || ''),
+        content: String(r.content || ''),
+        category: r.category ? String(r.category) : 'column',
+        author: r.author ? String(r.author) : 'Bytegush Studio',
+        read_time: r.read_time ? String(r.read_time) : '5 min',
+        published_at: String(r.published_at || r.created || new Date().toISOString()),
+        is_active: Boolean(r.is_active ?? true),
+        created_at: String(r.created || new Date().toISOString()),
+        updated_at: String(r.updated || new Date().toISOString()),
+      }));
     }
+  } catch {
+    // PocketBase 尚未初始化或离线时平滑降级
+  }
+
+  // 2. 尝试从内置 SQLite 获取
+  try {
+    const { db, ensureDbInitialized } = await import('../lib/db');
+    await ensureDbInitialized();
+    const result = await db.execute('SELECT * FROM articles ORDER BY id DESC');
+    if (result.rows && result.rows.length > 0) {
+      return result.rows.map((r: any) => ({
+        id: Number(r.id),
+        title: String(r.title),
+        slug: String(r.slug),
+        summary: String(r.summary || ''),
+        content: String(r.content || ''),
+        category: r.category ? String(r.category) : 'column',
+        author: r.author ? String(r.author) : 'Bytegush Studio',
+        read_time: r.read_time ? String(r.read_time) : '5 min',
+        published_at: String(r.published_at || r.created_at || new Date().toISOString()),
+        is_active: true,
+        created_at: String(r.created_at || new Date().toISOString()),
+        updated_at: String(r.updated_at || new Date().toISOString()),
+      }));
+    }
+  } catch (err) {
+    console.warn('SQLite fetchArticles fallback:', err);
   }
 
   return fallbackArticles;
 }
 
 export async function fetchArticleBySlugSafe(slug: string): Promise<Article | null> {
-  const apiHost = process.env.NEXT_PUBLIC_API_HOST;
-  if (apiHost) {
-    try {
-      const res = await fetch(`${apiHost}/api/v1/articles/${slug}`, {
-        cache: 'no-store',
-      });
-      if (res.ok) {
-        const json = await res.json();
-        if (json && json.title) {
-          return json;
-        }
-      }
-    } catch {
-      // API 离线时安全降级
+  // 1. 尝试从 PocketBase 获取
+  try {
+    const { getPocketBase } = await import('../lib/pb');
+    const pb = getPocketBase();
+    const record = await pb.collection('articles').getFirstListItem(`slug = "${slug}"`, {
+      requestKey: null,
+    });
+    if (record) {
+      const r = record as any;
+      return {
+        id: 1,
+        title: String(r.title),
+        slug: String(r.slug),
+        summary: String(r.summary || ''),
+        content: String(r.content || ''),
+        category: r.category ? String(r.category) : 'column',
+        author: r.author ? String(r.author) : 'Bytegush Studio',
+        read_time: r.read_time ? String(r.read_time) : '5 min',
+        published_at: String(r.published_at || r.created || new Date().toISOString()),
+        is_active: Boolean(r.is_active ?? true),
+        created_at: String(r.created || new Date().toISOString()),
+        updated_at: String(r.updated || new Date().toISOString()),
+      };
     }
+  } catch {
+    // PocketBase 平滑降级
+  }
+
+  // 2. 尝试从内置 SQLite 获取
+  try {
+    const { db, ensureDbInitialized } = await import('../lib/db');
+    await ensureDbInitialized();
+    const result = await db.execute({
+      sql: 'SELECT * FROM articles WHERE LOWER(slug) = LOWER(?) LIMIT 1',
+      args: [slug],
+    });
+    if (result.rows && result.rows.length > 0) {
+      const r = result.rows[0] as any;
+      return {
+        id: Number(r.id),
+        title: String(r.title),
+        slug: String(r.slug),
+        summary: String(r.summary || ''),
+        content: String(r.content || ''),
+        category: r.category ? String(r.category) : 'column',
+        author: r.author ? String(r.author) : 'Bytegush Studio',
+        read_time: r.read_time ? String(r.read_time) : '5 min',
+        published_at: String(r.published_at || r.created_at || new Date().toISOString()),
+        is_active: true,
+        created_at: String(r.created_at || new Date().toISOString()),
+        updated_at: String(r.updated_at || new Date().toISOString()),
+      };
+    }
+  } catch (err) {
+    console.warn('SQLite fetchArticleBySlug fallback:', err);
   }
 
   const found = fallbackArticles.find(

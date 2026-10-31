@@ -9,6 +9,9 @@ export interface Article {
     created_at: string;
     updated_at: string;
     user_id?: number;
+    category?: string;
+    author?: string;
+    read_time?: string;
 }
 
 export interface PaginatedResponse<T> {
