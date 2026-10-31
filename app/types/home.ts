@@ -7,7 +7,7 @@ export interface ProductItem {
   tagline: string;
   description?: string;
   verdict: string; // 核心推荐理由 / 评测结论
-  category: 'all' | 'ai' | 'dev' | 'productivity' | 'learning' | 'design';
+  category: 'all' | 'ai' | 'dev' | 'productivity' | 'learning' | 'design' | 'lab';
   categoryLabel?: string;
   iconName?: string;
   emoji?: string;

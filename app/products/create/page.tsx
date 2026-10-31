@@ -219,7 +219,7 @@ export default function CreateProductPage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="如：Cursor、HowToSay、Raycast"
+                    placeholder="如：Cursor、Woop、Raycast"
                     className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
                   />
                   <button
@@ -244,7 +244,7 @@ export default function CreateProductPage() {
                   required
                   value={formData.slug}
                   onChange={handleChange}
-                  placeholder="如：cursor、howtosay"
+                  placeholder="如：cursor、woop"
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
                 />
               </div>

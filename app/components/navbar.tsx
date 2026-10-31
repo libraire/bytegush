@@ -16,7 +16,7 @@ const originalsNavItems = [
     tagline: '像刷短视频一样上下滑动沉浸式刷英语',
     href: '/products/flappyfeed',
     emoji: '🕊️',
-    badge: '旗舰',
+    badge: 'App',
     isExternal: false,
   },
   {
@@ -24,7 +24,7 @@ const originalsNavItems = [
     tagline: '把微小坚持点亮为星河的亲子正向激励习惯神器',
     href: '/products/starjar',
     emoji: '⭐',
-    badge: '治愈',
+    badge: 'App',
     isExternal: false,
   },
   {
@@ -32,23 +32,15 @@ const originalsNavItems = [
     tagline: '纯粹无干扰的三维肌群解剖与动力链科学训练手记',
     href: '/products/workout',
     emoji: '⚡',
-    badge: '硬核',
+    badge: '小程序',
     isExternal: false,
-  },
-  {
-    name: 'HowToSay',
-    tagline: '极简母语级多语言发音与表达训练',
-    href: 'https://say.bytegush.com',
-    emoji: '🗣️',
-    badge: '语言',
-    isExternal: true,
   },
   {
     name: 'Bona',
     tagline: '重塑心流的高审美数字工作台',
     href: '/products/bona',
     emoji: '✨',
-    badge: '极简',
+    badge: '网页',
     isExternal: false,
   },
   {
@@ -56,7 +48,15 @@ const originalsNavItems = [
     tagline: '面向开发者的瑞士军刀效率工具箱',
     href: '/products/woop',
     emoji: '🛠️',
-    badge: '工具箱',
+    badge: '网页',
+    isExternal: false,
+  },
+  {
+    name: 'HowToSay',
+    tagline: '单词连击闯关 · 猜词与语调训练',
+    href: '/products/howtosay',
+    emoji: '🔥',
+    badge: '网页',
     isExternal: false,
   },
   {
@@ -64,15 +64,7 @@ const originalsNavItems = [
     tagline: '智能双语伴学媒体播放器',
     href: 'https://app.bytegush.com/player',
     emoji: '▶️',
-    badge: 'AI伴学',
-    isExternal: true,
-  },
-  {
-    name: 'AI PDF Reader',
-    tagline: '带 AI 侧边栏的文献研读深度助手',
-    href: 'https://app.bytegush.com/pdf',
-    emoji: '📄',
-    badge: '学术',
+    badge: '网页',
     isExternal: true,
   },
   {
@@ -80,7 +72,42 @@ const originalsNavItems = [
     tagline: 'Gemini 与网页无缝集成的侧边栏扩展',
     href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea',
     emoji: '🧩',
-    badge: '扩展',
+    badge: '插件',
+    isExternal: true,
+  },
+  {
+    name: '干瞪眼扑克',
+    tagline: '极具对抗与戏剧性的经典扑克对战游戏',
+    href: 'https://poker.bytegush.com',
+    emoji: '🃏',
+    badge: '试验场',
+    isExternal: true,
+  },
+  {
+    name: 'Motion 体感手势',
+    tagline: '端侧视觉 AI 与摄像头姿态捕捉互动',
+    href: 'https://motion.bytegush.com',
+    emoji: '🦾',
+    badge: '试验场',
+    isExternal: true,
+  },
+];
+
+const playgroundNavItems = [
+  {
+    name: '干瞪眼扑克',
+    tagline: '极具对抗与戏剧性的经典扑克对战游戏',
+    href: 'https://poker.bytegush.com',
+    emoji: '🃏',
+    badge: '试验场',
+    isExternal: true,
+  },
+  {
+    name: 'Motion 体感手势',
+    tagline: '端侧视觉 AI 与摄像头姿态捕捉互动',
+    href: 'https://motion.bytegush.com',
+    emoji: '🦾',
+    badge: '试验场',
     isExternal: true,
   },
 ];
@@ -117,6 +144,9 @@ export default function Navbar() {
               <div className="hidden md:flex items-center space-x-1 lg:space-x-3">
                 <span className="px-3 py-1.5 text-sm font-medium text-slate-300 cursor-pointer">
                   产品列表 ▾
+                </span>
+                <span className="px-3 py-1.5 text-sm font-medium text-slate-300 cursor-pointer">
+                  🧪 试验场 ▾
                 </span>
                 <Link
                   href="/articles"
@@ -164,8 +194,15 @@ export default function Navbar() {
                       name="产品列表"
                       items={originalsNavItems}
                       active={isOriginalsActive}
-                      footerHref="/articles"
-                      footerText="查看全部评测专栏与独立手记 →"
+                    />
+                  </div>
+
+                  <div className="px-1">
+                    <NavDropDown
+                      name="🧪 试验场"
+                      items={playgroundNavItems}
+                      footerHref="/#playground"
+                      footerText="探索 Bytegush 试验场"
                     />
                   </div>
 
@@ -213,6 +250,30 @@ export default function Navbar() {
             </div>
 
             <div className="pt-3 border-t border-white/10">
+              <div className="text-xs font-bold text-fuchsia-400 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
+                <span>🧪</span>
+                <span>Bytegush 试验场 (Labs)</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {playgroundNavItems.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2 rounded-xl border border-fuchsia-500/20 bg-fuchsia-500/5 hover:bg-fuchsia-500/10 text-xs font-semibold text-slate-200 hover:text-white transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5 truncate">
+                      <span>{item.emoji}</span>
+                      <span className="truncate">{item.name}</span>
+                    </div>
+                    <span className="text-[10px] font-mono px-1 rounded bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/30 flex-shrink-0">
+                      试验场
+                    </span>
+                  </a>
+                ))}
+              </div>
+
               <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
                 Bytegush 产品列表
               </div>
@@ -223,10 +284,17 @@ export default function Navbar() {
                     href={item.href}
                     target={item.isExternal ? '_blank' : undefined}
                     rel={item.isExternal ? 'noopener noreferrer' : undefined}
-                    className="flex items-center gap-2 p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-semibold text-slate-200 hover:text-white transition-colors"
+                    className="flex items-center justify-between p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-semibold text-slate-200 hover:text-white transition-colors"
                   >
-                    <span>{item.emoji}</span>
-                    <span className="truncate">{item.name}</span>
+                    <div className="flex items-center gap-1.5 truncate">
+                      <span>{item.emoji}</span>
+                      <span className="truncate">{item.name}</span>
+                    </div>
+                    {item.badge && (
+                      <span className="text-[10px] font-mono px-1 rounded bg-white/10 text-slate-400 flex-shrink-0">
+                        {item.badge}
+                      </span>
+                    )}
                   </a>
                 ))}
               </div>

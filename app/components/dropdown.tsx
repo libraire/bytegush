@@ -77,7 +77,22 @@ export default function NavDropDown({ name, items, active, footerHref, footerTex
                             {item.name}
                           </span>
                           {item.badge && (
-                            <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-purple-950/80 text-purple-300 border border-purple-800/60">
+                            <span
+                              className={classNames(
+                                'px-1.5 py-0.5 rounded text-[10px] font-mono font-medium border',
+                                item.badge === 'App'
+                                  ? 'bg-blue-500/15 text-blue-300 border-blue-500/30'
+                                  : item.badge === '小程序'
+                                  ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                                  : item.badge === '网页'
+                                  ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                                  : item.badge === '插件'
+                                  ? 'bg-purple-500/15 text-purple-300 border-purple-500/30'
+                                  : item.badge === '试验场'
+                                  ? 'bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-500/30'
+                                  : 'bg-white/10 text-slate-300 border-white/10'
+                              )}
+                            >
                               {item.badge}
                             </span>
                           )}

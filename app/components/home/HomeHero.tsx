@@ -57,7 +57,7 @@ export default function HomeHero({
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="搜索手作软件、客观评测、极客场景（如：HowToSay、本地优先、离线...）"
+              placeholder="搜索手作软件、客观评测、极客场景（如：Woop、本地优先、离线...）"
               className="w-full px-3 py-1.5 text-xs sm:text-sm text-ink-900 placeholder:text-ink-400 bg-transparent focus:outline-none font-sans"
             />
             {searchQuery ? (
