@@ -27,6 +27,14 @@ const originalsNavItems = [
     isExternal: false,
   },
   {
+    name: 'ShareReader',
+    tagline: '原著文献微观聚焦与双轨思辨研读器',
+    href: 'https://github.com/drinking/sharereader',
+    emoji: '📖',
+    badge: '工作台',
+    isExternal: true,
+  },
+  {
     name: 'Bona',
     tagline: '重塑心流的高审美数字工作台',
     href: '/products/bona',
@@ -180,8 +188,6 @@ export default function Navbar() {
                     <NavDropDown
                       name="🧪 试验场"
                       items={playgroundNavItems}
-                      footerHref="/#playground"
-                      footerText="探索 Bytegush 试验场"
                     />
                   </div>
 

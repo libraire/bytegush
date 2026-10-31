@@ -31,6 +31,7 @@ export function CustomAuthProvider({ children }: { children: ReactNode }) {
             const response = await fetch('/hts/api/v1/user', {
                 method: 'GET',
                 credentials: 'include',
+                signal: AbortSignal.timeout(1500),
             })
 
             if (response.ok) {
