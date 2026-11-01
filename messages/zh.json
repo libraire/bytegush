@@ -9,12 +9,154 @@
     "ja": "日本語"
   },
   "Navbar": {
-    "products": "产品",
+    "products": "产品列表",
     "articles": "专栏",
-    "labs": "Bytegush 试验场 (Labs)",
-    "productList": "Bytegush 产品列表",
+    "labs": "试验场",
+    "search": "全局搜索",
+    "searchShortcut": "全局搜索 (⌘K)",
+    "searchPlaceholder": "快捷全局搜索产品与专栏...",
+    "labsTitle": "Bytegush 试验场 (Labs)",
+    "productListTitle": "Bytegush 产品列表",
+    "languageLabel": "界面语言 / Language",
     "signIn": "登录",
-    "signOut": "登出"
+    "signOut": "登出",
+    "badges": {
+      "app": "App",
+      "macApp": "Mac App",
+      "miniProgram": "小程序",
+      "web": "网页",
+      "extension": "Chrome插件",
+      "labs": "试验场",
+      "inDevelopment": "开发中"
+    },
+    "items": {
+      "flappyfeed": {
+        "name": "FlappyFeed",
+        "tagline": "像刷短视频一样上下滑动沉浸式刷英语"
+      },
+      "starjar": {
+        "name": "StarJar 星愿瓶",
+        "tagline": "把微小坚持点亮为星河的亲子正向激励习惯神器"
+      },
+      "sharereader": {
+        "name": "ShareReader",
+        "tagline": "文献协作共读空间 · 和同行围绕论文展开讨论"
+      },
+      "bona": {
+        "name": "Bona",
+        "tagline": "重塑心流的高审美数字工作台"
+      },
+      "workout": {
+        "name": "造己健身",
+        "tagline": "纯粹无干扰的三维肌群解剖与动力链科学训练手记"
+      },
+      "woop": {
+        "name": "Woop",
+        "tagline": "面向开发者的瑞士军刀效率工具箱"
+      },
+      "howtosay": {
+        "name": "HowToSay",
+        "tagline": "单词连击闯关 · 猜词与语调训练"
+      },
+      "player": {
+        "name": "AI Player",
+        "tagline": "结合 AI 实时伴学的双语智能播放器"
+      },
+      "focusAi": {
+        "name": "Focus AI",
+        "tagline": "Gemini 与网页无缝集成的侧边栏扩展"
+      },
+      "poker": {
+        "name": "干瞪眼扑克",
+        "tagline": "极具对抗与戏剧性的经典扑克对战游戏"
+      },
+      "motion": {
+        "name": "Motion 体感手势",
+        "tagline": "端侧视觉 AI 与摄像头姿态捕捉互动"
+      }
+    }
+  },
+  "Footer": {
+    "brandTagline": "BYTEGUSH STUDIO · 独立软件工坊",
+    "copyright": "© {year} Bytegush. All products crafted with passion."
+  },
+  "Home": {
+    "scrollDownPrompt": "向下滚动探索：{nextName}",
+    "scrollBackTop": "已阅览全部产品 · 返回顶部 FlappyFeed",
+    "slides": {
+      "flappyfeed": {
+        "name": "FlappyFeed",
+        "shortName": "FlappyFeed",
+        "tag": "TikTok 风格短语流 · 随时随地碎片化学英语",
+        "headlinePrefix": "像刷短视频一样",
+        "headlineGradient": "沉浸式刷英语",
+        "description": "告别枯燥死板背单词。竖滑手势秒开即刷，原声音频与文本毫秒级精准对齐，点词即查，上下文 AI 私教随时随地答疑解惑。",
+        "stats": {
+          "stat1Label": "经典文学名篇",
+          "stat1Value": "1490+",
+          "stat2Label": "端侧零延迟 TTS",
+          "stat2Value": "0ms",
+          "stat3Label": "CEFR 全层级过滤",
+          "stat3Value": "A1~C2"
+        },
+        "primaryCta": "免费下载 Android 安装包",
+        "badges": ["支持 Android 8.0+", "纯净零广告", "离线随播伴读"]
+      },
+      "starjar": {
+        "name": "StarJar 星愿瓶",
+        "shortName": "StarJar",
+        "tag": "亲子微习惯打卡 · 激发内在自驱力的星愿魔法",
+        "headlinePrefix": "把每次自律与微小坚持",
+        "headlineGradient": "点亮为瓶中的璀璨星河",
+        "description": "让成长看得见、摸得着。通过日常微习惯打卡积攒发光的物理碰撞星辰，兑换家庭心愿契约，灌溉专属微缩生态小星球。用治愈系正向反馈告别催促与焦虑。",
+        "stats": {
+          "stat1Label": "物理拟真碰撞",
+          "stat1Value": "3D星愿瓶",
+          "stat2Label": "微缩生态灌溉",
+          "stat2Value": "小星球",
+          "stat3Label": "双向正向激励",
+          "stat3Value": "心愿契约"
+        },
+        "primaryCta": "免费下载 Android 安装包",
+        "badges": ["告别说教式养育", "自驱力正向循环", "治愈美学无广告"]
+      },
+      "workout": {
+        "name": "造己健身 (Workout)",
+        "shortName": "造己健身",
+        "tag": "硬核科学力量 · 纯粹无干扰的三维肌群解剖手记",
+        "headlinePrefix": "解剖每一次受力发力",
+        "headlineGradient": "重塑清晰受控的肌体力量",
+        "description": "拒绝臃肿社交推销与杂乱打卡。内置千组肌群解剖动作库、OHSA 动力链体态筛查、精准离心向心节奏与超量恢复监控，每一次训练都数据分明、硬核高效。",
+        "stats": {
+          "stat1Label": "肌群受力解剖动作",
+          "stat1Value": "1000+",
+          "stat2Label": "动力链体态筛查",
+          "stat2Value": "OHSA",
+          "stat3Label": "疲劳与超量恢复",
+          "stat3Value": "实时 RPE"
+        },
+        "primaryCta": "📱 微信扫码体验小程序",
+        "badges": ["纯粹无广告", "拒绝私教推销", "科学解剖与动力学导向"]
+      },
+      "sharereader": {
+        "name": "ShareReader",
+        "shortName": "ShareReader",
+        "tag": "文献协作研读空间 · 和同行一起读论文、围绕内容深度讨论",
+        "headlinePrefix": "不再一个人孤军啃论文",
+        "headlineGradient": "和同行一起读论文 · 围绕原著聊透问题",
+        "description": "一个人啃论文太枯燥？ShareReader 打造围绕论文原著的协作研读空间。划选段落发起提问、边注碰撞学术见解、复杂难点与同行及 AI 共同探讨。让每一篇高质量论文，都成为思想碰撞的研讨室。",
+        "stats": {
+          "stat1Label": "原著段落交流",
+          "stat1Value": "边注共读",
+          "stat2Label": "学术观点碰撞",
+          "stat2Value": "围绕论文讨论",
+          "stat3Label": "智能分析辅助",
+          "stat3Value": "AI 大模型支持"
+        },
+        "primaryCta": "🛠️ 产品开发中",
+        "badges": ["围绕论文原著即时讨论", "同行共读与边注见解沉淀", "AI 大模型智能辅助"]
+      }
+    }
   },
   "HowToSay": {
     "metaTitle": "HowToSay - 连击猜单词挑战 · 极简背词游戏 | Bytegush Studio",

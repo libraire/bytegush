@@ -1,110 +1,18 @@
 "use client";
 
 import { Disclosure } from '@headlessui/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Sparkles, ExternalLink, Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import NavDropDown from './dropdown';
 import AuthButton from './AuthButton';
 import LanguageSwitcher from './LanguageSwitcher';
 import SearchModal from './search/SearchModal';
 import { Link, usePathname } from '@/i18n/routing';
 
-const originalsNavItems = [
-  {
-    name: 'FlappyFeed',
-    tagline: '像刷短视频一样上下滑动沉浸式刷英语',
-    href: '/products/flappyfeed',
-    emoji: '🕊️',
-    badge: 'App',
-    isExternal: false,
-  },
-  {
-    name: 'StarJar 星愿瓶',
-    tagline: '把微小坚持点亮为星河的亲子正向激励习惯神器',
-    href: '/products/starjar',
-    emoji: '⭐',
-    badge: 'App',
-    isExternal: false,
-  },
-  {
-    name: 'ShareReader',
-    tagline: '文献协作共读空间 · 和同行围绕论文展开讨论',
-    href: 'https://github.com/drinking/sharereader',
-    emoji: '📖',
-    badge: '开发中',
-    isExternal: true,
-  },
-  {
-    name: 'Bona',
-    tagline: '重塑心流的高审美数字工作台',
-    href: '/products/bona',
-    emoji: '✨',
-    badge: 'Mac App',
-    isExternal: false,
-  },
-  {
-    name: '造己健身',
-    tagline: '纯粹无干扰的三维肌群解剖与动力链科学训练手记',
-    href: '/products/workout',
-    emoji: '⚡',
-    badge: '小程序',
-    isExternal: false,
-  },
-  {
-    name: 'Woop',
-    tagline: '面向开发者的瑞士军刀效率工具箱',
-    href: '/products/woop',
-    emoji: '🛠️',
-    badge: '网页',
-    isExternal: false,
-  },
-  {
-    name: 'HowToSay',
-    tagline: '单词连击闯关 · 猜词与语调训练',
-    href: '/products/howtosay',
-    emoji: '🔥',
-    badge: '网页',
-    isExternal: false,
-  },
-  {
-    name: 'AI Player',
-    tagline: '结合 AI 实时伴学的双语智能播放器',
-    href: '/products/player',
-    emoji: '▶️',
-    badge: '网页',
-    isExternal: false,
-  },
-  {
-    name: 'Focus AI',
-    tagline: 'Gemini 与网页无缝集成的侧边栏扩展',
-    href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea',
-    emoji: '🧩',
-    badge: 'Chrome插件',
-    isExternal: true,
-  },
-];
-
-const playgroundNavItems = [
-  {
-    name: '干瞪眼扑克',
-    tagline: '极具对抗与戏剧性的经典扑克对战游戏',
-    href: 'https://poker.bytegush.com',
-    emoji: '🃏',
-    badge: '试验场',
-    isExternal: true,
-  },
-  {
-    name: 'Motion 体感手势',
-    tagline: '端侧视觉 AI 与摄像头姿态捕捉互动',
-    href: 'https://motion.bytegush.com',
-    emoji: '🦾',
-    badge: '试验场',
-    isExternal: true,
-  },
-];
-
 export default function Navbar() {
+  const t = useTranslations('Navbar');
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -123,8 +31,101 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const originalsNavItems = useMemo(() => [
+    {
+      name: t('items.flappyfeed.name'),
+      tagline: t('items.flappyfeed.tagline'),
+      href: '/products/flappyfeed',
+      emoji: '🕊️',
+      badge: t('badges.app'),
+      isExternal: false,
+    },
+    {
+      name: t('items.starjar.name'),
+      tagline: t('items.starjar.tagline'),
+      href: '/products/starjar',
+      emoji: '⭐',
+      badge: t('badges.app'),
+      isExternal: false,
+    },
+    {
+      name: t('items.sharereader.name'),
+      tagline: t('items.sharereader.tagline'),
+      href: 'https://github.com/drinking/sharereader',
+      emoji: '📖',
+      badge: t('badges.inDevelopment'),
+      isExternal: true,
+    },
+    {
+      name: t('items.bona.name'),
+      tagline: t('items.bona.tagline'),
+      href: '/products/bona',
+      emoji: '✨',
+      badge: t('badges.macApp'),
+      isExternal: false,
+    },
+    {
+      name: t('items.workout.name'),
+      tagline: t('items.workout.tagline'),
+      href: '/products/workout',
+      emoji: '⚡',
+      badge: t('badges.miniProgram'),
+      isExternal: false,
+    },
+    {
+      name: t('items.woop.name'),
+      tagline: t('items.woop.tagline'),
+      href: '/products/woop',
+      emoji: '🛠️',
+      badge: t('badges.web'),
+      isExternal: false,
+    },
+    {
+      name: t('items.howtosay.name'),
+      tagline: t('items.howtosay.tagline'),
+      href: '/products/howtosay',
+      emoji: '🔥',
+      badge: t('badges.web'),
+      isExternal: false,
+    },
+    {
+      name: t('items.player.name'),
+      tagline: t('items.player.tagline'),
+      href: '/products/player',
+      emoji: '▶️',
+      badge: t('badges.web'),
+      isExternal: false,
+    },
+    {
+      name: t('items.focusAi.name'),
+      tagline: t('items.focusAi.tagline'),
+      href: 'https://chromewebstore.google.com/detail/focus-ai-enhancing-your-g/pfpneagkphfohdecjjcpkgjgmdkbhbea',
+      emoji: '🧩',
+      badge: t('badges.extension'),
+      isExternal: true,
+    },
+  ], [t]);
+
+  const playgroundNavItems = useMemo(() => [
+    {
+      name: t('items.poker.name'),
+      tagline: t('items.poker.tagline'),
+      href: 'https://poker.bytegush.com',
+      emoji: '🃏',
+      badge: t('badges.labs'),
+      isExternal: true,
+    },
+    {
+      name: t('items.motion.name'),
+      tagline: t('items.motion.tagline'),
+      href: 'https://motion.bytegush.com',
+      emoji: '🦾',
+      badge: t('badges.labs'),
+      isExternal: true,
+    },
+  ], [t]);
+
   const isArticlesActive = pathname?.startsWith('/articles');
-  const isAboutActive = pathname === '/about';
   const isOriginalsActive = pathname?.startsWith('/product');
 
   if (!mounted) {
@@ -145,16 +146,16 @@ export default function Navbar() {
               </Link>
               <div className="hidden md:flex items-center space-x-1 lg:space-x-3">
                 <span className="px-3 py-1.5 text-sm font-medium text-slate-300 cursor-pointer">
-                  产品列表
+                  {t('products')}
                 </span>
                 <span className="px-3 py-1.5 text-sm font-medium text-slate-300 cursor-pointer">
-                  试验场
+                  {t('labs')}
                 </span>
                 <Link
                   href="/articles"
                   className="px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white"
                 >
-                  专栏
+                  {t('articles')}
                 </Link>
                 <div className="p-2 text-slate-400">
                   <Search className="w-4 h-4 text-slate-400" />
@@ -194,7 +195,7 @@ export default function Navbar() {
                   <div className="hidden md:flex items-center space-x-1 lg:space-x-3">
                     <div className="px-1">
                       <NavDropDown
-                        name="产品列表"
+                        name={t('products')}
                         items={originalsNavItems}
                         active={isOriginalsActive}
                       />
@@ -202,19 +203,20 @@ export default function Navbar() {
 
                     <div className="px-1">
                       <NavDropDown
-                        name="试验场"
+                        name={t('labs')}
                         items={playgroundNavItems}
                       />
                     </div>
 
                     <Link
                       href="/articles"
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${isArticlesActive
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        isArticlesActive
                           ? 'text-purple-400 font-semibold bg-white/10 border border-purple-500/30'
                           : 'text-slate-300 hover:text-white hover:bg-white/5'
-                        }`}
+                      }`}
                     >
-                      专栏
+                      {t('articles')}
                     </Link>
 
                     {/* 桌面端快捷搜索按钮（简约图标） */}
@@ -222,22 +224,27 @@ export default function Navbar() {
                       type="button"
                       onClick={() => setIsSearchOpen(true)}
                       className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
-                      title="全局搜索 (⌘K)"
-                      aria-label="全局搜索"
+                      title={t('searchShortcut')}
+                      aria-label={t('search')}
                     >
                       <Search className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                {/* 右侧：鉴权按钮与移动端菜单 */}
-                <div className="flex items-center gap-2">
+                {/* 右侧：语言切换、鉴权按钮与移动端菜单 */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                  {/* 桌面端语言切换 */}
+                  <div className="hidden md:flex items-center">
+                    <LanguageSwitcher direction="down" variant="compact" />
+                  </div>
+
                   {/* 移动端快捷搜索图标 */}
                   <button
                     type="button"
                     onClick={() => setIsSearchOpen(true)}
                     className="flex md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
-                    aria-label="全局搜索 (⌘K)"
+                    aria-label={t('searchShortcut')}
                   >
                     <Search className="w-4 h-4" />
                   </button>
@@ -247,7 +254,7 @@ export default function Navbar() {
                   {/* 移动端菜单切换按钮 */}
                   <div className="flex md:hidden">
                     <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 focus:outline-none">
-                      <span className="sr-only">打开主菜单</span>
+                      <span className="sr-only">Toggle Main Menu</span>
                       {open ? (
                         <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                       ) : (
@@ -270,7 +277,7 @@ export default function Navbar() {
                 >
                   <div className="flex items-center gap-2">
                     <Search className="w-4 h-4 text-purple-400" />
-                    <span>快捷全局搜索产品与专栏...</span>
+                    <span>{t('searchPlaceholder')}</span>
                   </div>
                   <kbd className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-white/10 text-slate-400">
                     ⌘K
@@ -283,14 +290,14 @@ export default function Navbar() {
                   href="/articles"
                   className="px-3 py-2 rounded-xl text-sm font-medium text-slate-200 hover:bg-white/5 hover:text-purple-300 transition-colors"
                 >
-                  📝 专栏
+                  📝 {t('articles')}
                 </Link>
               </div>
 
               <div className="pt-3 border-t border-white/10">
                 <div className="text-xs font-bold text-fuchsia-400 uppercase tracking-wider px-3 mb-2 flex items-center gap-1.5">
                   <span>🧪</span>
-                  <span>Bytegush 试验场 (Labs)</span>
+                  <span>{t('labsTitle')}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 mb-4">
                   {playgroundNavItems.map((item) => (
@@ -311,7 +318,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
-                  Bytegush 产品列表
+                  {t('productListTitle')}
                 </div>
                 <div className="space-y-3">
                   {Array.from(new Set(originalsNavItems.map((i) => i.badge))).map((badge) => {
@@ -348,7 +355,7 @@ export default function Navbar() {
 
                 {/* 移动端抽屉底部：语言切换 */}
                 <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-                  <span>界面语言 / Language</span>
+                  <span>{t('languageLabel')}</span>
                   <LanguageSwitcher direction="up" variant="full" />
                 </div>
               </div>

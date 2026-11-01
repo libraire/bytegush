@@ -11,10 +11,152 @@
   "Navbar": {
     "products": "Products",
     "articles": "Articles",
-    "labs": "Bytegush Labs",
-    "productList": "Bytegush Products",
+    "labs": "Labs",
+    "search": "Search",
+    "searchShortcut": "Global Search (⌘K)",
+    "searchPlaceholder": "Search products & articles...",
+    "labsTitle": "Bytegush Labs",
+    "productListTitle": "Bytegush Products",
+    "languageLabel": "Language",
     "signIn": "Sign In",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "badges": {
+      "app": "App",
+      "macApp": "Mac App",
+      "miniProgram": "Mini Program",
+      "web": "Web App",
+      "extension": "Chrome Ext",
+      "labs": "Labs",
+      "inDevelopment": "In Dev"
+    },
+    "items": {
+      "flappyfeed": {
+        "name": "FlappyFeed",
+        "tagline": "TikTok-style immersive video feed for natural English learning"
+      },
+      "starjar": {
+        "name": "StarJar",
+        "tagline": "Transform tiny daily habits into a glowing constellation for kids"
+      },
+      "sharereader": {
+        "name": "ShareReader",
+        "tagline": "Collaborative paper reading · Discuss directly with peers around the text"
+      },
+      "bona": {
+        "name": "Bona",
+        "tagline": "Aesthetic digital workbench redefining deep focus and flow"
+      },
+      "workout": {
+        "name": "Workout",
+        "tagline": "Pure, ad-free 3D kinetic anatomy and science-based strength journal"
+      },
+      "woop": {
+        "name": "Woop",
+        "tagline": "The Swiss Army knife developer toolbox for maximum efficiency"
+      },
+      "howtosay": {
+        "name": "HowToSay",
+        "tagline": "Vocabulary streak challenge · Definition guessing & tone training"
+      },
+      "player": {
+        "name": "AI Player",
+        "tagline": "Bilingual smart media player with real-time AI companion"
+      },
+      "focusAi": {
+        "name": "Focus AI",
+        "tagline": "Seamless sidebar extension integrating Gemini into your browsing"
+      },
+      "poker": {
+        "name": "Gandengyan Poker",
+        "tagline": "Fast-paced, dramatic classic poker multiplayer card game"
+      },
+      "motion": {
+        "name": "Motion Gesture AI",
+        "tagline": "On-device camera gesture vision and posture interaction"
+      }
+    }
+  },
+  "Footer": {
+    "brandTagline": "BYTEGUSH STUDIO · Indie Software Atelier",
+    "copyright": "© {year} Bytegush. All products crafted with passion."
+  },
+  "Home": {
+    "scrollDownPrompt": "Scroll down to explore: {nextName}",
+    "scrollBackTop": "Viewed all products · Back to top FlappyFeed",
+    "slides": {
+      "flappyfeed": {
+        "name": "FlappyFeed",
+        "shortName": "FlappyFeed",
+        "tag": "TikTok-style Feed · Micro-learning English anytime, anywhere",
+        "headlinePrefix": "Learn English as smoothly",
+        "headlineGradient": "As scrolling short videos",
+        "description": "Say goodbye to tedious rote memorization. Swipe up to read instantly with millisecond audio-text sync, one-tap dictionary, and contextual AI coaching on demand.",
+        "stats": {
+          "stat1Label": "Classic Literature",
+          "stat1Value": "1490+",
+          "stat2Label": "Zero-latency TTS",
+          "stat2Value": "0ms",
+          "stat3Label": "CEFR Filter Levels",
+          "stat3Value": "A1~C2"
+        },
+        "primaryCta": "Free Download for Android",
+        "badges": ["Supports Android 8.0+", "100% Ad-Free", "Offline Audio Playback"]
+      },
+      "starjar": {
+        "name": "StarJar",
+        "shortName": "StarJar",
+        "tag": "Micro-habit tracking for families · Igniting intrinsic motivation",
+        "headlinePrefix": "Turn daily persistence",
+        "headlineGradient": "Into a glowing galaxy in your jar",
+        "description": "Make growth visible and tangible. Accumulate glowing stars with simulated physics, unlock family wish contracts, and nurture your miniature eco-planet.",
+        "stats": {
+          "stat1Label": "Real Physics Star Jar",
+          "stat1Value": "3D Glass",
+          "stat2Label": "Eco-Planet Growth",
+          "stat2Value": "Mini World",
+          "stat3Label": "Positive Motivation",
+          "stat3Value": "Wish Pact"
+        },
+        "primaryCta": "Free Download for Android",
+        "badges": ["No More Nagging", "Self-Driven Habit Loop", "Calming Aesthetic · Ad-Free"]
+      },
+      "workout": {
+        "name": "Workout (造己健身)",
+        "shortName": "Workout",
+        "tag": "Hardcore Science Strength · Pure 3D Kinetic Anatomy Journal",
+        "headlinePrefix": "Deconstruct every movement",
+        "headlineGradient": "Rebuild powerful, controlled strength",
+        "description": "No bloat, no social sales pitches. Packed with 1000+ 3D anatomical movements, OHSA posture screening, eccentric/concentric cadence tracking, and real-time RPE supercompensation.",
+        "stats": {
+          "stat1Label": "Anatomical Movements",
+          "stat1Value": "1000+",
+          "stat2Label": "Kinetic Posture Screen",
+          "stat2Value": "OHSA",
+          "stat3Label": "Fatigue & Recovery",
+          "stat3Value": "Real-time RPE"
+        },
+        "primaryCta": "📱 Scan QR in WeChat Mini-Program",
+        "badges": ["Completely Ad-Free", "Zero Coach Sales Calls", "Evidence-Based Anatomy"]
+      },
+      "sharereader": {
+        "name": "ShareReader",
+        "shortName": "ShareReader",
+        "tag": "Collaborative paper reading · Discuss directly with peers around the text",
+        "headlinePrefix": "Never read research papers alone",
+        "headlineGradient": "Read with peers · Discuss deep insights on the text",
+        "description": "Tired of reading dense papers alone? ShareReader creates a shared discussion space directly over original manuscripts. Highlight paragraphs to ask questions, share margin notes, and explore tough theories with colleagues and AI.",
+        "stats": {
+          "stat1Label": "Inline Annotations",
+          "stat1Value": "Margin Notes",
+          "stat2Label": "Deep Discussions",
+          "stat2Value": "Around Papers",
+          "stat3Label": "Smart Assistant",
+          "stat3Value": "LLM Powered"
+        },
+        "primaryCta": "🛠️ In Development",
+        "badges": ["Real-time discussions on original text", "Peer co-reading & margin insights", "Powered by state-of-the-art LLMs"]
+      }
+    }
   },
   "HowToSay": {
     "metaTitle": "HowToSay - Streak Guessing Challenge · Minimalist Vocabulary Game | Bytegush Studio",

@@ -1,20 +1,162 @@
 {
   "Common": {
     "brandName": "Bytegush",
-    "brandSubtitle": "自社開発ツール＆ワークフロー",
-    "brandTagline": "価値あるデジタルツールと実践的なワークフローをお届け",
+    "brandSubtitle": "自社開発プロダクト＆効率化工房",
+    "brandTagline": "価値あるデジタルツールと実践的ワークフローの探求",
     "language": "言語",
     "en": "English",
     "zh": "中文",
     "ja": "日本語"
   },
   "Navbar": {
-    "products": "プロダクト",
+    "products": "製品一覧",
     "articles": "コラム",
-    "labs": "Bytegush 研究所 (Labs)",
-    "productList": "プロダクト一覧",
+    "labs": "実験室",
+    "search": "全体検索",
+    "searchShortcut": "全体検索 (⌘K)",
+    "searchPlaceholder": "製品や記事をすばやく検索...",
+    "labsTitle": "Bytegush 実験室 (Labs)",
+    "productListTitle": "Bytegush 製品一覧",
+    "languageLabel": "表示言語 / Language",
     "signIn": "ログイン",
-    "signOut": "ログアウト"
+    "signOut": "ログアウト",
+    "badges": {
+      "app": "アプリ",
+      "macApp": "Macアプリ",
+      "miniProgram": "ミニアプリ",
+      "web": "Webアプリ",
+      "extension": "Chrome拡張",
+      "labs": "実験室",
+      "inDevelopment": "開発中"
+    },
+    "items": {
+      "flappyfeed": {
+        "name": "FlappyFeed",
+        "tagline": "ショート動画を見る感覚で上下スワイプ没入型英語学習"
+      },
+      "starjar": {
+        "name": "StarJar 星の小瓶",
+        "tagline": "日々の小さな継続を輝く銀河に変える親子向け習慣化アプリ"
+      },
+      "sharereader": {
+        "name": "ShareReader",
+        "tagline": "論文共同読書スペース · 原文を囲んで仲間と議論を深める"
+      },
+      "bona": {
+        "name": "Bona",
+        "tagline": "深い集中とフロー体験を再構築する美しいデジタルワークスペース"
+      },
+      "workout": {
+        "name": "造己フィットネス",
+        "tagline": "純粋でノイズのない3D筋解剖学＆科学的トレーニング記録"
+      },
+      "woop": {
+        "name": "Woop",
+        "tagline": "開発者のためのスイスアーミーナイフ型効率化ツールボックス"
+      },
+      "howtosay": {
+        "name": "HowToSay",
+        "tagline": "英単語連続推測チャレンジ · 単語当て＆イントネーション訓練"
+      },
+      "player": {
+        "name": "AI Player",
+        "tagline": "AIリアルタイム学習サポート付きバイリンガルスマートプレイヤー"
+      },
+      "focusAi": {
+        "name": "Focus AI",
+        "tagline": "Geminiとブラウザをシームレスに統合するサイドバー拡張機能"
+      },
+      "poker": {
+        "name": "ガンデンヤン・ポーカー",
+        "tagline": "白熱した展開が魅力のクラシック対戦トランプゲーム"
+      },
+      "motion": {
+        "name": "Motion 体感ジェスチャー",
+        "tagline": "端末側ビジョンAIによるカメラ姿勢認識インタラクション"
+      }
+    }
+  },
+  "Footer": {
+    "brandTagline": "BYTEGUSH STUDIO · インディーソフトウェア工房",
+    "copyright": "© {year} Bytegush. All products crafted with passion."
+  },
+  "Home": {
+    "scrollDownPrompt": "下にスクロールして探索：{nextName}",
+    "scrollBackTop": "すべての製品を閲覧完了 · 先頭の FlappyFeed に戻る",
+    "slides": {
+      "flappyfeed": {
+        "name": "FlappyFeed",
+        "shortName": "FlappyFeed",
+        "tag": "TikTok風フレーズフィード · スキマ時間で英語学習",
+        "headlinePrefix": "ショート動画を見るように",
+        "headlineGradient": "没入型英語スワイプ学習",
+        "description": "単調な暗記にサヨナラ。縦スワイプで即座に開始、音声とテキストがミリ秒単位で完全に同期。タップ即辞書検索、コンテキストに沿ったAI家庭教師がいつでも質問に回答。",
+        "stats": {
+          "stat1Label": "名作文学作品",
+          "stat1Value": "1490+",
+          "stat2Label": "端末内ゼロ遅延TTS",
+          "stat2Value": "0ms",
+          "stat3Label": "CEFR全レベル対応",
+          "stat3Value": "A1~C2"
+        },
+        "primaryCta": "Android APK を無料ダウンロード",
+        "badges": ["Android 8.0+ 対応", "完全広告なし", "オフライン再生対応"]
+      },
+      "starjar": {
+        "name": "StarJar 星の小瓶",
+        "shortName": "StarJar",
+        "tag": "親子の小さな習慣づくり · 内発的動機づけを育む星の魔法",
+        "headlinePrefix": "日々の自律と小さな継続を",
+        "headlineGradient": "小瓶の中に輝く星河に変える",
+        "description": "成長を目に見える形に。日常の習慣達成で物理挙動の星を集め、家族のウィッシュ契約と交換。自分だけのミニチュア惑星を育て、ポジティブなフィードバックで促しや焦りから解放。",
+        "stats": {
+          "stat1Label": "物理シミュレーション",
+          "stat1Value": "3D小瓶",
+          "stat2Label": "エコ惑星の育成",
+          "stat2Value": "小惑星",
+          "stat3Label": "双方向ポジティブ報酬",
+          "stat3Value": "契約書"
+        },
+        "primaryCta": "Android APK を無料ダウンロード",
+        "badges": ["口うるさい子育てにサヨナラ", "やる気の好循環", "癒やしのデザイン・広告なし"]
+      },
+      "workout": {
+        "name": "造己フィットネス (Workout)",
+        "shortName": "造己フィットネス",
+        "tag": "本格科学的筋トレ · 3D筋肉解剖学トレーニング記録",
+        "headlinePrefix": "すべての負荷と動作を解剖し",
+        "headlineGradient": "明瞭かつ制御された筋力を再構築",
+        "description": "無駄な勧诱や派手なだけのSNS機能を排除。1000種以上の解剖学動作ライブラリ、OHSAキネティック姿勢スクリーニング、精密なテンポ管理と超回復モニタリングで、硬派かつ効率的なトレーニングを実現。",
+        "stats": {
+          "stat1Label": "解剖学筋群動作",
+          "stat1Value": "1000+",
+          "stat2Label": "キネティック姿勢診断",
+          "stat2Value": "OHSA",
+          "stat3Label": "疲労度と超回復",
+          "stat3Value": "リアルタイムRPE"
+        },
+        "primaryCta": "📱 WeChatミニアプリで体験",
+        "badges": ["完全広告なし", "営業勧誘なし", "解剖学・運動力学に基づく設計"]
+      },
+      "sharereader": {
+        "name": "ShareReader",
+        "shortName": "ShareReader",
+        "tag": "学術論文共同読書スペース · 原文を囲んで仲間と深く議論",
+        "headlinePrefix": "もう一人で論文に苦戦しない",
+        "headlineGradient": "仲間と一緒に読み進め · 原文のまま徹底議論",
+        "description": "難解な学術論文を一人で読むのは退屈？ShareReaderは原文を中心にした共同読書スペースを提供。段落を選択して質問を投げかけ、傍注で意見を交わし、難所を同僚やAIと探求。すべての良質な論文を知のディスカッションルームへ。",
+        "stats": {
+          "stat1Label": "段落ハイライト交流",
+          "stat1Value": "傍注共同読書",
+          "stat2Label": "学術的視点の共有",
+          "stat2Value": "論文ベース議論",
+          "stat3Label": "スマート解析サポート",
+          "stat3Value": "AI大規模モデル"
+        },
+        "primaryCta": "🛠️ 現在開発中",
+        "badges": ["原文に対するリアルタイム議論", "仲間との共同読書とメモ蓄積", "最先端AIモデルによるサポート"]
+      }
+    }
   },
   "HowToSay": {
     "metaTitle": "HowToSay - 英単語連続推測チャレンジ · ミニマル単語ゲーム | Bytegush Studio",
@@ -24,7 +166,7 @@
     "currentStreak": "CURRENT STREAK",
     "streaking": "連続正解中",
     "bestRecord": "最高記録: {count}",
-    "solvedWords": "正解数: {count} 語",
+    "solvedWords": "正解数: {count} 语",
     "wordDifficulty": "単語レベル (CEFR)",
     "gameMode": "モード",
     "soundEnabledTip": "効果音オン (キー M)",

@@ -4,7 +4,7 @@ import { Fragment, useMemo } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');

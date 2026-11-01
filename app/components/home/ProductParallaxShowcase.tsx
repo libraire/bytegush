@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import {
   Sparkles,
@@ -13,6 +13,7 @@ import {
   Users,
   MessageSquare,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import FlappyFeedBetaModal from './FlappyFeedBetaModal';
 import WorkoutQrModal from './WorkoutQrModal';
 
@@ -35,111 +36,6 @@ interface SlideData {
   nextSlideName?: string;
 }
 
-const slidesData: SlideData[] = [
-  {
-    id: 'flappyfeed',
-    name: 'FlappyFeed',
-    shortName: 'FlappyFeed',
-    emoji: '🕊️',
-    tag: 'TikTok 风格短语流 · 随时随地碎片化学英语',
-    headlinePrefix: '像刷短视频一样',
-    headlineGradient: '沉浸式刷英语',
-    description:
-      '告别枯燥死板背单词。竖滑手势秒开即刷，原声音频与文本毫秒级精准对齐，点词即查，上下文 AI 私教随时随地答疑解惑。',
-    stats: [
-      { label: '经典文学名篇', value: '1490+' },
-      { label: '端侧零延迟 TTS', value: '0ms' },
-      { label: 'CEFR 全层级过滤', value: 'A1~C2' },
-    ],
-    primaryCta: {
-      label: '免费下载 Android 安装包',
-      href: 'https://flappy.bytegush.com/release/app-release.apk',
-      isDownload: true,
-    },
-    badges: ['支持 Android 8.0+', '纯净零广告', '离线随播伴读'],
-    themeGlow: 'radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.1) 45%, transparent 70%)',
-    accentGradient: 'from-purple-400 via-violet-200 to-indigo-300',
-    activeColor: 'text-purple-400 border-purple-400 shadow-purple-500/30',
-    nextSlideName: 'StarJar 星愿瓶',
-  },
-  {
-    id: 'starjar',
-    name: 'StarJar 星愿瓶',
-    shortName: 'StarJar',
-    emoji: '⭐',
-    tag: '亲子微习惯打卡 · 激发内在自驱力的星愿魔法',
-    headlinePrefix: '把每次自律与微小坚持',
-    headlineGradient: '点亮为瓶中的璀璨星河',
-    description:
-      '让成长看得见、摸得着。通过日常微习惯打卡积攒发光的物理碰撞星辰，兑换家庭心愿契约，灌溉专属微缩生态小星球。用治愈系正向反馈告别催促与焦虑。',
-    stats: [
-      { label: '物理拟真碰撞', value: '3D星愿瓶' },
-      { label: '微缩生态灌溉', value: '小星球' },
-      { label: '双向正向激励', value: '心愿契约' },
-    ],
-    primaryCta: {
-      label: '免费下载 Android 安装包',
-      href: 'https://starjar.bytegush.com/release/app-release.apk',
-      isDownload: true,
-    },
-    badges: ['告别说教式养育', '自驱力正向循环', '治愈美学无广告'],
-    themeGlow: 'radial-gradient(circle at 70% 50%, rgba(245, 158, 11, 0.24) 0%, rgba(217, 119, 6, 0.08) 45%, transparent 70%)',
-    accentGradient: 'from-amber-300 via-yellow-100 to-amber-400',
-    activeColor: 'text-amber-400 border-amber-400 shadow-amber-500/30',
-    nextSlideName: '造己健身 Workout',
-  },
-  {
-    id: 'workout',
-    name: '造己健身 (Workout)',
-    shortName: '造己健身',
-    emoji: '⚡',
-    tag: '硬核科学力量 · 纯粹无干扰的三维肌群解剖手记',
-    headlinePrefix: '解剖每一次受力发力',
-    headlineGradient: '重塑清晰受控的肌体力量',
-    description:
-      '拒绝臃肿社交推销与杂乱打卡。内置千组肌群解剖动作库、OHSA 动力链体态筛查、精准离心向心节奏与超量恢复监控，每一次训练都数据分明、硬核高效。',
-    stats: [
-      { label: '肌群受力解剖动作', value: '1000+' },
-      { label: '动力链体态筛查', value: 'OHSA' },
-      { label: '疲劳与超量恢复', value: '实时 RPE' },
-    ],
-    primaryCta: {
-      label: '📱 微信扫码体验小程序',
-      href: '#workout-qr',
-    },
-    badges: ['纯粹无广告', '拒绝私教推销', '科学解剖与动力学导向'],
-    themeGlow: 'radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.24) 0%, rgba(6, 182, 212, 0.08) 45%, transparent 70%)',
-    accentGradient: 'from-emerald-400 via-teal-200 to-cyan-300',
-    activeColor: 'text-emerald-400 border-emerald-400 shadow-emerald-500/30',
-    nextSlideName: 'ShareReader 研读器',
-  },
-  {
-    id: 'sharereader',
-    name: 'ShareReader',
-    shortName: 'ShareReader',
-    emoji: '📖',
-    tag: '文献协作研读空间 · 和同行一起读论文、围绕内容深度讨论',
-    headlinePrefix: '不再一个人孤军啃论文',
-    headlineGradient: '和同行一起读论文 · 围绕原著聊透问题',
-    description:
-      '一个人啃论文太枯燥？ShareReader 打造围绕论文原著的协作研读空间。划选段落发起提问、边注碰撞学术见解、复杂难点与同行及 AI 共同探讨。让每一篇高质量论文，都成为思想碰撞的研讨室。',
-    stats: [
-      { label: '原著段落交流', value: '边注共读' },
-      { label: '学术观点碰撞', value: '围绕论文讨论' },
-      { label: '智能分析辅助', value: 'AI 大模型支持' },
-    ],
-    primaryCta: {
-      label: '🛠️ 产品开发中',
-      href: '#',
-    },
-    badges: ['围绕论文原著即时讨论', '同行共读与边注见解沉淀', 'AI 大模型智能辅助'],
-    themeGlow: 'radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.28) 0%, rgba(99, 102, 241, 0.1) 45%, transparent 70%)',
-    accentGradient: 'from-sky-400 via-blue-200 to-indigo-300',
-    activeColor: 'text-sky-400 border-sky-400 shadow-sky-500/30',
-    nextSlideName: 'FlappyFeed',
-  },
-];
-
 function clamp(val: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, val));
 }
@@ -150,11 +46,113 @@ function smoothstep(min: number, max: number, value: number): number {
 }
 
 export default function ProductParallaxShowcase() {
+  const t = useTranslations('Home');
   const [activeIdx, setActiveIdx] = useState(0);
   const [progress, setProgress] = useState(0);
   const [betaModalApp, setBetaModalApp] = useState<'flappyfeed' | 'starjar' | null>(null);
   const [isWorkoutQrModalOpen, setIsWorkoutQrModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const slidesData: SlideData[] = useMemo(() => [
+    {
+      id: 'flappyfeed',
+      name: t('slides.flappyfeed.name'),
+      shortName: t('slides.flappyfeed.shortName'),
+      emoji: '🕊️',
+      tag: t('slides.flappyfeed.tag'),
+      headlinePrefix: t('slides.flappyfeed.headlinePrefix'),
+      headlineGradient: t('slides.flappyfeed.headlineGradient'),
+      description: t('slides.flappyfeed.description'),
+      stats: [
+        { label: t('slides.flappyfeed.stats.stat1Label'), value: t('slides.flappyfeed.stats.stat1Value') },
+        { label: t('slides.flappyfeed.stats.stat2Label'), value: t('slides.flappyfeed.stats.stat2Value') },
+        { label: t('slides.flappyfeed.stats.stat3Label'), value: t('slides.flappyfeed.stats.stat3Value') },
+      ],
+      primaryCta: {
+        label: t('slides.flappyfeed.primaryCta'),
+        href: 'https://flappy.bytegush.com/release/app-release.apk',
+        isDownload: true,
+      },
+      badges: (t.raw('slides.flappyfeed.badges') as string[]) || [],
+      themeGlow: 'radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.1) 45%, transparent 70%)',
+      accentGradient: 'from-purple-400 via-violet-200 to-indigo-300',
+      activeColor: 'text-purple-400 border-purple-400 shadow-purple-500/30',
+      nextSlideName: t('slides.starjar.name'),
+    },
+    {
+      id: 'starjar',
+      name: t('slides.starjar.name'),
+      shortName: t('slides.starjar.shortName'),
+      emoji: '⭐',
+      tag: t('slides.starjar.tag'),
+      headlinePrefix: t('slides.starjar.headlinePrefix'),
+      headlineGradient: t('slides.starjar.headlineGradient'),
+      description: t('slides.starjar.description'),
+      stats: [
+        { label: t('slides.starjar.stats.stat1Label'), value: t('slides.starjar.stats.stat1Value') },
+        { label: t('slides.starjar.stats.stat2Label'), value: t('slides.starjar.stats.stat2Value') },
+        { label: t('slides.starjar.stats.stat3Label'), value: t('slides.starjar.stats.stat3Value') },
+      ],
+      primaryCta: {
+        label: t('slides.starjar.primaryCta'),
+        href: 'https://starjar.bytegush.com/release/app-release.apk',
+        isDownload: true,
+      },
+      badges: (t.raw('slides.starjar.badges') as string[]) || [],
+      themeGlow: 'radial-gradient(circle at 70% 50%, rgba(245, 158, 11, 0.24) 0%, rgba(217, 119, 6, 0.08) 45%, transparent 70%)',
+      accentGradient: 'from-amber-300 via-yellow-100 to-amber-400',
+      activeColor: 'text-amber-400 border-amber-400 shadow-amber-500/30',
+      nextSlideName: t('slides.workout.name'),
+    },
+    {
+      id: 'workout',
+      name: t('slides.workout.name'),
+      shortName: t('slides.workout.shortName'),
+      emoji: '⚡',
+      tag: t('slides.workout.tag'),
+      headlinePrefix: t('slides.workout.headlinePrefix'),
+      headlineGradient: t('slides.workout.headlineGradient'),
+      description: t('slides.workout.description'),
+      stats: [
+        { label: t('slides.workout.stats.stat1Label'), value: t('slides.workout.stats.stat1Value') },
+        { label: t('slides.workout.stats.stat2Label'), value: t('slides.workout.stats.stat2Value') },
+        { label: t('slides.workout.stats.stat3Label'), value: t('slides.workout.stats.stat3Value') },
+      ],
+      primaryCta: {
+        label: t('slides.workout.primaryCta'),
+        href: '#workout-qr',
+      },
+      badges: (t.raw('slides.workout.badges') as string[]) || [],
+      themeGlow: 'radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.24) 0%, rgba(6, 182, 212, 0.08) 45%, transparent 70%)',
+      accentGradient: 'from-emerald-400 via-teal-200 to-cyan-300',
+      activeColor: 'text-emerald-400 border-emerald-400 shadow-emerald-500/30',
+      nextSlideName: t('slides.sharereader.name'),
+    },
+    {
+      id: 'sharereader',
+      name: t('slides.sharereader.name'),
+      shortName: t('slides.sharereader.shortName'),
+      emoji: '📖',
+      tag: t('slides.sharereader.tag'),
+      headlinePrefix: t('slides.sharereader.headlinePrefix'),
+      headlineGradient: t('slides.sharereader.headlineGradient'),
+      description: t('slides.sharereader.description'),
+      stats: [
+        { label: t('slides.sharereader.stats.stat1Label'), value: t('slides.sharereader.stats.stat1Value') },
+        { label: t('slides.sharereader.stats.stat2Label'), value: t('slides.sharereader.stats.stat2Value') },
+        { label: t('slides.sharereader.stats.stat3Label'), value: t('slides.sharereader.stats.stat3Value') },
+      ],
+      primaryCta: {
+        label: t('slides.sharereader.primaryCta'),
+        href: '#',
+      },
+      badges: (t.raw('slides.sharereader.badges') as string[]) || [],
+      themeGlow: 'radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.28) 0%, rgba(99, 102, 241, 0.1) 45%, transparent 70%)',
+      accentGradient: 'from-sky-400 via-blue-200 to-indigo-300',
+      activeColor: 'text-sky-400 border-sky-400 shadow-sky-500/30',
+      nextSlideName: t('slides.flappyfeed.name'),
+    },
+  ], [t]);
 
   useEffect(() => {
     let ticking = false;
@@ -736,7 +734,7 @@ export default function ProductParallaxShowcase() {
                   onClick={() => scrollToSlide(activeIdx + 1)}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 hover:text-white transition-all group backdrop-blur-sm shadow-sm"
                 >
-                  <span>向下滚动探索：{slidesData[activeIdx].nextSlideName}</span>
+                  <span>{t('scrollDownPrompt', { nextName: slidesData[activeIdx].nextSlideName || '' })}</span>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:translate-y-0.5 transition-transform animate-bounce" />
                 </button>
               ) : (
@@ -744,7 +742,7 @@ export default function ProductParallaxShowcase() {
                   onClick={() => scrollToSlide(0)}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 hover:text-white transition-all group backdrop-blur-sm shadow-sm"
                 >
-                  <span>已阅览全部产品 · 返回顶部 FlappyFeed</span>
+                  <span>{t('scrollBackTop')}</span>
                   <ArrowUp className="w-3.5 h-3.5 text-slate-400 group-hover:-translate-y-0.5 transition-transform" />
                 </button>
               )}
