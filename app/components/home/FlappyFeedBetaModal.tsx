@@ -15,18 +15,70 @@ import {
   Smartphone,
 } from 'lucide-react';
 
-interface FlappyFeedBetaModalProps {
+export interface BetaModalProps {
   isOpen: boolean;
   onClose: () => void;
+  app?: 'flappyfeed' | 'starjar';
 }
 
 export default function FlappyFeedBetaModal({
   isOpen,
   onClose,
-}: FlappyFeedBetaModalProps) {
+  app = 'flappyfeed',
+}: BetaModalProps) {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+
+  const isStarJar = app === 'starjar';
+
+  const config = isStarJar
+    ? {
+        appName: 'StarJar 星愿瓶',
+        badge: 'Google Play 官方内测招募',
+        title: '加入 StarJar 星愿瓶 安卓内测',
+        subtitle: '首批内测用户享有专属特权通道，点亮第一颗璀璨星辰',
+        giftTitle: '🎁 专属内测特权：赠送「终身高级会员」',
+        giftDesc:
+          '填写您的 Google Play 账号邮箱，我们将在谷歌控制台添加您至内测白名单。首批受邀内测用户将直接获得终身 VIP 资格，尊享全部微缩生态小星球、3D 拟真物理碰撞星愿瓶与家庭契约。',
+        appCode: 'starjar-google-play-beta',
+        glowColor: 'bg-amber-600/20',
+        borderColor: 'border-amber-500/25',
+        badgeClass: 'bg-amber-500/15 border-amber-500/30 text-amber-300',
+        giftCardClass: 'from-amber-950/60 via-yellow-900/40 to-amber-950/60 border-amber-500/30',
+        giftIconClass: 'bg-amber-500/20 border-amber-500/40 text-amber-300',
+        btnGradient:
+          'bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 shadow-amber-600/30',
+        highlightColor: 'text-amber-300',
+        inputFocus: 'focus:border-amber-500 focus:ring-amber-500',
+        apkUrl: 'https://flappy.bytegush.com/release/app-release.apk',
+        apkLabel: '直接下载独立 APK (v1.0)',
+        apkBadgeClass: 'bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/30 text-amber-200',
+        apkDesc: '纯净安装包 · 无开屏广告 · 离线优先无隐私泄漏',
+      }
+    : {
+        appName: 'FlappyFeed',
+        badge: 'Google Play 官方内测招募',
+        title: '加入 FlappyFeed 安卓内测',
+        subtitle: '首批内测用户享有专属特权通道，体验极简 TikTok 风格刷学新体验',
+        giftTitle: '🎁 专属内测特权：赠送「终身高级会员」',
+        giftDesc:
+          '填写您的 Google Play 账号邮箱，我们将在谷歌控制台添加您至内测白名单。首批受邀内测用户将直接获得终身 VIP 资格，尊享全部经典文学语料与无限次 AI 私教伴读。',
+        appCode: 'flappyfeed-google-play-beta',
+        glowColor: 'bg-purple-600/20',
+        borderColor: 'border-purple-500/25',
+        badgeClass: 'bg-purple-500/15 border-purple-500/30 text-purple-300',
+        giftCardClass: 'from-purple-950/60 via-violet-900/40 to-indigo-950/60 border-purple-500/30',
+        giftIconClass: 'bg-purple-500/20 border-purple-500/40 text-purple-300',
+        btnGradient:
+          'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-purple-600/30',
+        highlightColor: 'text-purple-300',
+        inputFocus: 'focus:border-purple-500 focus:ring-purple-500',
+        apkUrl: 'https://flappy.bytegush.com/release/app-release.apk',
+        apkLabel: '直接下载独立 APK (v1.0)',
+        apkBadgeClass: 'bg-purple-500/20 hover:bg-purple-500/30 border-purple-500/30 text-purple-200',
+        apkDesc: '纯净安装包 · 无开屏广告 · 支持 Android 8.0+ 离线畅学',
+      };
 
   const handleClose = () => {
     onClose();
@@ -56,7 +108,7 @@ export default function FlappyFeedBetaModal({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: cleanEmail,
-          app: 'flappyfeed-google-play-beta',
+          app: config.appCode,
         }),
       });
 
@@ -99,10 +151,10 @@ export default function FlappyFeedBetaModal({
               leaveFrom="opacity-100 scale-100 translate-y-0"
               leaveTo="opacity-0 scale-95 translate-y-3"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-[#0C101F]/95 p-6 sm:p-8 text-left align-middle shadow-[0_25px_70px_rgba(0,0,0,0.85)] border border-purple-500/25 transition-all relative">
+              <Dialog.Panel className={`w-full max-w-lg transform overflow-hidden rounded-3xl bg-[#0C101F]/95 p-6 sm:p-8 text-left align-middle shadow-[0_25px_70px_rgba(0,0,0,0.85)] border ${config.borderColor} transition-all relative`}>
                 
                 {/* 顶部环境光晕 */}
-                <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-36 bg-purple-600/20 blur-[70px] pointer-events-none rounded-full" />
+                <div className={`absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-36 ${config.glowColor} blur-[70px] pointer-events-none rounded-full`} />
 
                 {/* 右上角关闭按钮 */}
                 <button
@@ -116,35 +168,35 @@ export default function FlappyFeedBetaModal({
 
                 {/* 标题与徽章 */}
                 <div className="text-center pt-1 pb-4">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-semibold mb-3">
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold mb-3 ${config.badgeClass}`}>
                     <Smartphone className="w-3.5 h-3.5" />
-                    <span>Google Play 官方内测招募</span>
+                    <span>{config.badge}</span>
                   </div>
 
                   <Dialog.Title
                     as="h3"
                     className="text-xl sm:text-2xl font-extrabold text-white tracking-tight"
                   >
-                    加入 FlappyFeed 安卓内测
+                    {config.title}
                   </Dialog.Title>
 
                   <p className="text-xs sm:text-sm text-slate-400 mt-1.5 max-w-md mx-auto">
-                    首批内测用户享有专属特权通道，体验极简 TikTok 风格刷学新体验
+                    {config.subtitle}
                   </p>
                 </div>
 
                 {/* 终身会员特权突出展示卡片 */}
-                <div className="mb-5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-purple-950/60 via-violet-900/40 to-indigo-950/60 border border-purple-500/30 shadow-inner">
+                <div className={`mb-5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r border shadow-inner ${config.giftCardClass}`}>
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 flex-shrink-0 mt-0.5">
+                    <div className={`p-2 rounded-xl border flex-shrink-0 mt-0.5 ${config.giftIconClass}`}>
                       <Gift className="w-5 h-5" />
                     </div>
                     <div className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-purple-200">
-                        <span>🎁 专属内测特权：赠送「终身高级会员」</span>
+                      <div className={`flex items-center gap-1.5 text-xs sm:text-sm font-bold ${config.highlightColor}`}>
+                        <span>{config.giftTitle}</span>
                       </div>
                       <p className="text-[12px] sm:text-xs text-slate-300 leading-relaxed">
-                        填写您的 Google Play 账号邮箱，我们将在谷歌控制台添加您至内测白名单。首批受邀内测用户将直接获得终身 VIP 资格，尊享全部经典文学语料与无限次 AI 私教伴读。
+                        {config.giftDesc}
                       </p>
                     </div>
                   </div>
@@ -159,7 +211,7 @@ export default function FlappyFeedBetaModal({
                       </div>
                       <h4 className="text-base font-bold text-white">内测资格登记成功！</h4>
                       <p className="text-xs text-slate-300 leading-relaxed">
-                        已为您锁定 <span className="text-purple-300 font-semibold">{email}</span> 的「终身会员」权益。内测通道开放后，Google Play 官方将向您发送邀请邮件。
+                        已为您锁定 <span className={`${config.highlightColor} font-semibold`}>{email}</span> 的「终身会员」权益。内测通道开放后，Google Play 官方将向您发送邀请邮件。
                       </p>
                     </div>
 
@@ -190,7 +242,7 @@ export default function FlappyFeedBetaModal({
                           }}
                           placeholder="例如 yourname@gmail.com"
                           required
-                          className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
+                          className={`w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-1 transition-colors ${config.inputFocus}`}
                         />
                       </div>
                       {status === 'error' && (
@@ -204,7 +256,7 @@ export default function FlappyFeedBetaModal({
                     <button
                       type="submit"
                       disabled={status === 'loading'}
-                      className="w-full py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className={`w-full py-3 sm:py-3.5 rounded-xl text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${config.btnGradient}`}
                     >
                       {status === 'loading' ? (
                         <>
@@ -223,26 +275,26 @@ export default function FlappyFeedBetaModal({
 
                 {/* 或者直接下载 APK 的小字文本框 */}
                 <div className="mt-5 pt-4 border-t border-white/10">
-                  <div className="p-3 sm:p-3.5 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/30 transition-all text-xs text-slate-300">
+                  <div className="p-3 sm:p-3.5 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all text-xs text-slate-300">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2 text-slate-300 font-medium">
-                        <Download className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                        <Download className="w-4 h-4 text-slate-400 flex-shrink-0" />
                         <span>不想等待谷歌市场内测？</span>
                       </div>
                       <a
-                        href="https://flappy.bytegush.com/release/app-release.apk"
-                        download="FlappyFeed.apk"
+                        href={config.apkUrl}
+                        download={`${config.appName}.apk`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-200 hover:text-white font-semibold transition-all"
+                        className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border font-semibold transition-all ${config.apkBadgeClass}`}
                       >
                         <Download className="w-3.5 h-3.5" />
-                        <span>直接下载独立 APK (v1.0)</span>
+                        <span>{config.apkLabel}</span>
                       </a>
                     </div>
                     <p className="mt-2 text-[11px] text-slate-400 flex items-center gap-1.5">
                       <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>纯净安装包 · 无开屏广告 · 支持 Android 8.0+ 离线畅学</span>
+                      <span>{config.apkDesc}</span>
                     </p>
                   </div>
                 </div>

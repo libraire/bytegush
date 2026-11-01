@@ -12,6 +12,7 @@ import {
   GitBranch,
 } from 'lucide-react';
 import FlappyFeedBetaModal from './FlappyFeedBetaModal';
+import WorkoutQrModal from './WorkoutQrModal';
 
 interface SlideData {
   id: string;
@@ -75,13 +76,9 @@ const slidesData: SlideData[] = [
       { label: '双向正向激励', value: '心愿契约' },
     ],
     primaryCta: {
-      label: '🌟 查看 StarJar 详细落地页',
-      href: '/products/starjar',
-    },
-    secondaryCta: {
-      label: '💡 正向习惯机制与手记',
-      href: '/products/starjar',
-      isExternal: false,
+      label: '免费下载 Android 安装包',
+      href: 'https://starjar.bytegush.com/release/app-release.apk',
+      isDownload: true,
     },
     badges: ['告别说教式养育', '自驱力正向循环', '治愈美学无广告'],
     themeGlow: 'radial-gradient(circle at 70% 50%, rgba(245, 158, 11, 0.24) 0%, rgba(217, 119, 6, 0.08) 45%, transparent 70%)',
@@ -105,13 +102,8 @@ const slidesData: SlideData[] = [
       { label: '疲劳与超量恢复', value: '实时 RPE' },
     ],
     primaryCta: {
-      label: '🏋️‍♂️ 查看造己健身详细落地页',
-      href: '/products/workout',
-    },
-    secondaryCta: {
-      label: '🔬 动力链动作库与筛查',
-      href: '/products/workout',
-      isExternal: false,
+      label: '📱 微信扫码体验小程序',
+      href: '#workout-qr',
     },
     badges: ['纯粹无广告', '拒绝私教推销', '科学解剖与动力学导向'],
     themeGlow: 'radial-gradient(circle at 70% 50%, rgba(16, 185, 129, 0.24) 0%, rgba(6, 182, 212, 0.08) 45%, transparent 70%)',
@@ -164,7 +156,8 @@ function smoothstep(min: number, max: number, value: number): number {
 export default function ProductParallaxShowcase() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [isFlappyBetaModalOpen, setIsFlappyBetaModalOpen] = useState(false);
+  const [betaModalApp, setBetaModalApp] = useState<'flappyfeed' | 'starjar' | null>(null);
+  const [isWorkoutQrModalOpen, setIsWorkoutQrModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -406,12 +399,18 @@ export default function ProductParallaxShowcase() {
                       <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
                         <a
                           href={slide.primaryCta.href}
-                          target={slide.id === 'flappyfeed' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
-                          rel={slide.id === 'flappyfeed' ? undefined : "noreferrer"}
+                          target={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
+                          rel={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' ? undefined : "noreferrer"}
                           onClick={(e) => {
                             if (slide.id === 'flappyfeed') {
                               e.preventDefault();
-                              setIsFlappyBetaModalOpen(true);
+                              setBetaModalApp('flappyfeed');
+                            } else if (slide.id === 'starjar') {
+                              e.preventDefault();
+                              setBetaModalApp('starjar');
+                            } else if (slide.id === 'workout') {
+                              e.preventDefault();
+                              setIsWorkoutQrModalOpen(true);
                             }
                           }}
                           className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 text-white cursor-pointer ${index === 0
@@ -755,10 +754,17 @@ export default function ProductParallaxShowcase() {
         </div>
       </div>
 
-      {/* FlappyFeed 谷歌安卓内测登记与独立 APK 下载弹窗 */}
+      {/* 谷歌安卓内测登记与独立 APK 下载弹窗 */}
       <FlappyFeedBetaModal
-        isOpen={isFlappyBetaModalOpen}
-        onClose={() => setIsFlappyBetaModalOpen(false)}
+        isOpen={betaModalApp !== null}
+        onClose={() => setBetaModalApp(null)}
+        app={betaModalApp || 'flappyfeed'}
+      />
+
+      {/* 造己健身 微信小程序码弹窗 */}
+      <WorkoutQrModal
+        isOpen={isWorkoutQrModalOpen}
+        onClose={() => setIsWorkoutQrModalOpen(false)}
       />
     </div>
   );

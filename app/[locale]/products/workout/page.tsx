@@ -410,22 +410,17 @@ export default function WorkoutLandingPage() {
               告别臃肿推销，在每一次受控离心与爆发向心中，雕刻真实力量。
             </p>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="#download"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-emerald-600/30 flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5"
-              >
-                <Download className="w-5 h-5" />
-                <span>免费体验造己健身 (Workout)</span>
-              </a>
-
-              <Link
-                href="/articles"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
-              >
-                <span>💡 阅读专栏深度手记</span>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
+            <div className="pt-2 flex flex-col items-center justify-center gap-3">
+              <div className="p-3 bg-white rounded-2xl shadow-xl ring-4 ring-emerald-500/30">
+                <Image
+                  src="/products/workout/qrcode.png"
+                  alt="造己健身微信小程序码"
+                  width={200}
+                  height={200}
+                  className="w-44 h-44 object-contain"
+                />
+              </div>
+              <p className="text-xs text-emerald-300 font-medium">微信「扫一扫」· 免安装直接开启训练</p>
             </div>
 
             <div className="pt-4 text-xs text-slate-400">

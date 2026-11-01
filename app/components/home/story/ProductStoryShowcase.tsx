@@ -57,12 +57,9 @@ export default function ProductStoryShowcase() {
           { label: '双向正向激励', value: '心愿契约', hint: '家庭契约' },
         ]}
         primaryCta={{
-          label: '🌟 探索 StarJar 星愿瓶',
-          href: '/products/starjar',
-        }}
-        secondaryCta={{
-          label: '💡 正向习惯机制与手记',
-          href: '/products/starjar',
+          label: '免费下载 Android 安装包',
+          href: 'https://starjar.bytegush.com/release/app-release.apk',
+          isDownload: true,
         }}
         features={['告别说教式养育', '自驱力正向循环', '治愈美学无广告', '本地优先数据不上传']}
         themeGlow="radial-gradient(circle at 35% 50%, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.06) 50%, transparent 75%)"
@@ -87,12 +84,8 @@ export default function ProductStoryShowcase() {
           { label: '疲劳与恢复', value: '实时 RPE', hint: '科学负荷' },
         ]}
         primaryCta={{
-          label: '🏋️‍♂️ 探索造己健身',
-          href: '/products/workout',
-        }}
-        secondaryCta={{
-          label: '🔬 动力链动作库与筛查',
-          href: '/products/workout',
+          label: '📱 微信扫码体验小程序',
+          href: '#workout-qr',
         }}
         features={['纯粹零广告骚扰', '拒绝私教课推销', '科学解剖受力导向', '离线秒开纯净日志']}
         themeGlow="radial-gradient(circle at 65% 50%, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.06) 50%, transparent 75%)"

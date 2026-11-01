@@ -87,14 +87,9 @@ const slides: SlideConfig[] = [
       { label: '双向正向激励', value: '心愿契约' },
     ],
     primaryCta: {
-      label: '🌟 开启星愿瓶之旅 (StarJar)',
-      href: '#starjar-preview',
-      icon: 'star',
-    },
-    secondaryCta: {
-      label: '💡 查看正向习惯机制与手记',
-      href: '/articles',
-      isExternal: false,
+      label: '免费下载 Android 安装包',
+      href: 'https://starjar.bytegush.com/release/app-release.apk',
+      icon: 'download',
     },
     badges: ['告别说教式养育', '自驱力正向循环', '治愈美学无广告'],
     themeGlow: 'from-amber-950/70 via-yellow-950/30 to-[#0A0D1A]',
@@ -117,14 +112,9 @@ const slides: SlideConfig[] = [
       { label: '疲劳与超量恢复', value: '实时 RPE' },
     ],
     primaryCta: {
-      label: '🏋️‍♂️ 探索造己健身',
+      label: '📱 微信扫码体验小程序',
       href: '#workout-preview',
       icon: 'activity',
-    },
-    secondaryCta: {
-      label: '🔬 动力链动作库与筛查',
-      href: '/articles',
-      isExternal: false,
     },
     badges: ['纯粹无广告', '拒绝私教推销', '科学解剖与动力学导向'],
     themeGlow: 'from-emerald-950/70 via-teal-950/30 to-[#0A0E17]',
