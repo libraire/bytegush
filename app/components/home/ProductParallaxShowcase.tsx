@@ -11,6 +11,7 @@ import {
   ArrowUp,
   GitBranch,
 } from 'lucide-react';
+import FlappyFeedBetaModal from './FlappyFeedBetaModal';
 
 interface SlideData {
   id: string;
@@ -51,11 +52,6 @@ const slidesData: SlideData[] = [
       label: '免费下载 Android 安装包',
       href: 'https://flappy.bytegush.com/release/app-release.apk',
       isDownload: true,
-    },
-    secondaryCta: {
-      label: '🕊️ 查看详细落地页',
-      href: '/products/flappyfeed',
-      isExternal: false,
     },
     badges: ['支持 Android 8.0+', '纯净零广告', '离线随播伴读'],
     themeGlow: 'radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.28) 0%, rgba(99, 102, 241, 0.1) 45%, transparent 70%)',
@@ -168,6 +164,7 @@ function smoothstep(min: number, max: number, value: number): number {
 export default function ProductParallaxShowcase() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [isFlappyBetaModalOpen, setIsFlappyBetaModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -409,9 +406,15 @@ export default function ProductParallaxShowcase() {
                       <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
                         <a
                           href={slide.primaryCta.href}
-                          target={slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined}
-                          rel="noreferrer"
-                          className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 text-white ${index === 0
+                          target={slide.id === 'flappyfeed' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
+                          rel={slide.id === 'flappyfeed' ? undefined : "noreferrer"}
+                          onClick={(e) => {
+                            if (slide.id === 'flappyfeed') {
+                              e.preventDefault();
+                              setIsFlappyBetaModalOpen(true);
+                            }
+                          }}
+                          className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 text-white cursor-pointer ${index === 0
                               ? 'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-purple-600/30'
                               : index === 1
                                 ? 'bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 shadow-amber-600/30'
@@ -751,6 +754,12 @@ export default function ProductParallaxShowcase() {
           </div>
         </div>
       </div>
+
+      {/* FlappyFeed 谷歌安卓内测登记与独立 APK 下载弹窗 */}
+      <FlappyFeedBetaModal
+        isOpen={isFlappyBetaModalOpen}
+        onClose={() => setIsFlappyBetaModalOpen(false)}
+      />
     </div>
   );
 }

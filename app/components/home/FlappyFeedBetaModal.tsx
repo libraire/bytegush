@@ -1,0 +1,257 @@
+"use client";
+
+import React, { useState, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import {
+  X,
+  Mail,
+  Sparkles,
+  Download,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  Gift,
+  ShieldCheck,
+  Smartphone,
+} from 'lucide-react';
+
+interface FlappyFeedBetaModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function FlappyFeedBetaModal({
+  isOpen,
+  onClose,
+}: FlappyFeedBetaModalProps) {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleClose = () => {
+    onClose();
+    // 延迟重置表单状态，保持关闭动画流畅
+    setTimeout(() => {
+      setStatus('idle');
+      setErrorMsg('');
+    }, 250);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanEmail = email.trim().toLowerCase();
+
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      setErrorMsg('请输入有效的邮箱地址（推荐 Google Play 账号/Gmail）');
+      setStatus('error');
+      return;
+    }
+
+    setStatus('loading');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/v1/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: cleanEmail,
+          app: 'flappyfeed-google-play-beta',
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || '提交失败，请稍后重试');
+      }
+
+      setStatus('success');
+    } catch (err: any) {
+      setErrorMsg(err.message || '网络连接异常，请重试');
+      setStatus('error');
+    }
+  };
+
+  return (
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-[100]" onClose={handleClose}>
+        {/* 深色半透明毛玻璃遮罩 */}
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-md" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95 translate-y-3"
+              enterTo="opacity-100 scale-100 translate-y-0"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100 translate-y-0"
+              leaveTo="opacity-0 scale-95 translate-y-3"
+            >
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-[#0C101F]/95 p-6 sm:p-8 text-left align-middle shadow-[0_25px_70px_rgba(0,0,0,0.85)] border border-purple-500/25 transition-all relative">
+                
+                {/* 顶部环境光晕 */}
+                <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-36 bg-purple-600/20 blur-[70px] pointer-events-none rounded-full" />
+
+                {/* 右上角关闭按钮 */}
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
+                  aria-label="关闭"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                {/* 标题与徽章 */}
+                <div className="text-center pt-1 pb-4">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-semibold mb-3">
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span>Google Play 官方内测招募</span>
+                  </div>
+
+                  <Dialog.Title
+                    as="h3"
+                    className="text-xl sm:text-2xl font-extrabold text-white tracking-tight"
+                  >
+                    加入 FlappyFeed 安卓内测
+                  </Dialog.Title>
+
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1.5 max-w-md mx-auto">
+                    首批内测用户享有专属特权通道，体验极简 TikTok 风格刷学新体验
+                  </p>
+                </div>
+
+                {/* 终身会员特权突出展示卡片 */}
+                <div className="mb-5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-purple-950/60 via-violet-900/40 to-indigo-950/60 border border-purple-500/30 shadow-inner">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 flex-shrink-0 mt-0.5">
+                      <Gift className="w-5 h-5" />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-purple-200">
+                        <span>🎁 专属内测特权：赠送「终身高级会员」</span>
+                      </div>
+                      <p className="text-[12px] sm:text-xs text-slate-300 leading-relaxed">
+                        填写您的 Google Play 账号邮箱，我们将在谷歌控制台添加您至内测白名单。首批受邀内测用户将直接获得终身 VIP 资格，尊享全部经典文学语料与无限次 AI 私教伴读。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 成功状态反馈 */}
+                {status === 'success' ? (
+                  <div className="space-y-4 py-2">
+                    <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 text-center space-y-2">
+                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 mb-1">
+                        <CheckCircle2 className="w-6 h-6" />
+                      </div>
+                      <h4 className="text-base font-bold text-white">内测资格登记成功！</h4>
+                      <p className="text-xs text-slate-300 leading-relaxed">
+                        已为您锁定 <span className="text-purple-300 font-semibold">{email}</span> 的「终身会员」权益。内测通道开放后，Google Play 官方将向您发送邀请邮件。
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleClose}
+                      className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm transition-colors"
+                    >
+                      好的，我知道了
+                    </button>
+                  </div>
+                ) : (
+                  /* 邮箱输入表单 */
+                  <form onSubmit={handleSubmit} className="space-y-3.5">
+                    <div>
+                      <label htmlFor="beta-email" className="block text-xs font-medium text-slate-300 mb-1.5">
+                        Google Play 账号邮箱 (推荐 Gmail)
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <input
+                          id="beta-email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (status === 'error') setStatus('idle');
+                          }}
+                          placeholder="例如 yourname@gmail.com"
+                          required
+                          className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
+                        />
+                      </div>
+                      {status === 'error' && (
+                        <div className="flex items-center gap-1.5 mt-2 text-xs text-rose-400">
+                          <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                          <span>{errorMsg}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="w-full py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                      {status === 'loading' ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>提交登记中...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4" />
+                          <span>加入内测并锁定终身会员</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+
+                {/* 或者直接下载 APK 的小字文本框 */}
+                <div className="mt-5 pt-4 border-t border-white/10">
+                  <div className="p-3 sm:p-3.5 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/30 transition-all text-xs text-slate-300">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 text-slate-300 font-medium">
+                        <Download className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                        <span>不想等待谷歌市场内测？</span>
+                      </div>
+                      <a
+                        href="https://flappy.bytegush.com/release/app-release.apk"
+                        download="FlappyFeed.apk"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-200 hover:text-white font-semibold transition-all"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>直接下载独立 APK (v1.0)</span>
+                      </a>
+                    </div>
+                    <p className="mt-2 text-[11px] text-slate-400 flex items-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>纯净安装包 · 无开屏广告 · 支持 Android 8.0+ 离线畅学</span>
+                    </p>
+                  </div>
+                </div>
+
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+}

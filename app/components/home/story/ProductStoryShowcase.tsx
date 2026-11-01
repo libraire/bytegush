@@ -34,10 +34,6 @@ export default function ProductStoryShowcase() {
           href: 'https://flappy.bytegush.com/release/app-release.apk',
           isDownload: true,
         }}
-        secondaryCta={{
-          label: '🕊️ 探索详细落地页',
-          href: '/products/flappyfeed',
-        }}
         features={['支持 Android 8.0+', '纯净零广告干扰', '离线随播伴读', '本地优先隐私安全']}
         themeGlow="radial-gradient(circle at 65% 50%, rgba(139, 92, 246, 0.22) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 75%)"
         deviceMockup={<FlappyFeedMockup />}
