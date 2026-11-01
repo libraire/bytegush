@@ -80,6 +80,15 @@
     "brandTagline": "BYTEGUSH STUDIO · Indie Software Atelier",
     "copyright": "© {year} Bytegush. All products crafted with passion."
   },
+  "Auth": {
+    "loginOrRegister": "Sign In / Register",
+    "admin": "Admin",
+    "adminDashboard": "Admin Workspace",
+    "manageProducts": "Manage Products",
+    "addProduct": "Add New Product",
+    "writeArticle": "Write Article",
+    "signOut": "Sign Out"
+  },
   "Home": {
     "scrollDownPrompt": "Scroll down to explore: {nextName}",
     "scrollBackTop": "Viewed all products · Back to top FlappyFeed",

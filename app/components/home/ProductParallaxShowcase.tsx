@@ -480,11 +480,6 @@ export default function ProductParallaxShowcase() {
                       boxShadow: `0 25px 60px -15px rgba(0,0,0,0.9), 0 0 50px ${phoneGlowShadows[Math.min(activeIdx, 2)]}`,
                     }}
                   >
-                    {/* 侧边物理按键微细节 */}
-                    <div className="absolute -left-[6px] top-24 w-[3px] h-10 bg-slate-700/60 rounded-l" />
-                    <div className="absolute -left-[6px] top-38 w-[3px] h-10 bg-slate-700/60 rounded-l" />
-                    <div className="absolute -right-[6px] top-28 w-[3px] h-14 bg-slate-700/60 rounded-r" />
-
                     {/* 顶部微型听筒微细节 (置于边框上，不遮挡真实 App 界面内容) */}
                     <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-1 bg-slate-700/80 rounded-full z-30 pointer-events-none" />
 

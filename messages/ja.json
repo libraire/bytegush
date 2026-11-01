@@ -80,6 +80,15 @@
     "brandTagline": "BYTEGUSH STUDIO · インディーソフトウェア工房",
     "copyright": "© {year} Bytegush. All products crafted with passion."
   },
+  "Auth": {
+    "loginOrRegister": "ログイン / 新規登録",
+    "admin": "管理者",
+    "adminDashboard": "管理ワークスペース",
+    "manageProducts": "製品一覧管理",
+    "addProduct": "新規製品追加",
+    "writeArticle": "コラム執筆",
+    "signOut": "ログアウト"
+  },
   "Home": {
     "scrollDownPrompt": "下にスクロールして探索：{nextName}",
     "scrollBackTop": "すべての製品を閲覧完了 · 先頭の FlappyFeed に戻る",

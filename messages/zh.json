@@ -80,6 +80,15 @@
     "brandTagline": "BYTEGUSH STUDIO · 独立软件工坊",
     "copyright": "© {year} Bytegush. All products crafted with passion."
   },
+  "Auth": {
+    "loginOrRegister": "登录 / 注册",
+    "admin": "管理员",
+    "adminDashboard": "工作台管理",
+    "manageProducts": "产品库管理",
+    "addProduct": "添加新产品",
+    "writeArticle": "撰写专栏文章",
+    "signOut": "退出登录"
+  },
   "Home": {
     "scrollDownPrompt": "向下滚动探索：{nextName}",
     "scrollBackTop": "已阅览全部产品 · 返回顶部 FlappyFeed",

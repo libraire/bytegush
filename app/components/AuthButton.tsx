@@ -2,7 +2,9 @@
 
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { useCustomAuth } from '@/app/context/CustomAuthProvider';
+import { Link } from '@/i18n/routing';
 import {
   ChevronDown,
   LogOut,
@@ -23,6 +25,7 @@ function isAdmin(email: string | null | undefined): boolean {
 }
 
 export default function AuthButton() {
+  const t = useTranslations('Auth');
   const { user, isLoading, login, logout } = useCustomAuth();
 
   if (isLoading) {
@@ -39,7 +42,7 @@ export default function AuthButton() {
         className="group relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium text-slate-200 hover:text-white bg-white/10 hover:bg-white/15 border border-white/15 hover:border-purple-500/40 shadow-sm hover:shadow-[0_0_15px_rgba(147,51,234,0.25)] transition-all active:scale-[0.98]"
       >
         <LogIn className="w-3.5 h-3.5 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
-        <span>登录 / 注册</span>
+        <span>{t('loginOrRegister')}</span>
       </button>
     );
   }
@@ -91,7 +94,7 @@ export default function AuthButton() {
             {userIsAdmin && (
               <div className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-[10px] font-medium text-purple-300">
                 <Shield className="w-2.5 h-2.5" />
-                <span>管理员</span>
+                <span>{t('admin')}</span>
               </div>
             )}
           </div>
@@ -100,45 +103,45 @@ export default function AuthButton() {
           {userIsAdmin && (
             <div className="py-1">
               <div className="px-3 py-1 text-[10px] font-mono uppercase tracking-wider text-purple-400/80 font-bold">
-                工作台管理
+                {t('adminDashboard')}
               </div>
               <Menu.Item>
                 {({ active }) => (
-                  <a
+                  <Link
                     href="/products/manage"
                     className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                       active ? 'bg-purple-500/15 text-purple-200' : 'text-slate-300'
                     }`}
                   >
                     <Layers className="w-3.5 h-3.5 text-purple-400" />
-                    <span>产品库管理</span>
-                  </a>
+                    <span>{t('manageProducts')}</span>
+                  </Link>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <a
+                  <Link
                     href="/products/create"
                     className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                       active ? 'bg-purple-500/15 text-purple-200' : 'text-slate-300'
                     }`}
                   >
                     <PlusCircle className="w-3.5 h-3.5 text-purple-400" />
-                    <span>添加新产品</span>
-                  </a>
+                    <span>{t('addProduct')}</span>
+                  </Link>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <a
+                  <Link
                     href="/articles/create"
                     className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                       active ? 'bg-purple-500/15 text-purple-200' : 'text-slate-300'
                     }`}
                   >
                     <FileText className="w-3.5 h-3.5 text-purple-400" />
-                    <span>撰写专栏文章</span>
-                  </a>
+                    <span>{t('writeArticle')}</span>
+                  </Link>
                 )}
               </Menu.Item>
             </div>
@@ -156,7 +159,7 @@ export default function AuthButton() {
                   }`}
                 >
                   <LogOut className="w-3.5 h-3.5" />
-                  <span>退出登录</span>
+                  <span>{t('signOut')}</span>
                 </button>
               )}
             </Menu.Item>
@@ -166,4 +169,3 @@ export default function AuthButton() {
     </Menu>
   );
 }
-

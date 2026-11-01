@@ -232,13 +232,8 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                {/* 右侧：语言切换、鉴权按钮与移动端菜单 */}
-                <div className="flex items-center gap-2 sm:gap-3">
-                  {/* 桌面端语言切换 */}
-                  <div className="hidden md:flex items-center">
-                    <LanguageSwitcher direction="down" variant="compact" />
-                  </div>
-
+                {/* 右侧：鉴权按钮与移动端菜单 */}
+                <div className="flex items-center gap-2">
                   {/* 移动端快捷搜索图标 */}
                   <button
                     type="button"

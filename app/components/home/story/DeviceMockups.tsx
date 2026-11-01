@@ -37,11 +37,6 @@ export function PhoneWrapper({
           borderColor: accentBorderColor,
         }}
       >
-        {/* 侧面实体微按键 */}
-        <div className="absolute -left-[5px] top-24 w-[3px] h-9 bg-slate-700/80 rounded-l" />
-        <div className="absolute -left-[5px] top-36 w-[3px] h-9 bg-slate-700/80 rounded-l" />
-        <div className="absolute -right-[5px] top-28 w-[3px] h-12 bg-slate-700/80 rounded-r" />
-
         {/* 顶部灵动岛与镜头 */}
         <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-24 sm:w-28 h-4 sm:h-5 bg-black rounded-full z-30 flex items-center justify-between px-3 shadow-md pointer-events-none">
           <div className="w-2 h-2 rounded-full bg-[#151926]" />
