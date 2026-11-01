@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import { CustomAuthProvider } from "@/app/context/CustomAuthProvider";
 import Navbar from "@/app/components/navbar";
+import Footer from "@/app/components/Footer";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -40,6 +41,7 @@ export default async function RootLayout({ children, params }: Props) {
             <main className="pt-[64px] flex-grow">
               {children}
             </main>
+            <Footer />
           </CustomAuthProvider>
         </NextIntlClientProvider>
       </body>

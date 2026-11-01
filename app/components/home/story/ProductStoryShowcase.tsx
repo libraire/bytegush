@@ -133,21 +133,6 @@ export default function ProductStoryShowcase() {
         themeGlow="radial-gradient(circle at 35% 50%, rgba(59, 130, 246, 0.22) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 75%)"
         deviceMockup={<ShareReaderMockup />}
       />
-
-      {/* 底部版权信息 */}
-      <footer className="relative z-20 border-t border-white/10 bg-[#060810] py-14 text-center text-xs text-slate-400">
-        <div className="max-w-[1560px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-mono text-slate-200 font-semibold tracking-wide">
-              BYTEGUSH STUDIO · 独立软件工坊
-            </span>
-          </div>
-          <div className="text-slate-500 font-mono text-[11px]">
-            © {new Date().getFullYear()} Bytegush. All products crafted with passion.
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

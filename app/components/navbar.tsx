@@ -3,10 +3,11 @@
 import { Disclosure } from '@headlessui/react';
 import { useState, useEffect } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Sparkles, ExternalLink } from 'lucide-react';
+import { Sparkles, ExternalLink, Search } from 'lucide-react';
 import NavDropDown from './dropdown';
 import AuthButton from './AuthButton';
 import LanguageSwitcher from './LanguageSwitcher';
+import SearchModal from './search/SearchModal';
 import { Link, usePathname } from '@/i18n/routing';
 
 const originalsNavItems = [
@@ -106,9 +107,20 @@ const playgroundNavItems = [
 export default function Navbar() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const isArticlesActive = pathname?.startsWith('/articles');
@@ -133,10 +145,10 @@ export default function Navbar() {
               </Link>
               <div className="hidden md:flex items-center space-x-1 lg:space-x-3">
                 <span className="px-3 py-1.5 text-sm font-medium text-slate-300 cursor-pointer">
-                  产品列表 ▾
+                  产品列表
                 </span>
                 <span className="px-3 py-1.5 text-sm font-medium text-slate-300 cursor-pointer">
-                  🧪 试验场 ▾
+                  🧪 试验场
                 </span>
                 <Link
                   href="/articles"
@@ -144,6 +156,13 @@ export default function Navbar() {
                 >
                   专栏
                 </Link>
+                <div className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-400">
+                  <Search className="w-3.5 h-3.5 text-slate-400" />
+                  <span className="hidden lg:inline">搜索...</span>
+                  <kbd className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-white/10 text-slate-400">
+                    ⌘K
+                  </kbd>
+                </div>
               </div>
             </div>
           </div>
@@ -153,7 +172,8 @@ export default function Navbar() {
   }
 
   return (
-    <Disclosure
+    <>
+      <Disclosure
       as="nav"
       className="fixed top-0 left-0 right-0 z-50 bg-[#080B14]/85 backdrop-blur-md border-b border-white/10 transition-all shadow-[0_1px_20px_rgba(0,0,0,0.4)]"
     >
@@ -201,12 +221,35 @@ export default function Navbar() {
                   >
                     专栏
                   </Link>
+
+                  {/* 桌面端 Command + K 快捷搜索按钮 */}
+                  <button
+                    type="button"
+                    onClick={() => setIsSearchOpen(true)}
+                    className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/40 text-xs font-medium text-slate-400 hover:text-slate-200 transition-all group ml-1 shadow-sm"
+                    title="全局快捷搜索 (⌘K / Ctrl+K)"
+                  >
+                    <Search className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-400 transition-colors" />
+                    <span className="hidden lg:inline text-slate-400 group-hover:text-slate-200">搜索...</span>
+                    <kbd className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-semibold rounded-md bg-white/10 border border-white/10 text-slate-400 group-hover:text-purple-300 group-hover:border-purple-500/30">
+                      <span className="text-[11px]">⌘</span>K
+                    </kbd>
+                  </button>
                 </div>
               </div>
 
-              {/* 右侧：语言切换器与鉴权按钮 */}
-              <div className="flex items-center gap-2.5">
-                <LanguageSwitcher />
+              {/* 右侧：鉴权按钮与移动端菜单 */}
+              <div className="flex items-center gap-2">
+                {/* 移动端快捷搜索图标 */}
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="flex md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label="全局搜索 (⌘K)"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+
                 <AuthButton />
 
                 {/* 移动端菜单切换按钮 */}
@@ -226,6 +269,23 @@ export default function Navbar() {
 
           {/* 移动端抽屉面板 */}
           <Disclosure.Panel className="md:hidden border-b border-white/10 bg-[#0D1222]/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-4">
+            {/* 移动端快速搜索入口 */}
+            <div>
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-medium text-slate-300 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Search className="w-4 h-4 text-purple-400" />
+                  <span>快捷全局搜索产品与专栏...</span>
+                </div>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-white/10 text-slate-400">
+                  ⌘K
+                </kbd>
+              </button>
+            </div>
+
             <div className="flex flex-col space-y-1">
               <Link
                 href="/articles"
@@ -293,10 +353,23 @@ export default function Navbar() {
                   );
                 })}
               </div>
+
+              {/* 移动端抽屉底部：语言切换 */}
+              <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                <span>界面语言 / Language</span>
+                <LanguageSwitcher direction="up" variant="full" />
+              </div>
             </div>
           </Disclosure.Panel>
         </>
       )}
     </Disclosure>
-  );
+
+    {/* 全局 Command + K 搜索弹窗 */}
+    <SearchModal
+      isOpen={isSearchOpen}
+      onClose={() => setIsSearchOpen(false)}
+    />
+  </>
+);
 }

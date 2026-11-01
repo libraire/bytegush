@@ -25,6 +25,7 @@ type Props = {
   active?: boolean;
   footerHref?: string;
   footerText?: string;
+  showChevron?: boolean;
 };
 
 function getBadgeDotColor(title: string): string {
@@ -47,7 +48,14 @@ function getBadgeDotColor(title: string): string {
   }
 }
 
-export default function NavDropDown({ name, items, active, footerHref, footerText }: Props) {
+export default function NavDropDown({
+  name,
+  items,
+  active,
+  footerHref,
+  footerText,
+  showChevron = false,
+}: Props) {
   // 将标签作为 section 进行清晰分割，去除单行上重复的 badge 胶囊
   const sections = useMemo(() => {
     const uniqueBadges = Array.from(new Set(items.map((i) => i.badge).filter(Boolean)));
@@ -81,7 +89,9 @@ export default function NavDropDown({ name, items, active, footerHref, footerTex
           )}
         >
           <span>{name}</span>
-          <ChevronDownIcon className="h-4 w-4 text-slate-400 group-hover:text-slate-200 transition-transform duration-200" />
+          {showChevron && (
+            <ChevronDownIcon className="h-4 w-4 text-slate-400 group-hover:text-slate-200 transition-transform duration-200" />
+          )}
         </Menu.Button>
       </div>
 

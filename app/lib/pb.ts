@@ -1,11 +1,17 @@
 import PocketBase from 'pocketbase';
 
-export function getPocketBase(): PocketBase {
-  const url =
-    typeof window === 'undefined'
-      ? process.env.POCKETBASE_INTERNAL_URL || 'http://pocketbase:8090'
-      : process.env.NEXT_PUBLIC_POCKETBASE_URL || 'https://api.bytegush.com';
+let clientPb: PocketBase | null = null;
 
+export function getPocketBase(): PocketBase {
+  if (typeof window !== 'undefined') {
+    if (!clientPb) {
+      const url = process.env.NEXT_PUBLIC_POCKETBASE_URL || 'https://api.bytegush.com';
+      clientPb = new PocketBase(url);
+    }
+    return clientPb;
+  }
+
+  const url = process.env.POCKETBASE_INTERNAL_URL || 'http://pocketbase:8090';
   return new PocketBase(url);
 }
 

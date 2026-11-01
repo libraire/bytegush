@@ -1,128 +1,169 @@
-"use client"
+"use client";
 
-import { useCustomAuth } from "@/app/context/CustomAuthProvider"
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { useCustomAuth } from '@/app/context/CustomAuthProvider';
+import {
+  ChevronDown,
+  LogOut,
+  LogIn,
+  Shield,
+  Layers,
+  PlusCircle,
+  FileText,
+  User as UserIcon,
+} from 'lucide-react';
 
-function classNames(...classes: string[]): string {
-    return classes.filter(Boolean).join(' ')
-}
-
-function isAdmin(email: string | null | undefined) {
-    if (!email) return false;
-    const admins = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "").split(",");
-    return admins.includes(email);
+function isAdmin(email: string | null | undefined): boolean {
+  if (!email) return false;
+  const adminList = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || 'drinkingpan@gmail.com')
+    .split(',')
+    .map((e) => e.trim().toLowerCase());
+  return adminList.includes(email.trim().toLowerCase());
 }
 
 export default function AuthButton() {
-    const { user, isLoading, login, logout } = useCustomAuth()
+  const { user, isLoading, login, logout } = useCustomAuth();
 
-    if (isLoading) {
-        // Loading state
-        return (
-            <div className="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300">
-                Loading...
-            </div>
-        )
-    }
-
-    if (!user) {
-        // Not logged in - show Sign In button
-        return (
-            <button
-                onClick={() => login()}
-                className="inline-flex items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            >
-                Sign In
-            </button>
-        )
-    }
-
-    // Logged in - show email with dropdown for Sign Out
+  if (isLoading) {
     return (
-        <Menu as="div" className="relative inline-block text-left">
-            <div>
-                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                    <span className="max-w-[200px] truncate">{user.email}</span>
-                    <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-                </Menu.Button>
-            </div>
+      <div className="h-9 w-20 rounded-xl bg-white/5 border border-white/10 animate-pulse" />
+    );
+  }
 
-            <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-            >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                        <Menu.Item>
-                            {({ active }) => (
-                                <button
-                                    onClick={() => logout()}
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block w-full text-left px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    Sign Out
-                                </button>
-                            )}
-                        </Menu.Item>
-                        {isAdmin(user.email) && (
-                            <>
-                                <div className="border-t border-gray-100 my-1" />
-                                <div className="px-3 py-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
-                                    管理员工作台
-                                </div>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href="/products/manage"
-                                            className={classNames(
-                                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
-                                                'block w-full text-left px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            🛠️ 产品库管理
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href="/products/create"
-                                            className={classNames(
-                                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
-                                                'block w-full text-left px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            ➕ 添加新产品
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href="/articles/create"
-                                            className={classNames(
-                                                active ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700',
-                                                'block w-full text-left px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            📝 撰写专栏文章
-                                        </a>
-                                    )}
-                                </Menu.Item>
-                            </>
-                        )}
-                    </div>
-                </Menu.Items>
-            </Transition>
-        </Menu>
-    )
+  if (!user) {
+    return (
+      <button
+        type="button"
+        onClick={() => login()}
+        className="group relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium text-slate-200 hover:text-white bg-white/10 hover:bg-white/15 border border-white/15 hover:border-purple-500/40 shadow-sm hover:shadow-[0_0_15px_rgba(147,51,234,0.25)] transition-all active:scale-[0.98]"
+      >
+        <LogIn className="w-3.5 h-3.5 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
+        <span>登录 / 注册</span>
+      </button>
+    );
+  }
+
+  const initial = (user.name?.[0] || user.email?.[0] || 'U').toUpperCase();
+  const displayName = user.name || user.email.split('@')[0];
+  const userIsAdmin = isAdmin(user.email);
+
+  return (
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button className="group inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 hover:border-purple-500/40 shadow-sm transition-all focus:outline-none">
+          {/* 头像徽标 */}
+          <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-[11px] font-bold text-white shadow-inner flex-shrink-0">
+            {initial}
+          </div>
+          <span className="max-w-[100px] sm:max-w-[140px] truncate text-xs sm:text-sm font-medium text-slate-200 group-hover:text-white">
+            {displayName}
+          </span>
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-200 transition-transform duration-200 group-data-[headlessui-state=open]:rotate-180" />
+        </Menu.Button>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-150"
+        enterFrom="transform opacity-0 scale-95 -translate-y-1"
+        enterTo="transform opacity-100 scale-100 translate-y-0"
+        leave="transition ease-in duration-100"
+        leaveFrom="transform opacity-100 scale-100 translate-y-0"
+        leaveTo="transform opacity-0 scale-95 -translate-y-1"
+      >
+        <Menu.Items className="absolute right-0 z-50 mt-2 w-56 sm:w-60 origin-top-right rounded-2xl bg-[#0B0F19]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-1.5 focus:outline-none divide-y divide-white/5">
+          {/* 用户基础信息 */}
+          <div className="px-3 py-2.5">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
+                {initial}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold text-white truncate">
+                  {displayName}
+                </p>
+                <p className="text-[11px] text-slate-400 truncate">
+                  {user.email}
+                </p>
+              </div>
+            </div>
+            {userIsAdmin && (
+              <div className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-[10px] font-medium text-purple-300">
+                <Shield className="w-2.5 h-2.5" />
+                <span>管理员</span>
+              </div>
+            )}
+          </div>
+
+          {/* 管理员工作台菜单 */}
+          {userIsAdmin && (
+            <div className="py-1">
+              <div className="px-3 py-1 text-[10px] font-mono uppercase tracking-wider text-purple-400/80 font-bold">
+                工作台管理
+              </div>
+              <Menu.Item>
+                {({ active }) => (
+                  <a
+                    href="/products/manage"
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                      active ? 'bg-purple-500/15 text-purple-200' : 'text-slate-300'
+                    }`}
+                  >
+                    <Layers className="w-3.5 h-3.5 text-purple-400" />
+                    <span>产品库管理</span>
+                  </a>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <a
+                    href="/products/create"
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                      active ? 'bg-purple-500/15 text-purple-200' : 'text-slate-300'
+                    }`}
+                  >
+                    <PlusCircle className="w-3.5 h-3.5 text-purple-400" />
+                    <span>添加新产品</span>
+                  </a>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <a
+                    href="/articles/create"
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                      active ? 'bg-purple-500/15 text-purple-200' : 'text-slate-300'
+                    }`}
+                  >
+                    <FileText className="w-3.5 h-3.5 text-purple-400" />
+                    <span>撰写专栏文章</span>
+                  </a>
+                )}
+              </Menu.Item>
+            </div>
+          )}
+
+          {/* 退出登录 */}
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  type="button"
+                  onClick={() => logout()}
+                  className={`flex items-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                    active ? 'bg-rose-500/15 text-rose-300' : 'text-rose-400/90 hover:bg-rose-500/10'
+                  }`}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>退出登录</span>
+                </button>
+              )}
+            </Menu.Item>
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
+  );
 }
+
