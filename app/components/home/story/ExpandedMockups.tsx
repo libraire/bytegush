@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Sparkles, Terminal, FileText, Cpu, ShieldCheck, Flame, GitBranch, ArrowRight, Play } from 'lucide-react';
+import { Sparkles, Terminal, FileText, Cpu, ShieldCheck, Flame, GitBranch, ArrowRight, Play, MessageSquare } from 'lucide-react';
 
 export function ShareReaderMockup() {
   return (
@@ -23,7 +23,7 @@ export function ShareReaderMockup() {
           </div>
           <div className="flex items-center gap-1.5 text-[10px] font-mono bg-blue-950/80 border border-blue-800/60 text-blue-300 px-2 py-0.5 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>本地 Ollama / DeepSeek</span>
+            <span>AI 大模型支持 · 智能伴读</span>
           </div>
         </div>
 
@@ -71,39 +71,42 @@ export function ShareReaderMockup() {
             </div>
           </div>
 
-          {/* 右侧 5 列：双轨思辨与思维树 */}
+          {/* 右侧 5 列：围绕论文讨论与学术共读 */}
           <div className="col-span-5 bg-[#070A14] rounded-xl p-2.5 border border-blue-900/30 flex flex-col justify-between space-y-2">
             <div className="space-y-1.5">
-              <div className="flex items-center gap-1 text-[10px] text-blue-300 font-bold">
-                <GitBranch className="w-3 h-3 text-blue-400" />
-                <span>发散思维树 (第2分支)</span>
+              <div className="flex items-center justify-between text-[10px] text-blue-300 font-bold">
+                <div className="flex items-center gap-1">
+                  <MessageSquare className="w-3 h-3 text-blue-400" />
+                  <span>围绕论文讨论</span>
+                </div>
+                <span className="text-[8px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-1.5 py-0.2 rounded-full">3人共读</span>
               </div>
 
-              {/* 原著内生论点卡片 */}
+              {/* 同行探讨卡片 */}
               <div className="p-1.5 rounded-lg bg-white/[0.04] border border-blue-500/30 text-[9px] space-y-0.5">
                 <div className="flex items-center justify-between text-blue-400 font-mono">
-                  <span>[原著佐证]</span>
-                  <span className="underline cursor-pointer">P.4: 点积防饱和</span>
+                  <span>[同行探讨 · Alex]</span>
+                  <span className="underline cursor-pointer">P.4 锚点 ↗</span>
                 </div>
                 <div className="text-slate-300 leading-tight">
-                  √d_k 因子有效避免大维度点积落入 Softmax 梯度极小区。
+                  这里的 √d_k 缩放因子，如何保证点积不会进入 Softmax 梯度饱和区？
                 </div>
               </div>
 
-              {/* 外部引申分支卡片 */}
+              {/* AI 伴读与同行评注 */}
               <div className="p-1.5 rounded-lg bg-purple-950/40 border border-purple-500/30 text-[9px] space-y-0.5">
                 <div className="flex items-center justify-between text-purple-300 font-mono">
-                  <span>[外部引申]</span>
-                  <span>FlashAttention-2</span>
+                  <span>[AI 伴读解析]</span>
+                  <span>FlashAttention</span>
                 </div>
                 <div className="text-slate-400 leading-tight">
-                  Tiling 分块计算减少 SRAM 与 HBM 数据搬运。
+                  点积过大易导致梯度极小，结合后续 FlashAttention Tiling 还能兼顾内存。
                 </div>
               </div>
             </div>
 
             <div className="p-1.5 rounded-lg bg-blue-950/60 border border-blue-800/40 text-[9px] text-blue-300 text-center font-mono">
-              💡 点击任意论据芯片穿梭至原著
+              💡 划选论文任意段落，即刻与同行展开深度讨论
             </div>
           </div>
 

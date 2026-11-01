@@ -29,10 +29,10 @@ const originalsNavItems = [
   },
   {
     name: 'ShareReader',
-    tagline: '原著文献微观聚焦与双轨思辨研读器',
+    tagline: '文献协作共读空间 · 和同行围绕论文展开讨论',
     href: 'https://github.com/drinking/sharereader',
     emoji: '📖',
-    badge: '工作台',
+    badge: '开发中',
     isExternal: true,
   },
   {

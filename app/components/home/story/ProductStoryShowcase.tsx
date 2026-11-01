@@ -92,33 +92,28 @@ export default function ProductStoryShowcase() {
         deviceMockup={<WorkoutMockup />}
       />
 
-      {/* Chapter 04: ShareReader 原著双轨思辨阅读器 (右文左图 —— 学术科研深蓝) */}
+      {/* Chapter 04: ShareReader 论文协作研读空间 (右文左图 —— 学术深蓝) */}
       <ProductStorySection
         id="sharereader"
         align="right"
         badge={{
           emoji: '📖',
-          text: '文献双轨思辨研读器 · 原著微观聚焦与思维树发散',
+          text: '文献协作研读空间 · 和同行一起读论文、围绕内容深度讨论',
         }}
-        headlinePrefix="以单份论文为宇宙"
-        headlineGradient="微观聚焦 · 宏观双轨思辨"
+        headlinePrefix="不再一个人孤军啃论文"
+        headlineGradient="和同行一起读论文 · 围绕原著聊透问题"
         accentGradient="from-blue-400 via-sky-200 to-indigo-300"
-        description="拒绝传统 AI 聊天窗口的线性遗忘与无根幻觉。原著文字公式划选即问，发散思维树分叉独立推演，物理坐标双向高亮反向穿梭。清晰区分原著佐证与外部引申，打造深科研工作台。"
+        description="一个人啃论文太枯燥？ShareReader 打造围绕论文原著的协作研读空间。划选段落发起提问、边注碰撞学术见解、复杂难点与同行及 AI 共同探讨。让每一篇高质量论文，都成为思想碰撞的研讨室。"
         stats={[
-          { label: '双向物理锚定', value: '100%', hint: '反向穿梭' },
-          { label: '发散思维树', value: '无限分支', hint: '主线不乱' },
-          { label: '本地离线支持', value: 'Ollama', hint: 'DeepSeek/API' },
+          { label: '原著段落交流', value: '边注共读', hint: '段落讨论' },
+          { label: '学术观点碰撞', value: '围绕论文讨论', hint: '同频交流' },
+          { label: '智能分析辅助', value: 'AI 大模型支持', hint: 'DeepSeek / API' },
         ]}
         primaryCta={{
-          label: '📖 探索 ShareReader 研读器',
-          href: 'https://github.com/drinking/sharereader',
-          isExternal: true,
+          label: '🛠️ 产品开发中',
+          href: '#',
         }}
-        secondaryCta={{
-          label: '💡 查看双轨思辨设计哲学',
-          href: '/articles',
-        }}
-        features={['原著内生 vs 外部引申透明标注', '公式与图表拖拽框选解析', '本地离线模型绝对隐私', '全屏沉浸与分栏比例无级调节']}
+        features={['围绕论文原著即时讨论', '同行共读与边注见解沉淀', 'AI 大模型智能辅助', '全屏沉浸与分栏比例无级调节']}
         themeGlow="radial-gradient(circle at 35% 50%, rgba(59, 130, 246, 0.22) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 75%)"
         deviceMockup={<ShareReaderMockup />}
       />

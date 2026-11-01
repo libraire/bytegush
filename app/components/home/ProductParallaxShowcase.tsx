@@ -10,6 +10,8 @@ import {
   CheckCircle2,
   ArrowUp,
   GitBranch,
+  Users,
+  MessageSquare,
 } from 'lucide-react';
 import FlappyFeedBetaModal from './FlappyFeedBetaModal';
 import WorkoutQrModal from './WorkoutQrModal';
@@ -116,27 +118,21 @@ const slidesData: SlideData[] = [
     name: 'ShareReader',
     shortName: 'ShareReader',
     emoji: '📖',
-    tag: '文献双轨思辨研读器 · 原著微观聚焦与思维树发散',
-    headlinePrefix: '以单份原著为宇宙',
-    headlineGradient: '微观聚焦 · 宏观双轨思辨',
+    tag: '文献协作研读空间 · 和同行一起读论文、围绕内容深度讨论',
+    headlinePrefix: '不再一个人孤军啃论文',
+    headlineGradient: '和同行一起读论文 · 围绕原著聊透问题',
     description:
-      '拒绝传统 AI 聊天窗口的线性遗忘与无根幻觉。原著文字公式划选即问，发散思维树分叉独立推演，物理坐标双向高亮反向穿梭。清晰区分原著佐证与外部引申，打造深科研桌面工作台。',
+      '一个人啃论文太枯燥？ShareReader 打造围绕论文原著的协作研读空间。划选段落发起提问、边注碰撞学术见解、复杂难点与同行及 AI 共同探讨。让每一篇高质量论文，都成为思想碰撞的研讨室。',
     stats: [
-      { label: '物理坐标反向锚定', value: '100%' },
-      { label: '发散思维树分支', value: '无限分支' },
-      { label: '端侧本地模型支持', value: 'Ollama' },
+      { label: '原著段落交流', value: '边注共读' },
+      { label: '学术观点碰撞', value: '围绕论文讨论' },
+      { label: '智能分析辅助', value: 'AI 大模型支持' },
     ],
     primaryCta: {
-      label: '📖 探索 ShareReader 研读器',
-      href: 'https://github.com/drinking/sharereader',
-      isExternal: true,
+      label: '🛠️ 产品开发中',
+      href: '#',
     },
-    secondaryCta: {
-      label: '💡 双轨思辨设计哲学',
-      href: '/articles',
-      isExternal: false,
-    },
-    badges: ['原著佐证与引申透明标注', '公式与图表拖拽框选解析', '端侧离线模型绝对隐私'],
+    badges: ['围绕论文原著即时讨论', '同行共读与边注见解沉淀', 'AI 大模型智能辅助'],
     themeGlow: 'radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.28) 0%, rgba(99, 102, 241, 0.1) 45%, transparent 70%)',
     accentGradient: 'from-sky-400 via-blue-200 to-indigo-300',
     activeColor: 'text-sky-400 border-sky-400 shadow-sky-500/30',
@@ -399,8 +395,8 @@ export default function ProductParallaxShowcase() {
                       <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
                         <a
                           href={slide.primaryCta.href}
-                          target={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
-                          rel={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' ? undefined : "noreferrer"}
+                          target={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' || slide.id === 'sharereader' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
+                          rel={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' || slide.id === 'sharereader' ? undefined : "noreferrer"}
                           onClick={(e) => {
                             if (slide.id === 'flappyfeed') {
                               e.preventDefault();
@@ -411,21 +407,25 @@ export default function ProductParallaxShowcase() {
                             } else if (slide.id === 'workout') {
                               e.preventDefault();
                               setIsWorkoutQrModalOpen(true);
+                            } else if (slide.id === 'sharereader') {
+                              e.preventDefault();
                             }
                           }}
-                          className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 text-white cursor-pointer ${index === 0
+                          className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 text-white ${index === 3 ? 'cursor-default' : 'cursor-pointer'} ${index === 0
                               ? 'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-purple-600/30'
                               : index === 1
                                 ? 'bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 shadow-amber-600/30'
                                 : index === 2
                                   ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-teal-500 shadow-emerald-600/30'
-                                  : 'bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 hover:from-sky-500 hover:to-blue-500 shadow-sky-600/30'
+                                  : 'bg-white/10 hover:bg-white/15 border border-white/20 text-slate-200 shadow-sky-950/40'
                             }`}
                         >
                           {slide.primaryCta.isDownload ? (
                             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                           ) : slide.primaryCta.isExternal ? (
                             <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                          ) : slide.id === 'sharereader' ? (
+                            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse mr-0.5" />
                           ) : (
                             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                           )}
@@ -607,7 +607,7 @@ export default function ProductParallaxShowcase() {
                           </div>
                           <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-mono bg-sky-950/80 border border-sky-800/60 text-sky-300 px-2 py-0.5 rounded-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            <span>本地 Ollama · DeepSeek</span>
+                            <span>AI 大模型支持 · 智能伴读</span>
                           </div>
                         </div>
 
@@ -663,42 +663,42 @@ export default function ProductParallaxShowcase() {
                             </div>
                           </div>
 
-                          {/* 右侧 5 列：双轨思辨与思维树 */}
+                          {/* 右侧 5 列：围绕论文讨论与学术共读 */}
                           <div className="col-span-5 bg-[#080B15] rounded-xl p-2 sm:p-2.5 border border-sky-900/30 flex flex-col justify-between space-y-1.5">
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between text-[9px] sm:text-[10px] text-sky-300 font-bold">
                                 <div className="flex items-center gap-1">
-                                  <GitBranch className="w-3 h-3 text-sky-400" />
-                                  <span>发散思维树</span>
+                                  <MessageSquare className="w-3 h-3 text-sky-400" />
+                                  <span>围绕论文讨论</span>
                                 </div>
-                                <span className="text-[8px] font-mono text-slate-400 bg-white/5 px-1 rounded">分支 #2</span>
+                                <span className="text-[8px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-1.5 py-0.2 rounded-full">3人共读</span>
                               </div>
 
-                              {/* 原著内生论点卡片 */}
+                              {/* 同行研读探讨卡片 */}
                               <div className="p-1.5 rounded-lg bg-sky-950/40 border border-sky-500/30 text-[8.5px] sm:text-[9px] space-y-0.5">
                                 <div className="flex items-center justify-between text-sky-300 font-mono font-semibold">
-                                  <span>[原著佐证]</span>
+                                  <span>[同行探讨 · Alex]</span>
                                   <span className="text-sky-400 underline underline-offset-1 text-[8px]">P.4 锚点 ↗</span>
                                 </div>
                                 <div className="text-slate-300 leading-tight">
-                                  √d_k 缩放因子有效防止点积过大落入 Softmax 饱和区。
+                                  这里的 √d_k 缩放因子，如何保证点积不会进入 Softmax 梯度饱和区？
                                 </div>
                               </div>
 
-                              {/* 外部引申分支卡片 */}
+                              {/* AI 伴读与学者评注 */}
                               <div className="p-1.5 rounded-lg bg-purple-950/40 border border-purple-500/30 text-[8.5px] sm:text-[9px] space-y-0.5">
                                 <div className="flex items-center justify-between text-purple-300 font-mono font-semibold">
-                                  <span>[外部引申]</span>
+                                  <span>[AI 伴读解析]</span>
                                   <span className="text-[8px] text-purple-400 font-mono">FlashAttention</span>
                                 </div>
                                 <div className="text-slate-400 leading-tight">
-                                  Tiling 分块计算减少 SRAM 与 HBM 高频搬运。
+                                  点积过大易导致梯度极小，结合后续 FlashAttention Tiling 还能兼顾内存。
                                 </div>
                               </div>
                             </div>
 
                             <div className="p-1 rounded-lg bg-sky-950/60 border border-sky-800/40 text-[8px] sm:text-[8.5px] text-sky-300 text-center font-mono">
-                              💡 点击任意论据芯片反向定位原著
+                              💡 划选论文任意段落，即刻与同行展开深度讨论
                             </div>
                           </div>
                         </div>

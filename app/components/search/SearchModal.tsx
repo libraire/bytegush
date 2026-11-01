@@ -89,6 +89,16 @@ const SEARCH_DATABASE: SearchItem[] = [
     href: '/products/workout',
     keywords: ['workout', '健身', '训练', '运动', '极简', '离线'],
   },
+  {
+    id: 'sharereader',
+    title: 'ShareReader 论文共读讨论',
+    description: '文献协作研读空间。和同行一起读论文、围绕论文原著边注讨论，AI 智能辅助分析',
+    category: 'products',
+    categoryLabel: '开发中产品',
+    emoji: '📖',
+    href: '#',
+    keywords: ['sharereader', '论文', 'pdf', '学术', '文献', '科研', '伴读', '大模型', '阅读'],
+  },
 
   // Bytegush 试验场 (Labs)
   {
