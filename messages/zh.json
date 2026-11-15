@@ -343,7 +343,17 @@
     "vocabBook": "生词本",
     "loopSentence": "单句复读",
     "aiTutor": "AI 私教",
-    "currentSentence": "第 {current} / {total} 句"
+    "currentSentence": "第 {current} / {total} 句",
+    "loginRequiredTitle": "登录解锁全部 1490+ 篇经典语料",
+    "loginRequiredDesc": "您已体验第 1 篇免费内容。一键登录即可永久畅听全库文学名著、外刊播客与 AI 私教伴读。",
+    "loginBenefit1": "1490+ 经典原著与外刊播客全量开放",
+    "loginBenefit2": "上下文 AI 私教智能语法拆解与词汇降级",
+    "loginBenefit3": "个人专属生词本跨端同步与复习",
+    "loginBenefit4": "纯净无商业广告，极简母语语流沉浸磨耳",
+    "loginNowBtn": "立即登录 / 免费注册",
+    "replayFreeBtn": "重听本篇免费内容",
+    "freeTrialBadge": "免费试听 (1/1)",
+    "loginBtn": "登录 / 注册"
   },
   "FlappyLanding": {
     "metaTitle": "FlappyFeed - 像刷短视频一样沉浸式刷英语 | 官方主页",

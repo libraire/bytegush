@@ -343,7 +343,17 @@
     "vocabBook": "単語帳",
     "loopSentence": "1文リピート",
     "aiTutor": "AI家庭教師",
-    "currentSentence": "第 {current} / {total} 文"
+    "currentSentence": "第 {current} / {total} 文",
+    "loginRequiredTitle": "ログインして1490以上の全作品をアンロック",
+    "loginRequiredDesc": "無料体験の1記事をお楽しみいただきました。ログインすると、すべての文学名作、ポッドキャスト、AI家庭教師をご利用いただけます。",
+    "loginBenefit1": "1490以上の名作文学＆ポッドキャスト全編が聴き放題",
+    "loginBenefit2": "文脈対応AIチューターによる構文分解＆言い換え",
+    "loginBenefit3": "単語帳の複数端末同期＆エビングハウス復習",
+    "loginBenefit4": "完全広告なしのミニマルな英語インプット体験",
+    "loginNowBtn": "今すぐログイン / 新規登録",
+    "replayFreeBtn": "この無料記事をもう一度聴く",
+    "freeTrialBadge": "無料体験 (1/1)",
+    "loginBtn": "ログイン"
   },
   "FlappyLanding": {
     "metaTitle": "FlappyFeed - ショート動画感覚で英語を学ぶイマーシブ・フィード | 公式ページ",

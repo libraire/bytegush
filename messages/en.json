@@ -359,7 +359,17 @@
     "vocabBook": "Vocabulary",
     "loopSentence": "Loop",
     "aiTutor": "AI Tutor",
-    "currentSentence": "Sentence {current} / {total}"
+    "currentSentence": "Sentence {current} / {total}",
+    "loginRequiredTitle": "Sign in to Unlock All 1490+ Passages",
+    "loginRequiredDesc": "You have experienced your 1 free passage. Sign in now to unlock the complete library of literary classics, podcasts, and AI tutor coaching.",
+    "loginBenefit1": "Full access to 1490+ classic masterpieces & podcasts",
+    "loginBenefit2": "Contextual AI tutor with grammatical breakdown & rewrites",
+    "loginBenefit3": "Personal vocabulary book with cross-device sync",
+    "loginBenefit4": "100% ad-free minimalist language immersion stream",
+    "loginNowBtn": "Sign In / Register Free",
+    "replayFreeBtn": "Replay Free Passage",
+    "freeTrialBadge": "Free Trial (1/1)",
+    "loginBtn": "Sign In"
   },
   "FlappyLanding": {
     "metaTitle": "FlappyFeed - Learn English by Scrolling Micro-Feeds | Official Page",

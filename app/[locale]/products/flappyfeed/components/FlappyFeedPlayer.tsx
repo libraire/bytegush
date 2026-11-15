@@ -12,21 +12,40 @@ import {
   ChevronLeft,
   ChevronRight,
   BookOpen,
+  Sparkles,
+  Lock,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { useCustomAuth } from '@/app/context/CustomAuthProvider';
 import { FeedItem, SentenceItem, WordDefinition, DifficultyFilter, PlaybackRate } from '../lib/types';
 import { SEED_CORPUS } from '../lib/seedCorpus';
 import WordLookupModal from './WordLookupModal';
 import AITutorDrawer from './AITutorDrawer';
 import VocabularyDrawer from './VocabularyDrawer';
 import ArticleSearchModal from './ArticleSearchModal';
+import LoginGateModal from './LoginGateModal';
 
 export default function FlappyFeedPlayer() {
+  const t = useTranslations('FlappyFeed');
+  const { user, isAuthenticated, openAuthModal } = useCustomAuth();
+
   // Feed List and Filtering
   const [feedList, setFeedList] = useState<FeedItem[]>(SEED_CORPUS);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
   const [isLoadingFeed, setIsLoadingFeed] = useState(false);
+
+  // Authentication gating: unauthenticated visitors can only listen to 1 free article
+  const [allowedArticleIndex] = useState<number>(0);
+  const [showLoginGate, setShowLoginGate] = useState(false);
+
+  // Auto-close login gate if user becomes authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      setShowLoginGate(false);
+    }
+  }, [isAuthenticated]);
 
   // Playback state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -65,27 +84,57 @@ export default function FlappyFeedPlayer() {
     }
   }, []);
 
-  // Card Navigation (Conventional buttons)
+  // Pause playback helper (used when opening modals/drawers or gating)
+  const pausePlayback = useCallback(() => {
+    if (audioRef.current && !audioRef.current.paused) {
+      audioRef.current.pause();
+    }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    if (ttsTimeoutRef.current) {
+      clearTimeout(ttsTimeoutRef.current);
+    }
+    setIsPlaying(false);
+  }, []);
+
+  // Card Navigation (Conventional buttons) with authentication gate
   const goToNext = useCallback(() => {
+    if (!isAuthenticated) {
+      pausePlayback();
+      setShowLoginGate(true);
+      return;
+    }
     if (currentIndex < feedList.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [currentIndex, feedList.length]);
+  }, [currentIndex, feedList.length, isAuthenticated, pausePlayback]);
 
   const goToPrev = useCallback(() => {
+    if (!isAuthenticated) {
+      pausePlayback();
+      setShowLoginGate(true);
+      return;
+    }
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [currentIndex]);
+  }, [currentIndex, isAuthenticated, pausePlayback]);
 
   const selectArticle = useCallback((index: number) => {
+    if (!isAuthenticated && index !== allowedArticleIndex) {
+      pausePlayback();
+      setIsSearchOpen(false);
+      setShowLoginGate(true);
+      return;
+    }
     if (index >= 0 && index < feedList.length) {
       setCurrentIndex(index);
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [feedList.length]);
+  }, [allowedArticleIndex, feedList.length, isAuthenticated, pausePlayback]);
 
   // TTS Engine (Native Web Speech API - 100% reliable)
   const playSentenceTTS = useCallback((sentenceIdx: number) => {
@@ -118,6 +167,10 @@ export default function FlappyFeedPlayer() {
           ttsTimeoutRef.current = setTimeout(() => playSentenceTTS(sentenceIdx + 1), 500);
         } else {
           setIsPlaying(false);
+          // When the free passage completes, prompt unauthenticated user to log in
+          if (!isAuthenticated) {
+            setShowLoginGate(true);
+          }
         }
       };
 
@@ -128,21 +181,21 @@ export default function FlappyFeedPlayer() {
 
       window.speechSynthesis.speak(utterance);
     }
-  }, [accent, currentItem, isLoopingSentence, playbackRate, scrollActiveSentenceIntoView]);
+  }, [accent, currentItem, isAuthenticated, isLoopingSentence, playbackRate, scrollActiveSentenceIntoView]);
 
-  // Pause playback helper (used when opening modals/drawers)
-  const pausePlayback = useCallback(() => {
-    if (audioRef.current && !audioRef.current.paused) {
-      audioRef.current.pause();
+  // Replay free article helper
+  const replayFreeArticle = useCallback(() => {
+    setCurrentSentenceIndex(0);
+    if (currentItem?.has_audio && currentItem.audio_url && audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {
+        playSentenceTTS(0);
+      });
+    } else {
+      playSentenceTTS(0);
     }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    if (ttsTimeoutRef.current) {
-      clearTimeout(ttsTimeoutRef.current);
-    }
-    setIsPlaying(false);
-  }, []);
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentItem, playSentenceTTS]);
 
   // When AI tutor or search modal opens, immediately pause playback
   useEffect(() => {
@@ -388,7 +441,14 @@ export default function FlappyFeedPlayer() {
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onEnded={goToNext}
+        onEnded={() => {
+          if (!isAuthenticated) {
+            pausePlayback();
+            setShowLoginGate(true);
+          } else {
+            goToNext();
+          }
+        }}
         onError={() => {
           console.warn('Audio tag failed to load source, fallback to TTS');
           setIsPlaying(false);
@@ -425,8 +485,29 @@ export default function FlappyFeedPlayer() {
           </button>
         </div>
 
-        {/* 右侧：搜索切换、生词本与双语开关 */}
+        {/* 右侧：登录状态/登录按钮、搜索切换、生词本与双语开关 */}
         <div className="flex items-center gap-2">
+          {!isAuthenticated ? (
+            <button
+              onClick={() => openAuthModal('otp')}
+              className="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center gap-1 shadow-md shadow-purple-600/30 transition-all cursor-pointer"
+              title="登录即可解锁全部 1490+ 篇名著语料"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-purple-200" />
+              <span>{t('loginBtn')}</span>
+              <span className="text-[10px] bg-purple-950/80 border border-purple-400/30 px-1.5 py-0.2 rounded-full text-purple-200 ml-0.5">
+                1/1
+              </span>
+            </button>
+          ) : (
+            <div className="hidden sm:flex items-center gap-1.5 text-xs text-purple-300 bg-purple-950/50 border border-purple-800/50 px-2.5 py-1 rounded-xl">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span className="max-w-[90px] truncate">
+                {user?.name || user?.email?.split('@')[0] || 'VIP'}
+              </span>
+            </div>
+          )}
+
           {/* 搜索切换按钮 */}
           <button
             onClick={() => setIsSearchOpen(true)}
@@ -679,6 +760,16 @@ export default function FlappyFeedPlayer() {
         feedList={feedList}
         currentIndex={currentIndex}
         onSelectArticle={selectArticle}
+        isAuthenticated={isAuthenticated}
+        allowedArticleIndex={allowedArticleIndex}
+      />
+
+      {/* 5. 未登录体验完 1 篇后拦截与登录引导弹窗 */}
+      <LoginGateModal
+        isOpen={showLoginGate}
+        onClose={() => setShowLoginGate(false)}
+        onLogin={() => openAuthModal('otp')}
+        onReplay={replayFreeArticle}
       />
     </div>
   );

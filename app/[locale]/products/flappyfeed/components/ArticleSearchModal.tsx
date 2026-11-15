@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, BookOpen, Check, ChevronRight, Volume2, Sparkles, Headphones } from 'lucide-react';
+import { Search, X, BookOpen, Check, ChevronRight, Volume2, Sparkles, Headphones, Lock } from 'lucide-react';
 import { FeedItem } from '../lib/types';
 
 interface Props {
@@ -10,6 +10,8 @@ interface Props {
   feedList: FeedItem[];
   currentIndex: number;
   onSelectArticle: (index: number) => void;
+  isAuthenticated?: boolean;
+  allowedArticleIndex?: number;
 }
 
 type AudioFilterType = 'all' | 'native_audio' | 'tts';
@@ -20,6 +22,8 @@ export default function ArticleSearchModal({
   feedList,
   currentIndex,
   onSelectArticle,
+  isAuthenticated = false,
+  allowedArticleIndex = 0,
 }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [audioFilter, setAudioFilter] = useState<AudioFilterType>('all');
@@ -236,6 +240,11 @@ export default function ArticleSearchModal({
                       <span className="text-xs text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-700/60 shadow-sm">
                         <Check className="w-3.5 h-3.5" />
                         <span>正在阅读</span>
+                      </span>
+                    ) : !isAuthenticated && originalIndex !== allowedArticleIndex ? (
+                      <span className="text-[11px] font-mono text-purple-300 font-medium flex items-center gap-1 bg-purple-950/60 border border-purple-800/50 px-2 py-1 rounded-lg">
+                        <Lock className="w-3 h-3 text-purple-400" />
+                        <span>登录解锁</span>
                       </span>
                     ) : (
                       <button className="p-1.5 rounded-lg bg-white/5 group-hover:bg-purple-600/30 text-slate-400 hover:text-white transition-colors">
