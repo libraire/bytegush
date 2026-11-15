@@ -77,11 +77,11 @@ export async function getAllFeedItems(forceRefresh = false): Promise<FeedItem[]>
     });
     if (records && records.length > 0) {
       const pbItems = records.map(recordToFeedItem);
-      // Ensure seed items (especially the local authentic audio podcasts) are merged and preserved
-      const pbIds = new Set(pbItems.map(i => i.id));
-      const extraSeeds = seedItems.filter(s => !pbIds.has(s.id));
+      // Ensure seed items (especially the local authentic audio podcasts with enriched sentences) take precedence
+      const seedIds = new Set(seedItems.map(s => s.id));
+      const pbNonSeed = pbItems.filter(i => !seedIds.has(i.id));
 
-      const allMerged = [...extraSeeds, ...pbItems];
+      const allMerged = [...seedItems, ...pbNonSeed];
       // Keep native audio items at the top so they are never lost or buried
       const audioItems = allMerged.filter(i => i.has_audio);
       const regularItems = allMerged.filter(i => !i.has_audio);
