@@ -51,7 +51,7 @@ export default function FlappyFeedPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [playbackRate, setPlaybackRate] = useState<PlaybackRate>(1.0);
-  const [isLoopingSentence, setIsLoopingSentence] = useState(false);
+  const [loopingIndex, setLoopingIndex] = useState<number | null>(null);
   const [showBilingual, setShowBilingual] = useState(true);
   const [accent, setAccent] = useState<'en-US' | 'en-GB'>('en-US');
 
@@ -71,6 +71,12 @@ export default function FlappyFeedPlayer() {
   const loadedAudioArticleIdRef = useRef<string | null>(null);
   const currentItemRef = useRef<FeedItem | undefined>(undefined);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const currentSentenceIndexRef = useRef<number>(0);
+  const loopingIndexRef = useRef<number | null>(null);
+
+  currentSentenceIndexRef.current = currentSentenceIndex;
+  loopingIndexRef.current = loopingIndex;
+  const isLoopingSentence = loopingIndex !== null;
 
   const currentItem: FeedItem | undefined = feedList[currentIndex];
   currentItemRef.current = currentItem;
@@ -106,6 +112,8 @@ export default function FlappyFeedPlayer() {
       return;
     }
     if (currentIndex < feedList.length - 1) {
+      loopingIndexRef.current = null;
+      setLoopingIndex(null);
       setCurrentIndex((prev) => prev + 1);
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -118,6 +126,8 @@ export default function FlappyFeedPlayer() {
       return;
     }
     if (currentIndex > 0) {
+      loopingIndexRef.current = null;
+      setLoopingIndex(null);
       setCurrentIndex((prev) => prev - 1);
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -131,6 +141,8 @@ export default function FlappyFeedPlayer() {
       return;
     }
     if (index >= 0 && index < feedList.length) {
+      loopingIndexRef.current = null;
+      setLoopingIndex(null);
       setCurrentIndex(index);
       scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -157,12 +169,14 @@ export default function FlappyFeedPlayer() {
       utterance.onstart = () => {
         setIsPlaying(true);
         setCurrentSentenceIndex(sentenceIdx);
+        currentSentenceIndexRef.current = sentenceIdx;
         scrollActiveSentenceIntoView(sentenceIdx);
       };
 
       utterance.onend = () => {
-        if (isLoopingSentence) {
-          ttsTimeoutRef.current = setTimeout(() => playSentenceTTS(sentenceIdx), 400);
+        const loopIdx = loopingIndexRef.current;
+        if (loopIdx !== null) {
+          ttsTimeoutRef.current = setTimeout(() => playSentenceTTS(loopIdx), 400);
         } else if (sentenceIdx + 1 < currentItem.sentences.length) {
           ttsTimeoutRef.current = setTimeout(() => playSentenceTTS(sentenceIdx + 1), 500);
         } else {
@@ -236,20 +250,51 @@ export default function FlappyFeedPlayer() {
     if (!sentence) return;
 
     setCurrentSentenceIndex(index);
+    currentSentenceIndexRef.current = index;
     scrollActiveSentenceIntoView(index);
 
     if (currentItem.has_audio && currentItem.audio_url && audioRef.current) {
       const start = (sentence.start_ms ?? (sentence as any).startMs ?? 0) / 1000;
-      audioRef.current.currentTime = start;
+      audioRef.current.currentTime = start + 0.015;
       if (!isPlaying) {
         audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {
           playSentenceTTS(index);
         });
+      } else {
+        audioRef.current.play().catch(() => {});
       }
     } else {
       playSentenceTTS(index);
     }
   }, [currentItem, isPlaying, playSentenceTTS, scrollActiveSentenceIntoView]);
+
+  // Toggle loop for a specific sentence index (from sentence-level button)
+  const toggleSentenceLoop = useCallback(
+    (targetIndex: number) => {
+      if (loopingIndexRef.current === targetIndex) {
+        loopingIndexRef.current = null;
+        setLoopingIndex(null);
+      } else {
+        loopingIndexRef.current = targetIndex;
+        setLoopingIndex(targetIndex);
+        seekToSentence(targetIndex);
+      }
+    },
+    [seekToSentence]
+  );
+
+  // Toggle loop for whatever sentence is currently active (footer & hotkey R)
+  const toggleCurrentSentenceLoop = useCallback(() => {
+    if (loopingIndexRef.current !== null) {
+      loopingIndexRef.current = null;
+      setLoopingIndex(null);
+    } else {
+      const target = currentSentenceIndexRef.current;
+      loopingIndexRef.current = target;
+      setLoopingIndex(target);
+      seekToSentence(target);
+    }
+  }, [seekToSentence]);
 
   // Cycle playback speed
   const cyclePlaybackRate = useCallback(() => {
@@ -366,29 +411,44 @@ export default function FlappyFeedPlayer() {
 
     const ms = Math.floor(audio.currentTime * 1000);
     const sentences = currentItem.sentences;
-    const curSentence = sentences[currentSentenceIndex];
 
-    if (
-      isLoopingSentence &&
-      curSentence &&
-      curSentence.end_ms &&
-      curSentence.start_ms !== undefined &&
-      curSentence.start_ms !== null
-    ) {
-      if (ms >= curSentence.end_ms) {
-        audio.currentTime = curSentence.start_ms / 1000;
+    // 1. If currently looping a specific sentence, keep locked and loop strictly within its boundary
+    const activeLoopIdx = loopingIndexRef.current;
+    if (activeLoopIdx !== null && activeLoopIdx >= 0 && activeLoopIdx < sentences.length) {
+      const loopSentence = sentences[activeLoopIdx];
+      const startMs = loopSentence.start_ms ?? (loopSentence as any).startMs ?? 0;
+      const endMs = loopSentence.end_ms ?? (loopSentence as any).endMs ?? 0;
+
+      if (endMs > 0 && ms >= endMs) {
+        audio.currentTime = (startMs + 15) / 1000;
         return;
       }
+
+      if (startMs > 0 && ms < startMs - 200) {
+        audio.currentTime = (startMs + 15) / 1000;
+        return;
+      }
+
+      if (currentSentenceIndexRef.current !== activeLoopIdx) {
+        setCurrentSentenceIndex(activeLoopIdx);
+        currentSentenceIndexRef.current = activeLoopIdx;
+        scrollActiveSentenceIntoView(activeLoopIdx);
+      }
+      return;
     }
 
-    const activeIdx = sentences.findIndex((s) => {
+    // 2. Normal sequential playback: find matching sentence with half-open interval to avoid boundary collision
+    const activeIdx = sentences.findIndex((s, idx) => {
       const start = s.start_ms ?? (s as any).startMs ?? 0;
       const end = s.end_ms ?? (s as any).endMs ?? Infinity;
-      return ms >= start && ms <= end;
+      return idx === sentences.length - 1
+        ? ms >= start && ms <= end
+        : ms >= start && ms < end;
     });
 
-    if (activeIdx !== -1 && activeIdx !== currentSentenceIndex) {
+    if (activeIdx !== -1 && activeIdx !== currentSentenceIndexRef.current) {
       setCurrentSentenceIndex(activeIdx);
+      currentSentenceIndexRef.current = activeIdx;
       scrollActiveSentenceIntoView(activeIdx);
     }
   };
@@ -404,7 +464,7 @@ export default function FlappyFeedPlayer() {
           togglePlayPause();
           break;
         case 'r':
-          setIsLoopingSentence((prev) => !prev);
+          toggleCurrentSentenceLoop();
           break;
         case 'b':
           setShowBilingual((prev) => !prev);
@@ -418,7 +478,7 @@ export default function FlappyFeedPlayer() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [togglePlayPause]);
+  }, [toggleCurrentSentenceLoop, togglePlayPause]);
 
   // Word Click Handler
   const handleWordClick = (word: string, sentence: string) => {
@@ -442,6 +502,10 @@ export default function FlappyFeedPlayer() {
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onEnded={() => {
+          if (loopingIndexRef.current !== null) {
+            seekToSentence(loopingIndexRef.current);
+            return;
+          }
           if (!isAuthenticated) {
             pausePlayback();
             setShowLoginGate(true);
@@ -587,11 +651,19 @@ export default function FlappyFeedPlayer() {
               <div
                 key={idx}
                 data-sentence-idx={idx}
-                onClick={() => seekToSentence(idx)}
+                onClick={() => {
+                  if (loopingIndex !== null) {
+                    toggleSentenceLoop(idx);
+                  } else {
+                    seekToSentence(idx);
+                  }
+                }}
                 className={`group cursor-pointer transition-all duration-150 -mx-2.5 px-2.5 py-1.5 sm:py-2 rounded-lg ${
-                  isCurrent
-                    ? 'bg-purple-950/40 ring-1 ring-purple-500/30 shadow-sm'
-                    : 'hover:bg-white/[0.03]'
+                  loopingIndex === idx
+                    ? 'bg-purple-950/70 ring-1 ring-purple-400/60 shadow-md'
+                    : isCurrent
+                      ? 'bg-purple-950/40 ring-1 ring-purple-500/30 shadow-sm'
+                      : 'hover:bg-white/[0.03]'
                 }`}
               >
                 {/* 英文原文 */}
@@ -617,25 +689,47 @@ export default function FlappyFeedPlayer() {
                     );
                   })}
 
-                  {/* 句末轻量 AI 伴学快捷按钮 */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setAiTarget({
-                        text: sentence.text,
-                        context: currentItem?.title,
-                      });
-                    }}
-                    className={`inline-flex items-center gap-0.5 ml-1.5 px-1 py-0.5 rounded text-[10px] font-mono transition-opacity align-middle ${
-                      isCurrent
-                        ? 'bg-purple-900/60 text-purple-300 border border-purple-700/50 opacity-100'
-                        : 'text-slate-500 hover:text-purple-300 hover:bg-purple-950/50 opacity-0 group-hover:opacity-100'
-                    }`}
-                    title="针对此句呼出 AI 私教进行语法拆解与 A2 降级"
-                  >
-                    <Bot className="w-2.5 h-2.5" />
-                    <span>AI</span>
-                  </button>
+                  {/* 句末快捷工具组：单句复读 + AI 伴学 (hover 时同步显示) */}
+                  <span className="inline-flex items-center gap-1.5 ml-2 align-middle select-none">
+                    {/* 单句复读按钮 */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSentenceLoop(idx);
+                      }}
+                      className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all cursor-pointer ${
+                        loopingIndex === idx
+                          ? 'bg-purple-600 text-white border border-purple-400 shadow-sm opacity-100 ring-1 ring-purple-400/50'
+                          : isCurrent
+                            ? 'bg-white/10 text-slate-300 hover:text-purple-200 hover:bg-purple-950/60 opacity-100'
+                            : 'text-slate-400 hover:text-purple-200 hover:bg-purple-950/50 opacity-0 group-hover:opacity-100'
+                      }`}
+                      title={loopingIndex === idx ? '点击取消单句复读' : '单句循环复读此句 (快捷键: R)'}
+                    >
+                      <Repeat1 className={`w-3 h-3 ${loopingIndex === idx ? 'animate-pulse text-amber-300' : ''}`} />
+                      <span>{loopingIndex === idx ? '复读中' : '复读'}</span>
+                    </button>
+
+                    {/* AI 伴学快捷按钮 */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setAiTarget({
+                          text: sentence.text,
+                          context: currentItem?.title,
+                        });
+                      }}
+                      className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all cursor-pointer ${
+                        isCurrent
+                          ? 'bg-purple-900/60 text-purple-300 border border-purple-700/50 opacity-100 hover:bg-purple-800/60'
+                          : 'text-slate-400 hover:text-purple-200 hover:bg-purple-950/50 opacity-0 group-hover:opacity-100'
+                      }`}
+                      title="针对此句呼出 AI 私教进行语法拆解与 A2 降级"
+                    >
+                      <Bot className="w-2.5 h-2.5" />
+                      <span>AI</span>
+                    </button>
+                  </span>
                 </div>
 
                 {/* 中文翻译：紧凑排在原文正下方 */}
@@ -659,16 +753,16 @@ export default function FlappyFeedPlayer() {
         {/* 左侧：复读与倍速切换 */}
         <div className="flex items-center gap-1.5">
           <button
-            onClick={() => setIsLoopingSentence((prev) => !prev)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all ${
-              isLoopingSentence
+            onClick={toggleCurrentSentenceLoop}
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${
+              loopingIndex !== null
                 ? 'bg-purple-600 text-white border-purple-500 shadow-md shadow-purple-600/30'
                 : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
             }`}
             title="单句循环复读磨耳朵 (快捷键: R)"
           >
-            <Repeat1 className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">单句复读</span>
+            <Repeat1 className={`w-3.5 h-3.5 ${loopingIndex !== null ? 'animate-pulse text-amber-300' : ''}`} />
+            <span className="hidden sm:inline">{loopingIndex !== null ? '复读中' : '单句复读'}</span>
           </button>
 
           <button
