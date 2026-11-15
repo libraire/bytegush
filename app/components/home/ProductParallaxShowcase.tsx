@@ -10,6 +10,8 @@ import {
   GitBranch,
   Users,
   MessageSquare,
+  ChevronRight,
+  ArrowRight,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
@@ -359,9 +361,11 @@ export default function ProductParallaxShowcase() {
                     {/* 手机屏幕视口 (Screen Viewport)：溢出隐藏，内部由 3 层真实截图上下平滑滑动置换 */}
                     <div className="relative w-full h-full bg-[#080A12] rounded-[32px] sm:rounded-[34px] lg:rounded-[36px] overflow-hidden border border-white/5">
 
-                      {/* ====== 01. FLAPPYFEED 真实界面截图 (随滚动向上滑出或滑入) ====== */}
-                      <div
-                        className="absolute inset-0 transition-all duration-75 ease-out overflow-hidden bg-[#0A0D18]"
+                      {/* ====== 01. FLAPPYFEED 真实界面截图 (随滚动向上滑出或滑入，点击直达 Web 播放页) ====== */}
+                      <Link
+                        href="/products/flappyfeed/play"
+                        title="点击直接体验 Web 版"
+                        className="absolute inset-0 transition-all duration-75 ease-out overflow-hidden bg-[#0A0D18] block group cursor-pointer"
                         style={{
                           transform: `translate3d(0, ${phoneTransforms[0].translateY}%, 0)`,
                           opacity: phoneTransforms[0].opacity,
@@ -375,9 +379,15 @@ export default function ProductParallaxShowcase() {
                           fill
                           priority
                           sizes="(max-width: 1024px) 320px, 360px"
-                          className="object-cover object-top select-none pointer-events-none"
+                          className="object-cover object-top select-none pointer-events-none group-hover:scale-[1.02] transition-transform duration-300"
                         />
-                      </div>
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-purple-950/20 transition-colors flex items-center justify-center pointer-events-none">
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-purple-500/50 text-purple-200 text-xs font-bold shadow-xl flex items-center gap-1.5">
+                            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                            <span>{t('slides.flappyfeed.secondaryCta')}</span>
+                          </span>
+                        </div>
+                      </Link>
 
                       {/* ====== 02. STARJAR 星星瓶真实界面截图 (随滚动向上滑入或滑出) ====== */}
                       <div
@@ -615,6 +625,18 @@ export default function ProductParallaxShowcase() {
                     >
                       {/* 文案与 CTA 内容区：无外边框/无卡片框，移动端居中并由下半部渐变遮罩衬托；桌面端左侧对齐 */}
                       <div className="w-full max-w-[360px] sm:max-w-[440px] lg:max-w-none flex flex-col items-center lg:items-start space-y-3 sm:space-y-4 lg:space-y-5 text-center lg:text-left">
+                        {/* 产品定位胶囊标签 · 可点击直达落地页 */}
+                        <Link
+                          href={slide.id === 'flappyfeed' ? '/products/flappyfeed' : `#${slide.id}`}
+                          className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/40 transition-all text-[11px] sm:text-xs font-medium text-slate-300 group"
+                        >
+                          <span className="text-sm">{slide.emoji}</span>
+                          <span className="font-semibold text-white group-hover:text-purple-300 transition-colors">{slide.name}</span>
+                          <span className="text-slate-500">·</span>
+                          <span className="text-slate-400">{slide.tag}</span>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                        </Link>
+
                         {/* 标题 */}
                         <h2 className="text-xl sm:text-2xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.2] sm:leading-[1.16] drop-shadow-md">
                           {slide.headlinePrefix}
@@ -654,68 +676,89 @@ export default function ProductParallaxShowcase() {
                         </div>
 
                         {/* CTA 按钮 */}
-                        <div className="pt-0.5 sm:pt-1.5 lg:pt-2 flex flex-row items-center justify-center lg:justify-start gap-2 sm:gap-3 w-full sm:w-auto">
-                          <a
-                            href={slide.primaryCta.href}
-                            target={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' || slide.id === 'sharereader' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
-                            rel={slide.id === 'flappyfeed' || slide.id === 'starjar' || slide.id === 'workout' || slide.id === 'sharereader' ? undefined : "noreferrer"}
-                            onClick={(e) => {
-                              if (slide.id === 'flappyfeed') {
-                                e.preventDefault();
-                                setBetaModalApp('flappyfeed');
-                              } else if (slide.id === 'starjar') {
-                                e.preventDefault();
-                                setBetaModalApp('starjar');
-                              } else if (slide.id === 'workout') {
-                                e.preventDefault();
-                                setIsWorkoutQrModalOpen(true);
-                              } else if (slide.id === 'sharereader') {
-                                e.preventDefault();
-                              }
-                            }}
-                            className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-1.5 sm:gap-2 transition-all transform hover:-translate-y-0.5 text-white ${index === 3 ? 'cursor-default' : 'cursor-pointer'} ${index === 0
-                                ? 'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-purple-600/30'
-                                : index === 1
-                                  ? 'bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 shadow-amber-600/30'
-                                  : index === 2
-                                    ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-teal-500 shadow-emerald-600/30'
-                                    : 'bg-white/10 hover:bg-white/15 border border-white/20 text-slate-200 shadow-sky-950/40'
-                              }`}
-                          >
-                            {slide.primaryCta.isDownload ? (
-                              <Download className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                            ) : slide.primaryCta.isExternal ? (
-                              <ExternalLink className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                            ) : slide.id === 'sharereader' ? (
-                              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400 animate-pulse mr-0.5" />
-                            ) : (
-                              <Sparkles className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                            )}
-                            <span>{slide.primaryCta.label}</span>
-                          </a>
-
-                          {slide.secondaryCta && (
-                            slide.secondaryCta.isInternal ? (
+                        <div className="pt-0.5 sm:pt-1.5 lg:pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2 sm:gap-3 w-full sm:w-auto">
+                          {slide.id === 'flappyfeed' ? (
+                            <>
+                              {/* 体验Web版：首页最显眼的渐变主转化入口 */}
                               <Link
-                                href={slide.secondaryCta.href}
-                                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-3.5 rounded-xl border border-purple-500/50 bg-gradient-to-r from-purple-950/70 to-indigo-950/70 hover:from-purple-900/90 hover:to-indigo-900/90 text-purple-200 font-bold text-xs sm:text-base flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg shadow-purple-950/50 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                                href="/products/flappyfeed/play"
+                                className="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-1.5 sm:gap-2 transition-all transform hover:-translate-y-0.5 text-white bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-purple-600/30"
                               >
-                                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-300" />
-                                <span>{slide.secondaryCta.label}</span>
+                                <Sparkles className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-purple-200" />
+                                <span>{slide.secondaryCta?.label || '体验Web版'}</span>
+                                <ArrowRight className="w-4 h-4 text-purple-200" />
                               </Link>
-                            ) : (
-                              <a
-                                href={slide.secondaryCta.href}
-                                target={slide.secondaryCta.isExternal ? '_blank' : undefined}
-                                rel="noreferrer"
-                                className="px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors"
+
+                              {/* Android 安装包下载与内测登记 */}
+                              <button
+                                type="button"
+                                onClick={() => setBetaModalApp('flappyfeed')}
+                                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                               >
-                                <span>{slide.secondaryCta.label}</span>
-                                {slide.secondaryCta.isExternal && (
-                                  <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-400" />
+                                <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-300" />
+                                <span>{slide.primaryCta.label}</span>
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <a
+                                href={slide.primaryCta.href}
+                                target={slide.id === 'starjar' || slide.id === 'workout' || slide.id === 'sharereader' ? undefined : (slide.primaryCta.isDownload || slide.primaryCta.isExternal ? '_blank' : undefined)}
+                                rel={slide.id === 'starjar' || slide.id === 'workout' || slide.id === 'sharereader' ? undefined : "noreferrer"}
+                                onClick={(e) => {
+                                  if (slide.id === 'starjar') {
+                                    e.preventDefault();
+                                    setBetaModalApp('starjar');
+                                  } else if (slide.id === 'workout') {
+                                    e.preventDefault();
+                                    setIsWorkoutQrModalOpen(true);
+                                  } else if (slide.id === 'sharereader') {
+                                    e.preventDefault();
+                                  }
+                                }}
+                                className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-bold text-xs sm:text-base shadow-xl flex items-center justify-center gap-1.5 sm:gap-2 transition-all transform hover:-translate-y-0.5 text-white ${index === 3 ? 'cursor-default' : 'cursor-pointer'} ${index === 1
+                                    ? 'bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 shadow-amber-600/30'
+                                    : index === 2
+                                      ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-teal-500 shadow-emerald-600/30'
+                                      : 'bg-white/10 hover:bg-white/15 border border-white/20 text-slate-200 shadow-sky-950/40'
+                                  }`}
+                              >
+                                {slide.primaryCta.isDownload ? (
+                                  <Download className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+                                ) : slide.primaryCta.isExternal ? (
+                                  <ExternalLink className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+                                ) : slide.id === 'sharereader' ? (
+                                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400 animate-pulse mr-0.5" />
+                                ) : (
+                                  <Sparkles className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                                 )}
+                                <span>{slide.primaryCta.label}</span>
                               </a>
-                            )
+
+                              {slide.secondaryCta && (
+                                slide.secondaryCta.isInternal ? (
+                                  <Link
+                                    href={slide.secondaryCta.href}
+                                    className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-3.5 rounded-xl border border-purple-500/50 bg-gradient-to-r from-purple-950/70 to-indigo-950/70 hover:from-purple-900/90 hover:to-indigo-900/90 text-purple-200 font-bold text-xs sm:text-base flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg shadow-purple-950/50 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                                  >
+                                    <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-300" />
+                                    <span>{slide.secondaryCta.label}</span>
+                                  </Link>
+                                ) : (
+                                  <a
+                                    href={slide.secondaryCta.href}
+                                    target={slide.secondaryCta.isExternal ? '_blank' : undefined}
+                                    rel="noreferrer"
+                                    className="px-3 sm:px-5 py-2.5 sm:py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors"
+                                  >
+                                    <span>{slide.secondaryCta.label}</span>
+                                    {slide.secondaryCta.isExternal && (
+                                      <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-400" />
+                                    )}
+                                  </a>
+                                )
+                              )}
+                            </>
                           )}
                         </div>
 

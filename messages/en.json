@@ -360,5 +360,98 @@
     "loopSentence": "Loop",
     "aiTutor": "AI Tutor",
     "currentSentence": "Sentence {current} / {total}"
+  },
+  "FlappyLanding": {
+    "metaTitle": "FlappyFeed - Learn English by Scrolling Micro-Feeds | Official Page",
+    "metaDescription": "FlappyFeed is a TikTok-style immersive micro-feed English learning web app. Scroll to explore, AI native voice audio sync, instant word lookup, and contextual AI tutor. Free Android APK and full Web Version.",
+    "heroTag": "TikTok-Style Feed · Micro-learning English anytime, anywhere",
+    "heroTitle1": "Learn English as smoothly",
+    "heroTitle2": "As scrolling short videos",
+    "heroDesc": "Say goodbye to boring rote memorization. Swipe vertically to start reading immediately, with millisecond-aligned native audio, one-tap dictionary lookup, and an AI tutor ready to answer questions anytime.",
+    "stat1Label": "Classic Literature",
+    "stat1Value": "1490+",
+    "stat2Label": "Zero-latency TTS",
+    "stat2Value": "0ms",
+    "stat3Label": "CEFR Filter Levels",
+    "stat3Value": "A1~C2",
+    "downloadApk": "Free Download Android APK",
+    "tryWebVersion": "Try Web Version",
+    "badgeAndroid": "Supports Android 8.0+",
+    "badgeAdFree": "100% Ad-Free",
+    "badgeOffline": "Offline Audio Ready",
+    "mockupBadge": "Intermediate B1-B2",
+    "mockupSwipeHint": "👆 Swipe vertically to next story · Tap any word to look up",
+    "mockupAiTutor": "AI Tutor Help",
+    "mockupAccent": "US Accent 1.0x",
+    "featuresHeader": "WHY FLAPPYFEED",
+    "featuresTitle": "Why Choose FlappyFeed?",
+    "featuresSubtitle": "Ditch painful flashcards. Rebuild native intuition inside real language streams.",
+    "features": [
+      {
+        "icon": "📱",
+        "title": "TikTok-Style Vertical Feed",
+        "description": "Swipe up and down to change passages like short videos. Zero setup, instant auto-play, immersive language input anytime.",
+        "tag": "Intuitive Gestures"
+      },
+      {
+        "icon": "🎧",
+        "title": "Millisecond Sentence Highlighting",
+        "description": "Whisper precision audio-text alignment. The spotlight glow follows every word spoken. Click any sentence to loop or replay instantly.",
+        "tag": "Audio-Visual Sync"
+      },
+      {
+        "icon": "📚",
+        "title": "1490+ Classic Masterpieces",
+        "description": "Rich curated corpus spanning world literature, everyday conversation, and professional dialogue across CEFR A1 to C2 levels.",
+        "tag": "Graded Corpus"
+      },
+      {
+        "icon": "🤖",
+        "title": "Contextual AI Tutor",
+        "description": "One-click grammatical breakdown, simplification to junior vocabulary, natural native rewrites, and deep translations.",
+        "tag": "Smart Insights"
+      },
+      {
+        "icon": "🔍",
+        "title": "One-Tap Word Lookup & Vocab",
+        "description": "Tap any unfamiliar word for instant phonetic symbols, definitions, and pronunciation without breaking reading momentum.",
+        "tag": "Zero-Friction Dict"
+      },
+      {
+        "icon": "⚡",
+        "title": "Zero Latency & Accent Control",
+        "description": "On-device native speech synthesis: zero lag, zero data usage, works completely offline. Switch freely between US/UK accents and playback speeds.",
+        "tag": "Offline-First"
+      }
+    ],
+    "corpusHeader": "CURATED CORPUS",
+    "corpusTitle": "Graded Curated Library",
+    "corpusSubtitle": "Spanning classic literature, daily dialogues, and historic speeches",
+    "faqsHeader": "FREQUENTLY ASKED QUESTIONS",
+    "faqsTitle": "Frequently Asked Questions",
+    "faqs": [
+      {
+        "q": "Do I need a continuous internet connection to use FlappyFeed?",
+        "a": "No. FlappyFeed comes with on-device high-fidelity TTS and built-in literary corpus. You can listen and read smoothly even in airplane mode or subway with no cellular signal."
+      },
+      {
+        "q": "How does the AI Tutor work?",
+        "a": "The client integrates a lightweight syntactic analysis engine that decomposes sentence structures and simplifies complex sentences on the fly. You can also configure your own API keys for freeform AI chats."
+      },
+      {
+        "q": "Can I use it on iPhone or desktop browser?",
+        "a": "Yes! We provide the full immersive Web Version (click 'Try Web Version' on this page). On iOS Safari, tap 'Add to Home Screen' for a fullscreen PWA experience."
+      },
+      {
+        "q": "Are there splash ads, popups, or hidden paywalls?",
+        "a": "Absolutely none. FlappyFeed is crafted by Bytegush Studio with a zero-commercial-ads commitment, dedicated to providing a serene and focused learning experience."
+      }
+    ],
+    "bannerTag": "Free & Pure · Start Your Micro-Learning Feed",
+    "bannerTitle": "Ready to Stop Memorizing Word Lists?",
+    "bannerDesc": "One click to begin listening to classic literature and natural language streams in your browser or phone.",
+    "bannerApkBtn": "Free Download Android APK (v1.0.0)",
+    "bannerWebBtn": "Try Web Version",
+    "bannerFooter": "Crafted by Bytegush Studio · Permanently Pure & Ad-Free"
   }
 }

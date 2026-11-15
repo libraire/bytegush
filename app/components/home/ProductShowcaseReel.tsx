@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import {
   Sparkles,
@@ -32,7 +32,7 @@ interface SlideConfig {
   description: string;
   stats: { label: string; value: string }[];
   primaryCta: { label: string; href: string; icon: string; isDownload?: boolean };
-  secondaryCta?: { label: string; href: string; isExternal?: boolean };
+  secondaryCta?: { label: string; href: string; isExternal?: boolean; isInternal?: boolean };
   badges: string[];
   themeGlow: string;
   accentColor: string;
@@ -62,9 +62,9 @@ const slides: SlideConfig[] = [
       isDownload: true,
     },
     secondaryCta: {
-      label: '🕊️ 在线试玩 Demo (meetlovely)',
-      href: 'https://flappy.meetlovely.space/',
-      isExternal: true,
+      label: '🕊️ 体验Web版',
+      href: '/products/flappyfeed/play',
+      isInternal: true,
     },
     badges: ['支持 Android 8.0+', '纯净零广告', '离线随播伴读'],
     themeGlow: 'from-violet-950/80 via-purple-950/40 to-[#0F0F17]',
@@ -331,17 +331,27 @@ export default function ProductShowcaseReel() {
               </a>
 
               {currentSlide.secondaryCta && (
-                <a
-                  href={currentSlide.secondaryCta.href}
-                  target={currentSlide.secondaryCta.isExternal ? '_blank' : undefined}
-                  rel="noreferrer"
-                  className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
-                >
-                  <span>{currentSlide.secondaryCta.label}</span>
-                  {currentSlide.secondaryCta.isExternal && (
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                  )}
-                </a>
+                currentSlide.secondaryCta.isInternal ? (
+                  <Link
+                    href={currentSlide.secondaryCta.href}
+                    className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-purple-500/50 bg-gradient-to-r from-purple-950/70 to-indigo-950/70 hover:from-purple-900/90 hover:to-indigo-900/90 text-purple-200 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-purple-950/50"
+                  >
+                    <span>{currentSlide.secondaryCta.label}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-purple-300" />
+                  </Link>
+                ) : (
+                  <a
+                    href={currentSlide.secondaryCta.href}
+                    target={currentSlide.secondaryCta.isExternal ? '_blank' : undefined}
+                    rel="noreferrer"
+                    className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <span>{currentSlide.secondaryCta.label}</span>
+                    {currentSlide.secondaryCta.isExternal && (
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                    )}
+                  </a>
+                )
               )}
             </div>
 

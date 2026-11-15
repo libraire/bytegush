@@ -12,7 +12,7 @@ export const originalProducts: ProductItem[] = [
     categoryLabel: '沉浸语言流',
     color: 'from-violet-600 to-indigo-600',
     emoji: '🕊️',
-    websiteUrl: 'https://flappy.meetlovely.space/',
+    websiteUrl: '/products/flappyfeed/play',
     platforms: ['Android', 'Web'],
     pricing: 'Free',
     rating: 9.9,

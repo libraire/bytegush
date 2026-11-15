@@ -344,5 +344,98 @@
     "loopSentence": "1文リピート",
     "aiTutor": "AI家庭教師",
     "currentSentence": "第 {current} / {total} 文"
+  },
+  "FlappyLanding": {
+    "metaTitle": "FlappyFeed - ショート動画感覚で英語を学ぶイマーシブ・フィード | 公式ページ",
+    "metaDescription": "FlappyFeedは、TikTok感覚でスクロールしながら学べる英語学習アプリです。ネイティブ音声同期、リアルタイム辞書、文脈認識AI個別指導を搭載。Android APK無料ダウンロードおよびWeb版に対応。",
+    "heroTag": "TikTok風フィード · スキマ時間で英語をインプット",
+    "heroTitle1": "ショート動画を見るように",
+    "heroTitle2": "英語を自然にインプット",
+    "heroDesc": "退屈な暗記はもう終わり。縦スワイプで即座に学習開始。ミリ秒単位のネイティブ音声同期、タップ即時辞書、コンテキストを理解するAIチューターが学習をサポートします。",
+    "stat1Label": "世界文学の名作",
+    "stat1Value": "1490+",
+    "stat2Label": "ゼロ遅延TTS",
+    "stat2Value": "0ms",
+    "stat3Label": "CEFRレベル対応",
+    "stat3Value": "A1~C2",
+    "downloadApk": "Android APK 無料ダウンロード",
+    "tryWebVersion": "Web版を体験",
+    "badgeAndroid": "Android 8.0+ 対応",
+    "badgeAdFree": "完全広告なし",
+    "badgeOffline": "オフライン再生対応",
+    "mockupBadge": "中級 B1-B2",
+    "mockupSwipeHint": "👆 縦スワイプで次の記事へ · 単語タップで即時検索",
+    "mockupAiTutor": "AI個別指導",
+    "mockupAccent": "米音 1.0x",
+    "featuresHeader": "WHY FLAPPYFEED",
+    "featuresTitle": "FlappyFeed が選ばれる理由",
+    "featuresSubtitle": "丸暗記の苦痛から解放され、自然な語流の中で英語の直感を養う",
+    "features": [
+      {
+        "icon": "📱",
+        "title": "TikTok風の縦スワイプ学習",
+        "description": "ショート動画のように上下スワイプで瞬時に切り替え。章を探す手間なく、いつでもどこでも自然な英語に浸れます。",
+        "tag": "直感ジェスチャー"
+      },
+      {
+        "icon": "🎧",
+        "title": "ミリ秒単位の音声同期ハイライト",
+        "description": "Whisperによる高度な音声とテキストのアライメント。発音中の文が光り、タップした文を瞬時にリピート再生できます。",
+        "tag": "音声同期"
+      },
+      {
+        "icon": "📚",
+        "title": "1490以上の名作文学コーパス",
+        "description": "世界の名作文学、日常会話、歴史的スピーチを網羅。CEFR A1〜C2のレベル分けで自分に合った難易度を選択可能。",
+        "tag": "段階的コーパス"
+      },
+      {
+        "icon": "🤖",
+        "title": "文脈を理解するAIチューター",
+        "description": "主語・述語の構文分解、やさしい単語への言い換え、自然な表現の提案、詳細な翻訳まで、疑問に即座に答えます。",
+        "tag": "AIスマート解説"
+      },
+      {
+        "icon": "🔍",
+        "title": "単語タップ即時辞書＆単語帳",
+        "description": "読書のリズムを崩さず、単語をタップするだけで発音記号、意味、音声を表示。ワンタップで単語帳に追加できます。",
+        "tag": "ストレスゼロ辞書"
+      },
+      {
+        "icon": "⚡",
+        "title": "ゼロ遅延TTS＆アクセント切替",
+        "description": "デバイスネイティブの音声合成により通信量ゼロ、完全オフライン対応。米音・英音の切り替えや速度調整も自在。",
+        "tag": "オフライン優先"
+      }
+    ],
+    "corpusHeader": "CURATED CORPUS",
+    "corpusTitle": "厳選された分級ライブラリ",
+    "corpusSubtitle": "世界の名作文学、実践英会話、感動のスピーチを収録",
+    "faqsHeader": "FREQUENTLY ASKED QUESTIONS",
+    "faqsTitle": "よくある質問",
+    "faqs": [
+      {
+        "q": "常にインターネット接続が必要ですか？",
+        "a": "いいえ。FlappyFeedはデバイス内蔵の高品質TTSとオフライン文学コーパスを備えているため、飛行機内や地下鉄でも快適に学習できます。"
+      },
+      {
+        "q": "AI個別指導はどのように動作しますか？",
+        "a": "クライアント側の構文解析エンジンが即座に文構造を分解し、難解な文をやさしく書き換えます。自由な質疑応答のために独自のAPIキーを設定することも可能です。"
+      },
+      {
+        "q": "iPhoneやパソコンのブラウザでも使えますか？",
+        "a": "はい！ブラウザで今すぐ使えるフル機能のWeb版を提供しています（このページの「Web版を体験」をクリック）。Safariで「ホーム画面に追加」すればフルスクリーンPWAとして動作します。"
+      },
+      {
+        "q": "起動時広告や不意のポップアップはありますか？",
+        "a": "一切ありません。FlappyFeedはBytegush Studioが開発した完全広告なしのプロダクトであり、純粋な学習体験をお届けします。"
+      }
+    ],
+    "bannerTag": "完全無料 · スキマ時間のインプット習慣を",
+    "bannerTitle": "単語の丸暗記から卒業しませんか？",
+    "bannerDesc": "クリックひとつで、ブラウザやスマートフォンから名作文学と自然な英語のシャワーを体験できます。",
+    "bannerApkBtn": "Android APK 無料ダウンロード (v1.0.0)",
+    "bannerWebBtn": "Web版を体験",
+    "bannerFooter": "Bytegush Studio 独立制作 · 永久純粋＆広告ゼロ"
   }
 }

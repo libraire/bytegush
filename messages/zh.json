@@ -344,5 +344,98 @@
     "loopSentence": "单句复读",
     "aiTutor": "AI 私教",
     "currentSentence": "第 {current} / {total} 句"
+  },
+  "FlappyLanding": {
+    "metaTitle": "FlappyFeed - 像刷短视频一样沉浸式刷英语 | 官方主页",
+    "metaDescription": "FlappyFeed 是一款 TikTok 风格的沉浸式短语流英语学习应用。上下滑动即刷，AI 原声伴读，逐句高亮，点词即查，上下文 AI 私教随时解惑。支持 Android APK 免费下载与 Web 在线版。",
+    "heroTag": "TikTok 风格短流 · 随时随地碎片化学英语",
+    "heroTitle1": "像刷短视频一样",
+    "heroTitle2": "沉浸式刷英语",
+    "heroDesc": "告别枯燥死板的背单词。竖滑手势秒开即刷，原声音频与文本毫秒级精准对齐，点词即查，上下文 AI 私教随时随地答疑解惑。",
+    "stat1Label": "经典文学名篇",
+    "stat1Value": "1490+",
+    "stat2Label": "端侧零延迟 TTS",
+    "stat2Value": "0ms",
+    "stat3Label": "全层级难度过滤",
+    "stat3Value": "A1~C2",
+    "downloadApk": "免费下载 Android 安装包 (APK)",
+    "tryWebVersion": "体验Web版",
+    "badgeAndroid": "支持 Android 8.0+",
+    "badgeAdFree": "纯净零广告",
+    "badgeOffline": "离线随播伴读",
+    "mockupBadge": "中级 B1-B2",
+    "mockupSwipeHint": "👆 竖滑切换下一篇短篇 · 支持点词即查",
+    "mockupAiTutor": "AI 伴学解惑",
+    "mockupAccent": "美音 1.0x",
+    "featuresHeader": "WHY FLAPPYFEED",
+    "featuresTitle": "为什么选择 FlappyFeed？",
+    "featuresSubtitle": "告别痛苦背单词，在真实语流中重塑母语直觉",
+    "features": [
+      {
+        "icon": "📱",
+        "title": "TikTok 风格竖滑刷学",
+        "description": "像刷短视频一样上下滑动切播，无需翻找繁琐章节。开箱即刷，自动播放，随时随地享受沉浸式英语母语语流。",
+        "tag": "极简手势"
+      },
+      {
+        "icon": "🎧",
+        "title": "毫秒级逐句高亮与切播",
+        "description": "Whisper 深度对齐音频与文本，播到哪句光晕跟随到哪句。点击文章中任意句子即可瞬间切播该句，随心复读。",
+        "tag": "声画同步"
+      },
+      {
+        "icon": "📚",
+        "title": "1490+ 文学名篇海量语料",
+        "description": "内置世界经典名著精华、地道日常口语与职场沟通。严格划分 A1~C2 难易度，从基础会话到深度哲思皆可掌控。",
+        "tag": "分级语料"
+      },
+      {
+        "icon": "🤖",
+        "title": "上下文感知 AI 伴学私教",
+        "description": "一键主谓宾结构拆解、初中词汇降级改写、地道替换表达与深度信达雅翻译。随时对任意长难句向 AI 发问答疑。",
+        "tag": "智能解析"
+      },
+      {
+        "icon": "🔍",
+        "title": "单击点词即查与生词本",
+        "description": "不中断阅读节奏，轻点任意单词即弹出音标、释义与发音。支持一键加入生词本，科学艾宾浩斯复习巩固。",
+        "tag": "零干扰查词"
+      },
+      {
+        "icon": "⚡",
+        "title": "端侧零延迟与多口音自由换",
+        "description": "接入端侧原生语音引擎，0 延迟、0 流量损耗，断网也能畅听。支持美音 / 英音随心切换与 0.8x~1.25x 自由变速。",
+        "tag": "离线优先"
+      }
+    ],
+    "corpusHeader": "CURATED CORPUS",
+    "corpusTitle": "内置分级精选语料",
+    "corpusSubtitle": "覆盖世界经典文学、地道会话与传世演讲",
+    "faqsHeader": "FREQUENTLY ASKED QUESTIONS",
+    "faqsTitle": "常见问题与解答",
+    "faqs": [
+      {
+        "q": "需要连接外部网络或科学上网才能用吗？",
+        "a": "不需要。FlappyFeed 内置端侧原生高保真 TTS 语音引擎与离线文学语料库，下载安装后在飞行模式或地下铁无信号环境下均可秒开畅听畅刷。"
+      },
+      {
+        "q": "AI 私教功能是如何运作的？",
+        "a": "客户端内置了轻量化语法结构解析引擎，能够即时进行主谓宾拆解与 A2 级词汇口语降级。若需要更发散的随问随答，亦支持在设置中配置你自己的 OpenAI / Gemini API Key。"
+      },
+      {
+        "q": "iOS 用户或电脑端有办法体验吗？",
+        "a": "有！我们提供了完整的沉浸式在线版本（在本页点击“体验Web版”），在手机 Safari 或桌面浏览器中秒开全屏体验。iOS 原生客户端也正在 TestFlight 适配中。"
+      },
+      {
+        "q": "里面会有开屏广告、弹窗或诱导付费吗？",
+        "a": "绝对没有。FlappyFeed 是 Bytegush 独立工坊出品的纯净工具，承诺绝无开屏广告、绝无弹窗干扰、绝无隐私数据倒卖，专注于提供小而美的纯粹学习体验。"
+      }
+    ],
+    "bannerTag": "纯净免费 · 开启你的碎片化输入流",
+    "bannerTitle": "准备好告别死板背单词了吗？",
+    "bannerDesc": "只需一次点击，即可在手机或浏览器中随时随地开启世界文学与母语语流伴读。",
+    "bannerApkBtn": "免费下载 Android APK (v1.0.0)",
+    "bannerWebBtn": "体验Web版",
+    "bannerFooter": "Bytegush Studio 独立出品 · 永久纯净无商业广告"
   }
 }
