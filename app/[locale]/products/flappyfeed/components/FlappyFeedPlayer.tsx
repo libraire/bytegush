@@ -73,7 +73,15 @@ export default function FlappyFeedPlayer() {
     definition?: WordDefinition | null;
     sentence?: string;
   } | null>(null);
-  const [aiTarget, setAiTarget] = useState<{ text: string; context?: string } | null>(null);
+  const [aiTarget, setAiTarget] = useState<{
+    text: string;
+    context?: string;
+    start_ms?: number | null;
+    end_ms?: number | null;
+  } | null>(null);
+  const [isAiSentencePlaying, setIsAiSentencePlaying] = useState(false);
+  const singlePlaySentenceRef = useRef<{ endMs: number; onFinish?: () => void } | null>(null);
+  const aiSentenceStopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isVocabOpen, setIsVocabOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -232,6 +240,89 @@ export default function FlappyFeedPlayer() {
       pausePlayback();
     }
   }, [aiTarget, isSearchOpen, pausePlayback]);
+
+  // Play single sentence once (used in AI tutor modal)
+  const playSingleTTS = useCallback((text: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = currentItem?.accent || accent;
+    utterance.rate = playbackRate;
+    setIsAiSentencePlaying(true);
+
+    utterance.onend = () => {
+      setIsAiSentencePlaying(false);
+    };
+    utterance.onerror = () => {
+      setIsAiSentencePlaying(false);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }, [accent, currentItem?.accent, playbackRate]);
+
+  const handlePlayAiTargetSentence = useCallback(() => {
+    if (!aiTarget?.text) return;
+
+    if (isAiSentencePlaying) {
+      if (audioRef.current && !audioRef.current.paused) {
+        audioRef.current.pause();
+      }
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (aiSentenceStopTimeoutRef.current) {
+        clearTimeout(aiSentenceStopTimeoutRef.current);
+        aiSentenceStopTimeoutRef.current = null;
+      }
+      singlePlaySentenceRef.current = null;
+      setIsAiSentencePlaying(false);
+      return;
+    }
+
+    // 1. Native audio playback from start_ms to end_ms
+    if (
+      currentItem?.has_audio &&
+      currentItem.audio_url &&
+      audioRef.current &&
+      aiTarget.start_ms != null &&
+      aiTarget.end_ms != null &&
+      aiTarget.end_ms > aiTarget.start_ms
+    ) {
+      const audio = audioRef.current;
+      const startSec = (aiTarget.start_ms + 15) / 1000;
+      const endSec = aiTarget.end_ms / 1000;
+      const durationSec = Math.max(0.1, endSec - startSec);
+
+      audio.currentTime = startSec;
+      singlePlaySentenceRef.current = {
+        endMs: aiTarget.end_ms,
+        onFinish: () => setIsAiSentencePlaying(false),
+      };
+
+      audio
+        .play()
+        .then(() => {
+          setIsAiSentencePlaying(true);
+          if (aiSentenceStopTimeoutRef.current) clearTimeout(aiSentenceStopTimeoutRef.current);
+          const timeoutMs = (durationSec / (playbackRate || 1)) * 1000 + 400;
+          aiSentenceStopTimeoutRef.current = setTimeout(() => {
+            if (audioRef.current && !audioRef.current.paused) {
+              audioRef.current.pause();
+            }
+            singlePlaySentenceRef.current = null;
+            setIsAiSentencePlaying(false);
+          }, timeoutMs);
+        })
+        .catch((err) => {
+          console.warn('Native audio play error, falling back to TTS:', err);
+          playSingleTTS(aiTarget.text);
+        });
+      return;
+    }
+
+    // 2. TTS fallback
+    playSingleTTS(aiTarget.text);
+  }, [aiTarget, currentItem, isAiSentencePlaying, playbackRate, playSingleTTS]);
 
   // Play/Pause Toggle
   const togglePlayPause = useCallback(() => {
@@ -430,6 +521,22 @@ export default function FlappyFeedPlayer() {
     if (!isSeekingRef.current) {
       setCurrentTime(audio.currentTime);
     }
+
+    // 0. If playing a single sentence once (e.g. from AI tutor drawer)
+    if (singlePlaySentenceRef.current) {
+      if (ms >= singlePlaySentenceRef.current.endMs) {
+        audio.pause();
+        const finish = singlePlaySentenceRef.current.onFinish;
+        singlePlaySentenceRef.current = null;
+        if (aiSentenceStopTimeoutRef.current) {
+          clearTimeout(aiSentenceStopTimeoutRef.current);
+          aiSentenceStopTimeoutRef.current = null;
+        }
+        finish?.();
+      }
+      return;
+    }
+
     const sentences = currentItem.sentences;
 
     // 1. If currently looping a specific sentence, keep locked and loop strictly within its boundary
@@ -728,6 +835,8 @@ export default function FlappyFeedPlayer() {
                         setAiTarget({
                           text: sentence.text,
                           context: currentItem?.title,
+                          start_ms: sentence.start_ms,
+                          end_ms: sentence.end_ms,
                         });
                       }}
                       className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-medium transition-all cursor-pointer ${
@@ -855,9 +964,25 @@ export default function FlappyFeedPlayer() {
       {aiTarget && (
         <AITutorDrawer
           isOpen={Boolean(aiTarget)}
-          onClose={() => setAiTarget(null)}
+          onClose={() => {
+            if (audioRef.current && !audioRef.current.paused) {
+              audioRef.current.pause();
+            }
+            if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+              window.speechSynthesis.cancel();
+            }
+            if (aiSentenceStopTimeoutRef.current) {
+              clearTimeout(aiSentenceStopTimeoutRef.current);
+              aiSentenceStopTimeoutRef.current = null;
+            }
+            singlePlaySentenceRef.current = null;
+            setIsAiSentencePlaying(false);
+            setAiTarget(null);
+          }}
           targetText={aiTarget.text}
           contextSentence={aiTarget.context}
+          onPlaySentence={handlePlayAiTargetSentence}
+          isPlayingSentence={isAiSentencePlaying}
         />
       )}
 

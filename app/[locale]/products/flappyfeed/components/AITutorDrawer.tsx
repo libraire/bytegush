@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Bot, X, Sparkles, Send, Copy, Check, RefreshCw, BookOpen, Layers, Lightbulb } from 'lucide-react';
+import { Bot, X, Sparkles, Send, Copy, Check, RefreshCw, BookOpen, Layers, Lightbulb, Volume2, Square } from 'lucide-react';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   targetText: string;
   contextSentence?: string;
+  onPlaySentence?: () => void;
+  isPlayingSentence?: boolean;
 }
 
 type PromptType = 'grammar' | 'simplify' | 'alternatives' | 'deep_translation' | 'custom';
@@ -25,12 +27,39 @@ export default function AITutorDrawer({
   onClose,
   targetText,
   contextSentence,
+  onPlaySentence,
+  isPlayingSentence,
 }: Props) {
   const [activeMode, setActiveMode] = useState<PromptType>('grammar');
   const [customQuestion, setCustomQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<string>('');
   const [copied, setCopied] = useState(false);
+  const [localPlaying, setLocalPlaying] = useState(false);
+
+  const isAudioActive = isPlayingSentence ?? localPlaying;
+
+  const handlePlaySentence = () => {
+    if (onPlaySentence) {
+      onPlaySentence();
+      return;
+    }
+
+    // Fallback: self-contained SpeechSynthesis if no parent handler is passed
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    if (localPlaying) {
+      window.speechSynthesis.cancel();
+      setLocalPlaying(false);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(targetText);
+    u.lang = 'en-US';
+    setLocalPlaying(true);
+    u.onend = () => setLocalPlaying(false);
+    u.onerror = () => setLocalPlaying(false);
+    window.speechSynthesis.speak(u);
+  };
 
   const fetchAIAnalysis = async (mode: PromptType, customPrompt?: string) => {
     if (!targetText.trim()) return;
@@ -141,8 +170,32 @@ export default function AITutorDrawer({
               <span className="text-[10px] text-purple-400">词汇模式</span>
             )}
           </div>
-          <div className="text-xs sm:text-sm font-medium text-slate-100 leading-relaxed font-sans bg-black/20 p-2.5 rounded-lg border border-white/5">
-            “{targetText}”
+          <div className="flex items-center justify-between gap-3 bg-black/20 p-2.5 rounded-lg border border-white/5">
+            <div className="text-xs sm:text-sm font-medium text-slate-100 leading-relaxed font-sans flex-1">
+              “{targetText}”
+            </div>
+            <button
+              type="button"
+              onClick={handlePlaySentence}
+              className={`flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                isAudioActive
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/40 animate-pulse'
+                  : 'bg-white/10 hover:bg-purple-600/20 text-purple-300 hover:text-purple-200 border border-purple-500/30'
+              }`}
+              title={isAudioActive ? "停止播放" : "播放本句一次"}
+            >
+              {isAudioActive ? (
+                <>
+                  <Square className="w-3.5 h-3.5 fill-current" />
+                  <span>播放中</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>播放本句</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
