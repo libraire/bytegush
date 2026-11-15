@@ -263,12 +263,6 @@ export default function ProductShowcaseReel() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* 左侧：文案与核心引导 */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left transition-all duration-500 transform">
-            {/* 标签徽章 */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-xs font-medium backdrop-blur-sm">
-              <span className="text-base">{currentSlide.emoji}</span>
-              <span className="text-slate-200">{currentSlide.tag}</span>
-            </div>
-
             {/* 震撼主标题 */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.18]">
               {currentSlide.headlinePrefix}

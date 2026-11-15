@@ -11,7 +11,13 @@ export function getPocketBase(): PocketBase {
     return clientPb;
   }
 
-  const url = process.env.POCKETBASE_INTERNAL_URL || 'http://pocketbase:8090';
+  // Server-side:
+  // In Docker environment, POCKETBASE_INTERNAL_URL is set (e.g. 'http://pocketbase:8090')
+  // In local development or standalone without Docker, fall back to NEXT_PUBLIC_POCKETBASE_URL or 'https://api.bytegush.com'
+  const url =
+    process.env.POCKETBASE_INTERNAL_URL ||
+    process.env.NEXT_PUBLIC_POCKETBASE_URL ||
+    'https://api.bytegush.com';
   return new PocketBase(url);
 }
 
@@ -19,7 +25,10 @@ let cachedAdminPb: PocketBase | null = null;
 let lastAdminAuthTime = 0;
 
 export async function getAdminPocketBase(): Promise<PocketBase> {
-  const url = process.env.POCKETBASE_INTERNAL_URL || 'http://pocketbase:8090';
+  const url =
+    process.env.POCKETBASE_INTERNAL_URL ||
+    process.env.NEXT_PUBLIC_POCKETBASE_URL ||
+    'https://api.bytegush.com';
   if (!cachedAdminPb) {
     cachedAdminPb = new PocketBase(url);
   }
@@ -32,7 +41,7 @@ export async function getAdminPocketBase(): Promise<PocketBase> {
       await cachedAdminPb.collection('_superusers').authWithPassword(email, password);
       lastAdminAuthTime = now;
     } catch (err) {
-      console.error('Failed to authenticate as superuser in PocketBase:', err);
+      console.warn('PocketBase admin auth warning:', (err as any)?.message || err);
     }
   }
 

@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
     const is_pro = isProParam !== null ? isProParam.toLowerCase() === 'true' : null;
     const has_audio = hasAudioParam !== null ? hasAudioParam.toLowerCase() === 'true' : null;
-    const limit = limitParam ? parseInt(limitParam, 10) : 20;
+    const limit = limitParam ? parseInt(limitParam, 10) : 50;
     const shuffle = shuffleParam !== null ? shuffleParam.toLowerCase() === 'true' : true;
 
     const items = await queryFeedStream({

@@ -1,0 +1,21 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4F46E5" />
+            <stop offset="100%" stop-color="#818CF8" />
+        </linearGradient>
+    </defs>
+    <g transform="translate(-2.5, -4.5)">
+        <rect x="15" y="15" width="16" height="70" rx="8" fill="url(#logo-gradient)" />
+        <path
+            d="M40 15H62C75.8071 15 87 26.1929 87 40C87 53.8071 75.8071 65 62 65H40V15Z"
+            fill="url(#logo-gradient)"
+            fill-opacity="0.8"
+        />
+        <path
+            d="M40 50H68C80.1503 50 90 59.8497 90 72C90 84.1503 80.1503 94 68 94H40V50Z"
+            fill="url(#logo-gradient)"
+            fill-opacity="0.5"
+        />
+    </g>
+</svg>

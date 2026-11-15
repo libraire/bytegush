@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import type { Metadata } from 'next';
 import {
   Download,
@@ -100,7 +100,7 @@ const faqs = [
   },
   {
     q: 'iOS 用户有办法体验吗？',
-    a: '有！我们提供了在线 Web 试玩版本（flappy.meetlovely.space），在 iPhone 的 Safari 浏览器中点击“添加到主屏幕”即可获得原生级全屏 PWA 体验。iOS 原生客户端也正在 TestFlight 适配中。',
+    a: '有！我们提供了完整的沉浸式在线版本（可在本页点击“体验Web版”），在 iPhone 的 Safari 浏览器中点击“添加到主屏幕”即可获得原生级全屏 PWA 体验。iOS 原生客户端也正在 TestFlight 适配中。',
   },
   {
     q: '里面会有开屏广告、弹窗或诱导付费吗？',
@@ -108,7 +108,14 @@ const faqs = [
   },
 ];
 
-export default function FlappyFeedLandingPage() {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function FlappyFeedLandingPage({ params }: Props) {
+  const { locale } = await params;
+  const webVersionLabel = locale === 'ja' ? 'Web版を体験' : locale === 'en' ? 'Try Web Version' : '体验Web版';
+
   return (
     <div className="min-h-screen bg-[#080B14] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200">
       
@@ -125,11 +132,6 @@ export default function FlappyFeedLandingPage() {
           
           {/* 左侧：核心文案与转化 CTA */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/70 border border-purple-800/60 text-purple-300 text-xs font-medium backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
-              <span>TikTok 风格短流 · 随时随地碎片化学英语</span>
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.14]">
               像刷短视频一样
               <br />
@@ -170,15 +172,13 @@ export default function FlappyFeedLandingPage() {
                 <span>免费下载 Android 安装包 (APK)</span>
               </a>
 
-              <a
-                href="https://flappy.meetlovely.space/"
-                target="_blank"
-                rel="noreferrer"
-                className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
+              <Link
+                href="/products/flappyfeed/play"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-purple-500/50 bg-gradient-to-r from-purple-900/50 via-purple-800/50 to-indigo-900/50 hover:from-purple-800/70 hover:to-indigo-800/70 text-purple-100 font-bold text-xs sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-purple-950/50 hover:shadow-purple-600/30 transform hover:-translate-y-0.5"
               >
-                <span>🕊️ 在线试玩 Web Demo</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-              </a>
+                <span>🕊️ {webVersionLabel}</span>
+                <ArrowRight className="w-4 h-4 text-purple-300" />
+              </Link>
             </div>
 
             {/* 特性打勾提示 */}
@@ -281,8 +281,15 @@ export default function FlappyFeedLandingPage() {
                       <Bot className="w-3 h-3" /> AI 伴学解惑
                     </span>
                   </div>
+                  <Link
+                    href="/products/flappyfeed/play"
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/30 transition-all active:scale-95"
+                  >
+                    <span>🕊️ {webVersionLabel}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                   <div className="text-center text-[10px] text-slate-500">
-                    👆 竖滑切换下一篇短篇
+                    👆 竖滑切换下一篇短篇 · 支持点词即查
                   </div>
                 </div>
 
@@ -433,15 +440,13 @@ export default function FlappyFeedLandingPage() {
                 <span>免费下载 Android APK (v1.0.0)</span>
               </a>
 
-              <a
-                href="https://flappy.meetlovely.space/"
-                target="_blank"
-                rel="noreferrer"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-slate-200 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
+              <Link
+                href="/products/flappyfeed/play"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl border border-purple-500/50 bg-purple-950/50 hover:bg-purple-900/70 text-purple-200 font-bold text-xs sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-purple-950/40 transform hover:-translate-y-0.5"
               >
-                <span>🕊️ 网页端在线即试</span>
-                <ExternalLink className="w-4 h-4 text-slate-400" />
-              </a>
+                <span>🕊️ {webVersionLabel}</span>
+                <ArrowRight className="w-4 h-4 text-purple-300" />
+              </Link>
             </div>
 
             <div className="pt-4 text-xs text-slate-400">

@@ -40,7 +40,7 @@
       },
       "sharereader": {
         "name": "ShareReader",
-        "tagline": "Collaborative paper reading · Discuss directly with peers around the text"
+        "tagline": "Collaborative paper reading · Inline peer discussions"
       },
       "bona": {
         "name": "Bona",
@@ -81,13 +81,111 @@
     "copyright": "© {year} Bytegush. All products crafted with passion."
   },
   "Auth": {
-    "loginOrRegister": "Sign In / Register",
+    "signIn": "Sign In",
+    "loginOrRegister": "Sign In",
     "admin": "Admin",
     "adminDashboard": "Admin Workspace",
     "manageProducts": "Manage Products",
     "addProduct": "Add New Product",
     "writeArticle": "Write Article",
     "signOut": "Sign Out"
+  },
+  "AuthModal": {
+    "titles": {
+      "otp": "Sign in with Email Code",
+      "login": "Welcome back to Bytegush",
+      "register": "Create Bytegush Account"
+    },
+    "subtitles": {
+      "otp": "Enter your email to receive a 6-digit code. Unregistered emails will auto-register.",
+      "login": "Sign in with your password to sync data across devices",
+      "register": "Join the independent creator ecosystem"
+    },
+    "tabs": {
+      "otp": "Email Code",
+      "password": "Password"
+    },
+    "subSwitch": {
+      "passwordDirect": "Sign in with password",
+      "createNewAccount": "Create new account",
+      "noAccountSignUp": "No account? Sign up free",
+      "haveAccountSignIn": "Have an account? Sign in"
+    },
+    "fields": {
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "getCode": "Get Code",
+      "resendCode": "Resend in {seconds}s",
+      "otpCode": "6-digit Verification Code",
+      "otpPlaceholder": "e.g. 123456",
+      "name": "Name / Nickname (Optional)",
+      "namePlaceholder": "e.g. Alex",
+      "password": "Password",
+      "passwordMinLength": "(at least 8 chars)",
+      "passwordConfirm": "Confirm Password"
+    },
+    "actions": {
+      "verifyAndLogin": "Verify & Sign In",
+      "verifying": "Verifying...",
+      "signIn": "Sign In",
+      "signingIn": "Signing in...",
+      "createAccount": "Create Account",
+      "creatingAccount": "Creating account..."
+    },
+    "messages": {
+      "invalidEmail": "Please enter a valid email address",
+      "codeSent": "Verification code sent to {email}, valid for 5 minutes",
+      "sendCodeFailed": "Failed to send verification code. Please try again.",
+      "smtpUnavailable": "Email service temporarily unavailable. Please check configuration.",
+      "emailRequired": "Please enter your email address",
+      "codeRequiredFirst": "Please get the verification code first",
+      "codeIncomplete": "Please enter the complete 6-digit verification code",
+      "loginSuccess": "Signed in successfully!",
+      "codeInvalidOrExpired": "Invalid or expired verification code. Please get a new one.",
+      "passwordRequired": "Please enter your password",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordMismatch": "The two passwords entered do not match",
+      "registerSuccess": "Registration successful! You have been signed in.",
+      "authFailed": "Incorrect email or password. Please verify and try again.",
+      "emailAlreadyExists": "This email is already registered. Please sign in directly.",
+      "operationFailed": "Operation failed, please try again"
+    },
+    "footer": "ByteGush · Independent Creator Ecosystem"
+  },
+  "BetaModal": {
+    "common": {
+      "close": "Close",
+      "badge": "Google Play Official Beta Recruitment",
+      "giftTitle": "🎁 Exclusive Beta Perk: Free Lifetime VIP",
+      "emailLabel": "Google Play Account Email (Gmail recommended)",
+      "emailPlaceholder": "e.g. yourname@gmail.com",
+      "submitBtn": "Join Beta & Lock Lifetime VIP",
+      "submittingBtn": "Submitting...",
+      "successTitle": "Beta Registration Successful!",
+      "successDesc": "Lifetime VIP privileges have been locked for {email}. Once the beta opens, Google Play will send you an official invitation email.",
+      "successBtn": "Got it",
+      "altDownloadPrompt": "Don't want to wait for Google Play Beta?",
+      "apkButton": "Download Standalone APK (v1.0)",
+      "errors": {
+        "invalidEmail": "Please enter a valid email address (Google Play / Gmail recommended)",
+        "submitFailed": "Submission failed, please try again later",
+        "networkError": "Network error, please try again"
+      }
+    },
+    "flappyfeed": {
+      "appName": "FlappyFeed",
+      "title": "Join FlappyFeed Android Beta",
+      "subtitle": "Early beta testers enjoy an exclusive channel to experience TikTok-style micro-learning.",
+      "giftDesc": "Enter your Google Play account email to be whitelisted on Google Play Console. Early testers will receive Lifetime VIP access, unlocking all classic literature content and unlimited AI tutor coaching.",
+      "apkDesc": "Clean APK · Zero splash ads · Android 8.0+ offline ready"
+    },
+    "starjar": {
+      "appName": "StarJar",
+      "title": "Join StarJar Android Beta",
+      "subtitle": "Early beta testers enjoy exclusive access to light up the very first constellation.",
+      "giftDesc": "Enter your Google Play account email to be whitelisted. Invited testers will receive Lifetime VIP access, unlocking all miniature planets, 3D physics star jars, and family pacts.",
+      "apkDesc": "Clean APK · Zero splash ads · Offline-first & privacy protected"
+    }
   },
   "Home": {
     "scrollDownPrompt": "Scroll down to explore: {nextName}",
@@ -109,7 +207,12 @@
           "stat3Value": "A1~C2"
         },
         "primaryCta": "Free Download for Android",
-        "badges": ["Supports Android 8.0+", "100% Ad-Free", "Offline Audio Playback"]
+        "secondaryCta": "Try Web Version",
+        "badges": [
+          "Supports Android 8.0+",
+          "100% Ad-Free",
+          "Offline Audio Playback"
+        ]
       },
       "starjar": {
         "name": "StarJar",
@@ -127,7 +230,11 @@
           "stat3Value": "Wish Pact"
         },
         "primaryCta": "Free Download for Android",
-        "badges": ["No More Nagging", "Self-Driven Habit Loop", "Calming Aesthetic · Ad-Free"]
+        "badges": [
+          "No More Nagging",
+          "Self-Driven Habit Loop",
+          "Calming Aesthetic · Ad-Free"
+        ]
       },
       "workout": {
         "name": "Workout (造己健身)",
@@ -145,14 +252,18 @@
           "stat3Value": "Real-time RPE"
         },
         "primaryCta": "📱 Scan QR in WeChat Mini-Program",
-        "badges": ["Completely Ad-Free", "Zero Coach Sales Calls", "Evidence-Based Anatomy"]
+        "badges": [
+          "Completely Ad-Free",
+          "Zero Coach Sales Calls",
+          "Evidence-Based Anatomy"
+        ]
       },
       "sharereader": {
         "name": "ShareReader",
         "shortName": "ShareReader",
-        "tag": "Collaborative paper reading · Discuss directly with peers around the text",
-        "headlinePrefix": "Never read research papers alone",
-        "headlineGradient": "Read with peers · Discuss deep insights on the text",
+        "tag": "Collaborative paper reading · Inline peer discussions",
+        "headlinePrefix": "Never read papers alone",
+        "headlineGradient": "Read together · Discuss inline",
         "description": "Tired of reading dense papers alone? ShareReader creates a shared discussion space directly over original manuscripts. Highlight paragraphs to ask questions, share margin notes, and explore tough theories with colleagues and AI.",
         "stats": {
           "stat1Label": "Inline Annotations",
@@ -163,7 +274,11 @@
           "stat3Value": "LLM Powered"
         },
         "primaryCta": "🛠️ In Development",
-        "badges": ["Real-time discussions on original text", "Peer co-reading & margin insights", "Powered by state-of-the-art LLMs"]
+        "badges": [
+          "Real-time discussions on original text",
+          "Peer co-reading & margin insights",
+          "Powered by state-of-the-art LLMs"
+        ]
       }
     }
   },
@@ -233,5 +348,17 @@
         "desc": "Literary masterpieces, subtle context, and philosophy"
       }
     }
+  },
+  "FlappyFeed": {
+    "tryWebVersion": "Try Web Version",
+    "prevArticle": "Prev",
+    "nextArticle": "Next",
+    "searchArticles": "Search",
+    "bilingualMode": "Bilingual",
+    "immersionMode": "Immersion",
+    "vocabBook": "Vocabulary",
+    "loopSentence": "Loop",
+    "aiTutor": "AI Tutor",
+    "currentSentence": "Sentence {current} / {total}"
   }
 }

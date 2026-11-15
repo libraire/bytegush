@@ -81,13 +81,111 @@
     "copyright": "© {year} Bytegush. All products crafted with passion."
   },
   "Auth": {
-    "loginOrRegister": "ログイン / 新規登録",
+    "signIn": "ログイン",
+    "loginOrRegister": "ログイン",
     "admin": "管理者",
     "adminDashboard": "管理ワークスペース",
     "manageProducts": "製品一覧管理",
     "addProduct": "新規製品追加",
     "writeArticle": "コラム執筆",
     "signOut": "ログアウト"
+  },
+  "AuthModal": {
+    "titles": {
+      "otp": "認証コードでログイン",
+      "login": "Bytegush へおかえりなさい",
+      "register": "Bytegush アカウント作成"
+    },
+    "subtitles": {
+      "otp": "メールアドレスを入力して6桁のコードを受信。未登録の場合は自動作成されます。",
+      "login": "パスワードでログインしてデバイス間でデータを同期",
+      "register": "インディークリエイターエコシステムに参加"
+    },
+    "tabs": {
+      "otp": "認証コード",
+      "password": "パスワード"
+    },
+    "subSwitch": {
+      "passwordDirect": "パスワードで直接ログイン",
+      "createNewAccount": "新規アカウント作成",
+      "noAccountSignUp": "アカウントをお持ちでないですか？無料登録",
+      "haveAccountSignIn": "すでにアカウントをお持ちですか？ログイン"
+    },
+    "fields": {
+      "email": "メールアドレス",
+      "emailPlaceholder": "your@email.com",
+      "getCode": "コード取得",
+      "resendCode": "{seconds}秒後に再送",
+      "otpCode": "6桁のメール認証コード",
+      "otpPlaceholder": "例: 123456",
+      "name": "ニックネーム / 氏名 (任意)",
+      "namePlaceholder": "例: Alex",
+      "password": "パスワード",
+      "passwordMinLength": "(8文字以上)",
+      "passwordConfirm": "パスワード再確認"
+    },
+    "actions": {
+      "verifyAndLogin": "認証してログイン",
+      "verifying": "ログイン認証中...",
+      "signIn": "ログイン",
+      "signingIn": "認証中...",
+      "createAccount": "新規登録",
+      "creatingAccount": "アカウント作成中..."
+    },
+    "messages": {
+      "invalidEmail": "有効なメールアドレスを入力してください",
+      "codeSent": "{email} に認証コードを送信しました（5分間有効）",
+      "sendCodeFailed": "認証コードの送信に失敗しました。もう一度お試しください。",
+      "smtpUnavailable": "メールサービスが一時的に利用できません。設定をご確認ください。",
+      "emailRequired": "メールアドレスを入力してください",
+      "codeRequiredFirst": "まず認証コードを取得してください",
+      "codeIncomplete": "6桁の認証コードをすべて入力してください",
+      "loginSuccess": "ログインしました！",
+      "codeInvalidOrExpired": "認証コードが無効または期限切れです。再取得してください。",
+      "passwordRequired": "パスワードを入力してください",
+      "passwordTooShort": "パスワードは8文字以上である必要があります",
+      "passwordMismatch": "入力されたパスワードが一致しません",
+      "registerSuccess": "登録が完了しました！自動ログイン中...",
+      "authFailed": "メールアドレスまたはパスワードが正しくありません。再度お確かめください。",
+      "emailAlreadyExists": "このメールアドレスは既に登録されています。直接ログインしてください。",
+      "operationFailed": "操作に失敗しました。もう一度お試しください。"
+    },
+    "footer": "ByteGush インディークリエイターエコシステム"
+  },
+  "BetaModal": {
+    "common": {
+      "close": "閉じる",
+      "badge": "Google Play 公式クローズドβ募集中",
+      "giftTitle": "🎁 限定β特典：無料「生涯プレミアム会員」プレゼント",
+      "emailLabel": "Google Play アカウントのメールアドレス (Gmail 推奨)",
+      "emailPlaceholder": "例: yourname@gmail.com",
+      "submitBtn": "βテストに参加して生涯VIPを獲得",
+      "submittingBtn": "登録中...",
+      "successTitle": "βテスト登録が完了しました！",
+      "successDesc": "{email} の「生涯VIP」特典を確保しました。βテスト開始後、Google Play 公式より招待メールが届きます。",
+      "successBtn": "了解しました",
+      "altDownloadPrompt": "Google Play のテスト開始を待たずに試す？",
+      "apkButton": "APKを直接ダウンロード (v1.0)",
+      "errors": {
+        "invalidEmail": "有効なメールアドレスを入力してください（Google Play / Gmail 推奨）",
+        "submitFailed": "送信に失敗しました。しばらくしてから再試行してください",
+        "networkError": "ネットワークエラーが発生しました。もう一度お試しください"
+      }
+    },
+    "flappyfeed": {
+      "appName": "FlappyFeed",
+      "title": "FlappyFeed Android βテストに参加",
+      "subtitle": "初期βテスター限定の特別アクセス。TikTok風の次世代英語学習を先行体験。",
+      "giftDesc": "Google Play の登録メールをご入力いただくと、コンソールでテスター登録いたします。参加者全員に生涯VIPを進呈し、すべての英文学教材と無制限AIチューターをご利用いただけます。",
+      "apkDesc": "クリーンAPK · 起動時広告なし · Android 8.0+ オフライン学習対応"
+    },
+    "starjar": {
+      "appName": "StarJar 星願ボトル",
+      "title": "StarJar Android βテストに参加",
+      "subtitle": "初期βテスター限定アクセス。最初の輝く星をボトルに灯しましょう。",
+      "giftDesc": "Google Play の登録メールをご入力いただくと、コンソールでテスター登録いたします。参加者全員に生涯VIPを進呈し、ミニ惑星エコシステム、3D物理星ボトル、ファミリー協定をご利用いただけます。",
+      "apkDesc": "クリーンAPK · 起動時広告なし · オフライン優先でプライバシー保護"
+    }
   },
   "Home": {
     "scrollDownPrompt": "下にスクロールして探索：{nextName}",
@@ -109,6 +207,7 @@
           "stat3Value": "A1~C2"
         },
         "primaryCta": "Android APK を無料ダウンロード",
+        "secondaryCta": "Web版を体験",
         "badges": ["Android 8.0+ 対応", "完全広告なし", "オフライン再生対応"]
       },
       "starjar": {
@@ -151,8 +250,8 @@
         "name": "ShareReader",
         "shortName": "ShareReader",
         "tag": "学術論文共同読書スペース · 原文を囲んで仲間と深く議論",
-        "headlinePrefix": "もう一人で論文に苦戦しない",
-        "headlineGradient": "仲間と一緒に読み進め · 原文のまま徹底議論",
+        "headlinePrefix": "もう一人で論文を読まない",
+        "headlineGradient": "仲間と共読 · 原文で深く議論",
         "description": "難解な学術論文を一人で読むのは退屈？ShareReaderは原文を中心にした共同読書スペースを提供。段落を選択して質問を投げかけ、傍注で意見を交わし、難所を同僚やAIと探求。すべての良質な論文を知のディスカッションルームへ。",
         "stats": {
           "stat1Label": "段落ハイライト交流",
@@ -233,5 +332,17 @@
         "desc": "古典名著、文脈の機微や哲学的な高度な語彙"
       }
     }
+  },
+  "FlappyFeed": {
+    "tryWebVersion": "Web版を体験",
+    "prevArticle": "前の記事",
+    "nextArticle": "次の記事",
+    "searchArticles": "記事を検索",
+    "bilingualMode": "バイリンガル",
+    "immersionMode": "英語のみ",
+    "vocabBook": "単語帳",
+    "loopSentence": "1文リピート",
+    "aiTutor": "AI家庭教師",
+    "currentSentence": "第 {current} / {total} 文"
   }
 }

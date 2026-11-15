@@ -104,12 +104,6 @@ export default function ProductStorySection({
               isLeft ? 'lg:col-span-7 lg:order-1' : 'lg:col-span-7 lg:order-2'
             }`}
           >
-            {/* 顶栏徽章 */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-medium backdrop-blur-md self-center lg:self-start shadow-sm">
-              <span className="text-base sm:text-lg">{badge.emoji}</span>
-              <span className="text-slate-300">{badge.text}</span>
-            </div>
-
             {/* 大号 Apple 风格渐变标题 */}
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.12]">
               <span className="text-white">{headlinePrefix}</span>

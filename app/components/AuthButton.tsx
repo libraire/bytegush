@@ -42,7 +42,7 @@ export default function AuthButton() {
         className="group relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium text-slate-200 hover:text-white bg-white/10 hover:bg-white/15 border border-white/15 hover:border-purple-500/40 shadow-sm hover:shadow-[0_0_15px_rgba(147,51,234,0.25)] transition-all active:scale-[0.98]"
       >
         <LogIn className="w-3.5 h-3.5 text-purple-400 group-hover:translate-x-0.5 transition-transform" />
-        <span>{t('loginOrRegister')}</span>
+        <span>{t('signIn')}</span>
       </button>
     );
   }

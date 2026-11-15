@@ -40,6 +40,16 @@ const SEARCH_DATABASE: SearchItem[] = [
     keywords: ['flappy', 'feed', '英语', '听力', '新闻', '流媒体', 'ai', '阅读'],
   },
   {
+    id: 'flappyfeed-web',
+    title: 'FlappyFeed (体验Web版)',
+    description: '沉浸式全屏英语听读伴学 Web 版，原声逐句高亮、点词即查、AI 私教答疑',
+    category: 'products',
+    categoryLabel: '精选产品',
+    emoji: '🎧',
+    href: '/products/flappyfeed/play',
+    keywords: ['flappy', 'feed', 'web', '体验', '听力', '精读', '播客', '原声', '阅读'],
+  },
+  {
     id: 'howtosay',
     title: 'HowToSay',
     description: '地道英语表达与语境检索工具，解决中式英语 Chinglish 痛点',

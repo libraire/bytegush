@@ -1,4 +1,5 @@
 import { getPocketBase, getAdminPocketBase } from './pb';
+import { SEED_CORPUS } from '@/app/[locale]/products/flappyfeed/lib/seedCorpus';
 
 export interface SentenceItem {
   order: number;
@@ -66,22 +67,43 @@ export async function getAllFeedItems(forceRefresh = false): Promise<FeedItem[]>
     return cachedItems;
   }
 
+  const seedItems = (SEED_CORPUS as unknown as FeedItem[]) || [];
+
   try {
     const pb = getPocketBase();
     const records = await pb.collection('flappy_feed').getFullList({
       sort: '-id',
       requestKey: null,
     });
-    cachedItems = records.map(recordToFeedItem);
-    lastCacheFetchTime = now;
-    return cachedItems;
-  } catch (err) {
-    console.error('Failed to fetch from PocketBase flappy_feed:', err);
-    if (cachedItems) {
-      return cachedItems; // Fallback to stale cache
+    if (records && records.length > 0) {
+      const pbItems = records.map(recordToFeedItem);
+      // Ensure seed items (especially the local authentic audio podcasts) are merged and preserved
+      const pbIds = new Set(pbItems.map(i => i.id));
+      const extraSeeds = seedItems.filter(s => !pbIds.has(s.id));
+
+      const allMerged = [...extraSeeds, ...pbItems];
+      // Keep native audio items at the top so they are never lost or buried
+      const audioItems = allMerged.filter(i => i.has_audio);
+      const regularItems = allMerged.filter(i => !i.has_audio);
+
+      cachedItems = [...audioItems, ...regularItems];
+      lastCacheFetchTime = now;
+      return cachedItems;
     }
-    return [];
+  } catch (err: any) {
+    // Graceful fallback without crashing or loud errors in local/offline dev
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('PocketBase flappy_feed notice: using high-quality seed corpus fallback.');
+    }
+    if (cachedItems && cachedItems.length > 0) {
+      return cachedItems;
+    }
   }
+
+  // Gracefully fallback to built-in seed corpus
+  cachedItems = seedItems;
+  lastCacheFetchTime = now;
+  return seedItems;
 }
 
 export async function queryFeedStream(options: {
@@ -120,15 +142,27 @@ export async function queryFeedStream(options: {
     );
   }
 
-  const limit = Math.min(Math.max(options.limit || 20, 1), 100);
+  const limit = Math.min(Math.max(options.limit || 50, 1), 200);
 
+  // If has_audio is explicitly requested, return all matching audio items
+  if (options.has_audio === true) {
+    return items.slice(0, limit);
+  }
+
+  // For general feed: preserve all authentic native audio items at the top,
+  // then shuffle the regular reading articles for variety
   if (options.shuffle !== false && items.length > 1) {
-    const shuffled = [...items];
+    const audioItems = items.filter(i => i.has_audio);
+    const regularItems = items.filter(i => !i.has_audio);
+
+    const shuffled = [...regularItems];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    return shuffled.slice(0, limit);
+
+    const merged = [...audioItems, ...shuffled];
+    return merged.slice(0, limit);
   }
 
   return items.slice(0, limit);

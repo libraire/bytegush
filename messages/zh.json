@@ -81,13 +81,111 @@
     "copyright": "© {year} Bytegush. All products crafted with passion."
   },
   "Auth": {
-    "loginOrRegister": "登录 / 注册",
+    "signIn": "登录",
+    "loginOrRegister": "登录",
     "admin": "管理员",
     "adminDashboard": "工作台管理",
     "manageProducts": "产品库管理",
     "addProduct": "添加新产品",
     "writeArticle": "撰写专栏文章",
     "signOut": "退出登录"
+  },
+  "AuthModal": {
+    "titles": {
+      "otp": "验证码免密登录",
+      "login": "欢迎回到 Bytegush",
+      "register": "创建 Bytegush 账号"
+    },
+    "subtitles": {
+      "otp": "输入邮箱获取 6 位验证码，未注册邮箱将自动建号",
+      "login": "使用已有密码登录以同步多端数据",
+      "register": "注册加入独立创造者生态"
+    },
+    "tabs": {
+      "otp": "验证码免密",
+      "password": "密码登录"
+    },
+    "subSwitch": {
+      "passwordDirect": "密码直接登录",
+      "createNewAccount": "创建新账号",
+      "noAccountSignUp": "没有账号？免费注册",
+      "haveAccountSignIn": "已有账号？返回登录"
+    },
+    "fields": {
+      "email": "电子邮箱",
+      "emailPlaceholder": "your@email.com",
+      "getCode": "获取验证码",
+      "resendCode": "{seconds}s 后重发",
+      "otpCode": "6 位邮箱验证码",
+      "otpPlaceholder": "例如: 123456",
+      "name": "昵称 / 姓名 (选填)",
+      "namePlaceholder": "例如: Alex",
+      "password": "密码",
+      "passwordMinLength": "(至少 8 位)",
+      "passwordConfirm": "确认密码"
+    },
+    "actions": {
+      "verifyAndLogin": "验证并登录",
+      "verifying": "正在验证登录...",
+      "signIn": "立即登录",
+      "signingIn": "正在验证并登录...",
+      "createAccount": "立即注册",
+      "creatingAccount": "正在创建账户..."
+    },
+    "messages": {
+      "invalidEmail": "请输入正确的电子邮箱地址",
+      "codeSent": "验证码已发送至 {email}，5分钟内有效",
+      "sendCodeFailed": "验证码发送失败，请确认发信服务已开启或重试",
+      "smtpUnavailable": "邮件服务暂时无法发送，请检查 Resend SMTP 配置",
+      "emailRequired": "请输入邮箱地址",
+      "codeRequiredFirst": "请先获取邮箱验证码",
+      "codeIncomplete": "请输入完整的 6 位验证码",
+      "loginSuccess": "登录成功！",
+      "codeInvalidOrExpired": "验证码错误或已过期，请重新获取",
+      "passwordRequired": "请输入密码",
+      "passwordTooShort": "密码长度需至少 8 位",
+      "passwordMismatch": "两次输入的密码不一致",
+      "registerSuccess": "注册成功，已为您自动登录！",
+      "authFailed": "邮箱或密码错误，请核对后再试",
+      "emailAlreadyExists": "该邮箱已被注册，请直接登录",
+      "operationFailed": "操作失败，请重试"
+    },
+    "footer": "ByteGush 独立创造者生态"
+  },
+  "BetaModal": {
+    "common": {
+      "close": "关闭",
+      "badge": "Google Play 官方内测招募",
+      "giftTitle": "🎁 专属内测特权：赠送「终身高级会员」",
+      "emailLabel": "Google Play 账号邮箱 (推荐 Gmail)",
+      "emailPlaceholder": "例如 yourname@gmail.com",
+      "submitBtn": "加入内测并锁定终身会员",
+      "submittingBtn": "提交登记中...",
+      "successTitle": "内测资格登记成功！",
+      "successDesc": "已为您锁定 {email} 的「终身会员」权益。内测通道开放后，Google Play 官方将向您发送邀请邮件。",
+      "successBtn": "好的，我知道了",
+      "altDownloadPrompt": "不想等待谷歌市场内测？",
+      "apkButton": "直接下载独立 APK (v1.0)",
+      "errors": {
+        "invalidEmail": "请输入有效的邮箱地址（推荐 Google Play 账号/Gmail）",
+        "submitFailed": "提交失败，请稍后重试",
+        "networkError": "网络连接异常，请重试"
+      }
+    },
+    "flappyfeed": {
+      "appName": "FlappyFeed",
+      "title": "加入 FlappyFeed 安卓内测",
+      "subtitle": "首批内测用户享有专属特权通道，体验极简 TikTok 风格刷学新体验",
+      "giftDesc": "填写您的 Google Play 账号邮箱，我们将在谷歌控制台添加您至内测白名单。首批受邀内测用户将直接获得终身 VIP 资格，尊享全部经典文学语料与无限次 AI 私教伴读。",
+      "apkDesc": "纯净安装包 · 无开屏广告 · 支持 Android 8.0+ 离线畅学"
+    },
+    "starjar": {
+      "appName": "StarJar 星愿瓶",
+      "title": "加入 StarJar 星愿瓶 安卓内测",
+      "subtitle": "首批内测用户享有专属特权通道，点亮第一颗璀璨星辰",
+      "giftDesc": "填写您的 Google Play 账号邮箱，我们将在谷歌控制台添加您至内测白名单。首批受邀内测用户将直接获得终身 VIP 资格，尊享全部微缩生态小星球、3D 拟真物理碰撞星愿瓶与家庭契约。",
+      "apkDesc": "纯净安装包 · 无开屏广告 · 离线优先无隐私泄漏"
+    }
   },
   "Home": {
     "scrollDownPrompt": "向下滚动探索：{nextName}",
@@ -109,6 +207,7 @@
           "stat3Value": "A1~C2"
         },
         "primaryCta": "免费下载 Android 安装包",
+        "secondaryCta": "体验Web版",
         "badges": ["支持 Android 8.0+", "纯净零广告", "离线随播伴读"]
       },
       "starjar": {
@@ -150,9 +249,9 @@
       "sharereader": {
         "name": "ShareReader",
         "shortName": "ShareReader",
-        "tag": "文献协作研读空间 · 和同行一起读论文、围绕内容深度讨论",
-        "headlinePrefix": "不再一个人孤军啃论文",
-        "headlineGradient": "和同行一起读论文 · 围绕原著聊透问题",
+        "tag": "文献协作研读空间 · 同行共读与原文深度研讨",
+        "headlinePrefix": "不再独自啃论文",
+        "headlineGradient": "同行共读 · 围绕原文深度探讨",
         "description": "一个人啃论文太枯燥？ShareReader 打造围绕论文原著的协作研读空间。划选段落发起提问、边注碰撞学术见解、复杂难点与同行及 AI 共同探讨。让每一篇高质量论文，都成为思想碰撞的研讨室。",
         "stats": {
           "stat1Label": "原著段落交流",
@@ -233,5 +332,17 @@
         "desc": "古典名著精萃、细微语境幽默与哲学词汇"
       }
     }
+  },
+  "FlappyFeed": {
+    "tryWebVersion": "体验Web版",
+    "prevArticle": "上一篇",
+    "nextArticle": "下一篇",
+    "searchArticles": "搜索文章",
+    "bilingualMode": "双语对照",
+    "immersionMode": "纯英磨耳",
+    "vocabBook": "生词本",
+    "loopSentence": "单句复读",
+    "aiTutor": "AI 私教",
+    "currentSentence": "第 {current} / {total} 句"
   }
 }

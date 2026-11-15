@@ -138,11 +138,6 @@ export default function WorkoutLandingPage() {
           
           {/* 左侧：核心文案与转化 CTA */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-800/60 text-emerald-400 text-xs font-medium backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>硬核科学力量 · 纯粹无干扰的三维肌群解剖手记</span>
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.14]">
               解剖每一次受力发力
               <br />

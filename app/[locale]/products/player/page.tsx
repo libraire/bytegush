@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function AIPlayerPage() {
   return (
-    <main className="w-full min-h-screen bg-[#070A12] pt-16">
+    <div className="w-full h-[calc(100vh-64px)] bg-[#05070E] overflow-hidden flex justify-center">
       <AIPlayerStudio />
-    </main>
+    </div>
   );
 }

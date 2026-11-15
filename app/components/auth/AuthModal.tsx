@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import {
   Sparkles,
   Mail,
@@ -19,6 +20,7 @@ import {
 import { useCustomAuth, AuthModalMode } from '@/app/context/CustomAuthProvider';
 
 export default function AuthModal() {
+  const t = useTranslations('AuthModal');
   const {
     isAuthModalOpen,
     closeAuthModal,
@@ -87,7 +89,7 @@ export default function AuthModal() {
   const handleSendOTP = async () => {
     const cleanEmail = email.trim();
     if (!cleanEmail || !cleanEmail.includes('@')) {
-      setError('请输入正确的电子邮箱地址');
+      setError(t('messages.invalidEmail'));
       return;
     }
     setError(null);
@@ -96,12 +98,12 @@ export default function AuthModal() {
       const id = await sendEmailOTP(cleanEmail);
       setOtpId(id);
       setOtpCooldown(60);
-      setSuccessMsg(`验证码已发送至 ${cleanEmail}，5分钟内有效`);
+      setSuccessMsg(t('messages.codeSent', { email: cleanEmail }));
     } catch (err: any) {
       console.error('OTP Send error:', err);
-      let msg = '验证码发送失败，请确认发信服务已开启或重试';
+      let msg = t('messages.sendCodeFailed');
       if (err?.message?.includes('Failed to deliver')) {
-        msg = '邮件服务暂时无法发送，请检查 Resend SMTP 配置';
+        msg = t('messages.smtpUnavailable');
       } else if (err?.message) {
         msg = err.message;
       }
@@ -119,28 +121,28 @@ export default function AuthModal() {
 
     const cleanEmail = email.trim();
     if (!cleanEmail) {
-      setError('请输入邮箱地址');
+      setError(t('messages.emailRequired'));
       return;
     }
     if (!otpId) {
-      setError('请先获取邮箱验证码');
+      setError(t('messages.codeRequiredFirst'));
       return;
     }
     if (!otpCode || otpCode.trim().length < 6) {
-      setError('请输入完整的 6 位验证码');
+      setError(t('messages.codeIncomplete'));
       return;
     }
 
     setIsLoading(true);
     try {
       await loginWithOTP(otpId, otpCode.trim());
-      setSuccessMsg('登录成功！');
+      setSuccessMsg(t('messages.loginSuccess'));
       setTimeout(() => {
         handleClose();
       }, 400);
     } catch (err: any) {
       console.error('OTP Verify error:', err);
-      let msg = '验证码错误或已过期，请重新获取';
+      let msg = t('messages.codeInvalidOrExpired');
       if (err?.message && !err.message.includes('Failed to authenticate')) {
         msg = err.message;
       }
@@ -158,22 +160,22 @@ export default function AuthModal() {
 
     const cleanEmail = email.trim();
     if (!cleanEmail) {
-      setError('请输入邮箱地址');
+      setError(t('messages.emailRequired'));
       return;
     }
 
     if (!password) {
-      setError('请输入密码');
+      setError(t('messages.passwordRequired'));
       return;
     }
 
     if (isRegister) {
       if (password.length < 8) {
-        setError('密码长度需至少 8 位');
+        setError(t('messages.passwordTooShort'));
         return;
       }
       if (password !== passwordConfirm) {
-        setError('两次输入的密码不一致');
+        setError(t('messages.passwordMismatch'));
         return;
       }
     }
@@ -183,30 +185,30 @@ export default function AuthModal() {
     try {
       if (isLogin) {
         await loginWithPassword(cleanEmail, password);
-        setSuccessMsg('登录成功！');
+        setSuccessMsg(t('messages.loginSuccess'));
         setTimeout(() => {
           handleClose();
         }, 300);
       } else {
         await signupWithPassword(cleanEmail, password, name.trim());
-        setSuccessMsg('注册成功，已为您自动登录！');
+        setSuccessMsg(t('messages.registerSuccess'));
         setTimeout(() => {
           handleClose();
         }, 500);
       }
     } catch (err: any) {
       console.error('Auth error:', err);
-      let msg = '操作失败，请重试';
+      let msg = t('messages.operationFailed');
       if (err?.data?.data) {
         const details = err.data.data;
-        if (details.email) msg = `邮箱问题: ${details.email.message}`;
-        else if (details.password) msg = `密码问题: ${details.password.message}`;
-        else if (details.passwordConfirm) msg = `确认密码: ${details.passwordConfirm.message}`;
+        if (details.email) msg = `${t('fields.email')}: ${details.email.message}`;
+        else if (details.password) msg = `${t('fields.password')}: ${details.password.message}`;
+        else if (details.passwordConfirm) msg = `${t('fields.passwordConfirm')}: ${details.passwordConfirm.message}`;
       } else if (err?.message) {
         if (err.message.includes('Failed to authenticate')) {
-          msg = '邮箱或密码错误，请核对后再试';
+          msg = t('messages.authFailed');
         } else if (err.message.includes('already exists')) {
-          msg = '该邮箱已被注册，请直接登录';
+          msg = t('messages.emailAlreadyExists');
         } else {
           msg = err.message;
         }
@@ -261,17 +263,17 @@ export default function AuthModal() {
                   </div>
                   <Dialog.Title as="h3" className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
                     {isOTP
-                      ? '验证码免密登录'
+                      ? t('titles.otp')
                       : isLogin
-                      ? '欢迎回到 Bytegush'
-                      : '创建 Bytegush 账号'}
+                      ? t('titles.login')
+                      : t('titles.register')}
                   </Dialog.Title>
                   <p className="text-xs sm:text-sm text-slate-400 mt-1">
                     {isOTP
-                      ? '输入邮箱获取 6 位验证码，未注册邮箱将自动建号'
+                      ? t('subtitles.otp')
                       : isLogin
-                      ? '使用已有密码登录以同步多端数据'
-                      : '注册加入独立创造者生态'}
+                      ? t('subtitles.login')
+                      : t('subtitles.register')}
                   </p>
                 </div>
 
@@ -287,7 +289,7 @@ export default function AuthModal() {
                     }`}
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>验证码免密</span>
+                    <span>{t('tabs.otp')}</span>
                   </button>
                   <button
                     type="button"
@@ -299,7 +301,7 @@ export default function AuthModal() {
                     }`}
                   >
                     <Lock className="w-3.5 h-3.5" />
-                    <span>密码登录</span>
+                    <span>{t('tabs.password')}</span>
                   </button>
                 </div>
 
@@ -325,7 +327,7 @@ export default function AuthModal() {
                     {/* 邮箱输入 + 发送验证码按钮 */}
                     <div>
                       <label className="block text-xs font-medium text-slate-300 mb-1">
-                        电子邮箱
+                        {t('fields.email')}
                       </label>
                       <div className="relative flex items-center gap-2">
                         <div className="relative flex-1">
@@ -337,7 +339,7 @@ export default function AuthModal() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="your@email.com"
+                            placeholder={t('fields.emailPlaceholder')}
                             className="w-full pl-9 pr-3 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                           />
                         </div>
@@ -353,7 +355,7 @@ export default function AuthModal() {
                             <Send className="w-3.5 h-3.5 text-indigo-400" />
                           )}
                           <span>
-                            {otpCooldown > 0 ? `${otpCooldown}s 后重发` : '获取验证码'}
+                            {otpCooldown > 0 ? t('fields.resendCode', { seconds: otpCooldown }) : t('fields.getCode')}
                           </span>
                         </button>
                       </div>
@@ -362,7 +364,7 @@ export default function AuthModal() {
                     {/* 6 位验证码输入 */}
                     <div>
                       <label className="block text-xs font-medium text-slate-300 mb-1">
-                        6 位邮箱验证码
+                        {t('fields.otpCode')}
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
@@ -374,7 +376,7 @@ export default function AuthModal() {
                           maxLength={6}
                           value={otpCode}
                           onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
-                          placeholder="例如: 123456"
+                          placeholder={t('fields.otpPlaceholder')}
                           className="w-full pl-9 pr-3 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-base tracking-[0.3em] font-mono placeholder:tracking-normal placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors text-center font-bold"
                         />
                       </div>
@@ -390,10 +392,10 @@ export default function AuthModal() {
                         {isLoading ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>正在验证登录...</span>
+                            <span>{t('actions.verifying')}</span>
                           </>
                         ) : (
-                          <span>验证并登录</span>
+                          <span>{t('actions.verifyAndLogin')}</span>
                         )}
                       </button>
                     </div>
@@ -404,14 +406,14 @@ export default function AuthModal() {
                     {/* 子切换：密码登录 vs 免费注册 */}
                     <div className="flex items-center justify-between text-xs pb-1 border-b border-white/5">
                       <span className="text-slate-400">
-                        {isLogin ? '密码直接登录' : '创建新账号'}
+                        {isLogin ? t('subSwitch.passwordDirect') : t('subSwitch.createNewAccount')}
                       </span>
                       <button
                         type="button"
                         onClick={() => switchMode(isLogin ? 'register' : 'login')}
                         className="text-indigo-400 hover:text-indigo-300 font-semibold"
                       >
-                        {isLogin ? '没有账号？免费注册' : '已有账号？返回登录'}
+                        {isLogin ? t('subSwitch.noAccountSignUp') : t('subSwitch.haveAccountSignIn')}
                       </button>
                     </div>
 
@@ -419,7 +421,7 @@ export default function AuthModal() {
                     {isRegister && (
                       <div>
                         <label className="block text-xs font-medium text-slate-300 mb-1">
-                          昵称 / 姓名 (选填)
+                          {t('fields.name')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
@@ -429,7 +431,7 @@ export default function AuthModal() {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="例如: Alex"
+                            placeholder={t('fields.namePlaceholder')}
                             className="w-full pl-9 pr-3 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                           />
                         </div>
@@ -438,7 +440,7 @@ export default function AuthModal() {
 
                     {/* 邮箱 */}
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">电子邮箱</label>
+                      <label className="block text-xs font-medium text-slate-300 mb-1">{t('fields.email')}</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
                           <Mail className="w-4 h-4" />
@@ -448,7 +450,7 @@ export default function AuthModal() {
                           required
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          placeholder="your@email.com"
+                          placeholder={t('fields.emailPlaceholder')}
                           className="w-full pl-9 pr-3 py-2.5 bg-black/40 border border-white/10 rounded-xl text-white text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                         />
                       </div>
@@ -457,7 +459,7 @@ export default function AuthModal() {
                     {/* 密码 */}
                     <div>
                       <label className="block text-xs font-medium text-slate-300 mb-1">
-                        密码 {isRegister && <span className="text-slate-500">(至少 8 位)</span>}
+                        {t('fields.password')} {isRegister && <span className="text-slate-500">{t('fields.passwordMinLength')}</span>}
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
@@ -484,7 +486,7 @@ export default function AuthModal() {
                     {/* 注册专属：确认密码 */}
                     {isRegister && (
                       <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-1">确认密码</label>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">{t('fields.passwordConfirm')}</label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
                             <Lock className="w-4 h-4" />
@@ -511,10 +513,10 @@ export default function AuthModal() {
                         {isLoading ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>{isLogin ? '正在验证并登录...' : '正在创建账户...'}</span>
+                            <span>{isLogin ? t('actions.signingIn') : t('actions.creatingAccount')}</span>
                           </>
                         ) : (
-                          <span>{isLogin ? '立即登录' : '立即注册'}</span>
+                          <span>{isLogin ? t('actions.signIn') : t('actions.createAccount')}</span>
                         )}
                       </button>
                     </div>
@@ -523,7 +525,7 @@ export default function AuthModal() {
 
                 {/* 底部引导 */}
                 <div className="mt-5 text-center text-xs text-slate-400">
-                  <span>ByteGush 独立创造者生态</span>
+                  <span>{t('footer')}</span>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

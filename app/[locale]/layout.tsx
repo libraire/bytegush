@@ -15,6 +15,13 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   title: "Bytegush · 发现有价值的数字工具与实操工作流",
   description: "精选前沿优质生产力工具，输出真实客观的深度评测、场景化工作流教学与独立自研软件。",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: "/apple-icon.png",
+  },
 };
 
 type Props = {

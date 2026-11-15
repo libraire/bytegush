@@ -141,11 +141,6 @@ export default function StarJarLandingPage() {
           
           {/* 左侧：核心文案与转化 CTA */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/70 border border-amber-800/60 text-amber-300 text-xs font-medium backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-              <span>亲子正向激励习惯神器 · 告别催促与焦虑</span>
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.14]">
               把每次自律与微小坚持
               <br />
