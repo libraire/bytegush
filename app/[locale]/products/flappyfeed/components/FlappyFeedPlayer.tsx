@@ -602,7 +602,6 @@ export default function FlappyFeedPlayer() {
                 >
                   {sentence.text.split(' ').map((rawWord, wIdx) => {
                     const clean = rawWord.replace(/[^a-zA-Z'-]/g, '');
-                    const isVocab = Boolean(currentItem.vocabulary?.[clean.toLowerCase()]);
                     return (
                       <span
                         key={wIdx}
@@ -610,11 +609,7 @@ export default function FlappyFeedPlayer() {
                           e.stopPropagation();
                           handleWordClick(clean, sentence.text);
                         }}
-                        className={`inline-block mr-1 transition-all hover:text-amber-300 ${
-                          isVocab
-                            ? 'underline decoration-amber-400/80 underline-offset-2 decoration-1 text-amber-200'
-                            : ''
-                        }`}
+                        className="inline-block mr-1 transition-colors hover:text-purple-300 cursor-pointer"
                         title="轻点查词"
                       >
                         {rawWord}
