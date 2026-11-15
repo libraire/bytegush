@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Volume2, Star, Check, X, Bot, BookOpen } from 'lucide-react';
+import { Volume2, Star, Check, X, Bot, Sparkles, Loader2 } from 'lucide-react';
 import { WordDefinition, SavedWord } from '../lib/types';
 
 interface Props {
@@ -25,25 +25,82 @@ export default function WordLookupModal({
 }: Props) {
   const [isSaved, setIsSaved] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [currentDef, setCurrentDef] = useState<WordDefinition | null>(definition || null);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const cleanWord = (word || '').replace(/[^a-zA-Z'-]/g, '');
+
+  // Sync or fetch definition
   useEffect(() => {
-    if (!isOpen || !word) return;
+    if (!isOpen || !cleanWord) return;
+
+    // Check saved state in local storage
     try {
       const stored = localStorage.getItem('flappy_saved_words');
       if (stored) {
         const list: SavedWord[] = JSON.parse(stored);
-        setIsSaved(list.some(w => w.word.toLowerCase() === word.toLowerCase()));
+        setIsSaved(list.some((w) => w.word.toLowerCase() === cleanWord.toLowerCase()));
       } else {
         setIsSaved(false);
       }
     } catch {
       setIsSaved(false);
     }
-  }, [isOpen, word]);
+
+    // If definition already provided with translation, use it directly
+    if (definition && definition.translation && definition.translation !== '暂无释义') {
+      setCurrentDef(definition);
+      setIsLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch online definition from /api/v1/dict/lookup
+    let isCancelled = false;
+    setIsLoading(true);
+
+    fetch(`/api/v1/dict/lookup?word=${encodeURIComponent(cleanWord)}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Lookup failed');
+        return res.json();
+      })
+      .then((data: WordDefinition) => {
+        if (!isCancelled && data) {
+          setCurrentDef({
+            word: cleanWord,
+            phonetic: data.phonetic || definition?.phonetic || '',
+            part_of_speech: data.part_of_speech || definition?.part_of_speech || '',
+            translation: data.translation || definition?.translation || '暂无释义',
+            definition: data.definition || definition?.definition || '',
+            example: data.example || definition?.example || '',
+            cn_example: data.cn_example || definition?.cn_example || '',
+            image_url: data.image_url || definition?.image_url || null,
+          });
+        }
+      })
+      .catch((err) => {
+        console.warn('Word lookup fallback error:', err);
+        if (!isCancelled) {
+          setCurrentDef(
+            definition || {
+              word: cleanWord,
+              translation: '暂无中文释义',
+              definition: `English word: ${cleanWord}`,
+            }
+          );
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isOpen, cleanWord, definition]);
 
   if (!isOpen || !word) return null;
-
-  const cleanWord = word.replace(/[^a-zA-Z'-]/g, '');
 
   const playPronunciation = () => {
     if (typeof window === 'undefined') return;
@@ -68,13 +125,13 @@ export default function WordLookupModal({
       let list: SavedWord[] = stored ? JSON.parse(stored) : [];
 
       if (isSaved) {
-        list = list.filter(w => w.word.toLowerCase() !== cleanWord.toLowerCase());
+        list = list.filter((w) => w.word.toLowerCase() !== cleanWord.toLowerCase());
         setIsSaved(false);
       } else {
         const newWord: SavedWord = {
           word: cleanWord,
-          phonetic: definition?.phonetic,
-          translation: definition?.translation || '暂无释义',
+          phonetic: currentDef?.phonetic || definition?.phonetic,
+          translation: currentDef?.translation || definition?.translation || '暂无释义',
           contextSentence,
           sourceTitle,
           addedAt: Date.now(),
@@ -90,7 +147,7 @@ export default function WordLookupModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div 
+      <div
         className="relative w-full max-w-sm rounded-2xl bg-[#141829] border border-purple-500/30 p-5 shadow-2xl shadow-purple-950/70 text-slate-100"
         onClick={(e) => e.stopPropagation()}
       >
@@ -109,15 +166,15 @@ export default function WordLookupModal({
             <h3 className="text-xl font-extrabold tracking-tight text-white capitalize">
               {cleanWord}
             </h3>
-            {definition?.part_of_speech && (
+            {currentDef?.part_of_speech && (
               <span className="text-xs font-mono font-semibold text-purple-400 bg-purple-950/60 border border-purple-800/60 px-1.5 py-0.5 rounded">
-                {definition.part_of_speech}
+                {currentDef.part_of_speech}
               </span>
             )}
           </div>
 
           <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
-            {definition?.phonetic && <span>{definition.phonetic}</span>}
+            {currentDef?.phonetic && <span>{currentDef.phonetic}</span>}
             <button
               onClick={playPronunciation}
               disabled={isPlayingAudio}
@@ -135,24 +192,31 @@ export default function WordLookupModal({
           <div>
             <div className="text-[11px] text-slate-400 font-medium mb-1">简明中文释义</div>
             <div className="text-sm font-semibold text-purple-200">
-              {definition?.translation || '根据上下文推断释义中...'}
+              {isLoading ? (
+                <span className="text-purple-300/80 animate-pulse flex items-center gap-1.5 font-normal text-xs">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400" />
+                  <span>正在查询词典释义...</span>
+                </span>
+              ) : (
+                currentDef?.translation || '暂无中文释义'
+              )}
             </div>
           </div>
 
-          {definition?.definition && (
+          {currentDef?.definition && (
             <div>
               <div className="text-[11px] text-slate-400 font-medium mb-1">英英释义</div>
               <div className="text-slate-300 leading-relaxed italic bg-black/20 p-2.5 rounded-lg border border-white/5">
-                {definition.definition}
+                {currentDef.definition}
               </div>
             </div>
           )}
 
-          {definition?.example && (
+          {currentDef?.example && (
             <div>
               <div className="text-[11px] text-slate-400 font-medium mb-1">典型例句</div>
               <div className="text-slate-300 leading-relaxed font-normal">
-                “{definition.example}”
+                “{currentDef.example}”
               </div>
             </div>
           )}
@@ -178,7 +242,7 @@ export default function WordLookupModal({
                 onClose();
                 onAskAI(cleanWord);
               }}
-              className="px-3 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex items-center gap-1.5 shadow-md shadow-purple-600/30 transition-all"
+              className="px-3 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex items-center gap-1.5 shadow-md shadow-purple-600/30 transition-all cursor-pointer"
               title="呼出 AI 私教深入解析该词"
             >
               <Bot className="w-3.5 h-3.5" />
