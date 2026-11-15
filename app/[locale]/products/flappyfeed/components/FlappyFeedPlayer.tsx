@@ -28,7 +28,7 @@ import LoginGateModal from './LoginGateModal';
 
 export default function FlappyFeedPlayer() {
   const t = useTranslations('FlappyFeed');
-  const { user, isAuthenticated, openAuthModal } = useCustomAuth();
+  const { isAuthenticated, openAuthModal } = useCustomAuth();
 
   // Feed List and Filtering
   const [feedList, setFeedList] = useState<FeedItem[]>(SEED_CORPUS);
@@ -549,33 +549,12 @@ export default function FlappyFeedPlayer() {
           </button>
         </div>
 
-        {/* 右侧：登录状态/登录按钮、搜索切换、生词本与双语开关 */}
+        {/* 右侧：搜索切换、双语开关、生词本 (无 signin / 登录信息，统一由网站 Navbar 承载) */}
         <div className="flex items-center gap-2">
-          {!isAuthenticated ? (
-            <button
-              onClick={() => openAuthModal('otp')}
-              className="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center gap-1 shadow-md shadow-purple-600/30 transition-all cursor-pointer"
-              title="登录即可解锁全部 1490+ 篇名著语料"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-purple-200" />
-              <span>{t('loginBtn')}</span>
-              <span className="text-[10px] bg-purple-950/80 border border-purple-400/30 px-1.5 py-0.2 rounded-full text-purple-200 ml-0.5">
-                1/1
-              </span>
-            </button>
-          ) : (
-            <div className="hidden sm:flex items-center gap-1.5 text-xs text-purple-300 bg-purple-950/50 border border-purple-800/50 px-2.5 py-1 rounded-xl">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="max-w-[90px] truncate">
-                {user?.name || user?.email?.split('@')[0] || 'VIP'}
-              </span>
-            </div>
-          )}
-
           {/* 搜索切换按钮 */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="px-3 py-1.5 rounded-xl bg-purple-950/60 hover:bg-purple-900/60 border border-purple-800/60 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+            className="px-3 py-1.5 rounded-xl bg-purple-950/60 hover:bg-purple-900/60 border border-purple-800/60 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm cursor-pointer"
             title="搜索语料库或从目录中自由切换文章 (快捷键: /)"
           >
             <Search className="w-3.5 h-3.5 text-purple-400" />
@@ -584,7 +563,7 @@ export default function FlappyFeedPlayer() {
 
           <button
             onClick={() => setShowBilingual((prev) => !prev)}
-            className={`px-2.5 py-1.5 rounded-xl border text-xs flex items-center gap-1 transition-all ${
+            className={`px-2.5 py-1.5 rounded-xl border text-xs flex items-center gap-1 transition-all cursor-pointer ${
               showBilingual
                 ? 'bg-purple-950/80 text-purple-300 border-purple-800/80'
                 : 'bg-white/5 text-slate-400 border-white/5'
@@ -597,7 +576,7 @@ export default function FlappyFeedPlayer() {
 
           <button
             onClick={() => setIsVocabOpen(true)}
-            className="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-amber-300 border border-amber-500/30 flex items-center gap-1 transition-colors"
+            className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-amber-300 border border-amber-500/30 flex items-center gap-1 transition-colors cursor-pointer"
             title="打开生词本"
           >
             <Star className="w-3.5 h-3.5 fill-current" />
@@ -606,45 +585,45 @@ export default function FlappyFeedPlayer() {
         </div>
       </header>
 
-      {/* ===================== 2. MIDDLE SCROLLABLE TEXT STREAM ===================== */}
+      {/* ===================== 2. TOP FIXED ARTICLE TITLE & METADATA BAR ===================== */}
+      <section className="flex-shrink-0 z-10 px-4 sm:px-8 py-3 bg-[#0C101E]/95 border-b border-slate-800/80 space-y-1.5 text-left shadow-sm">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-mono uppercase tracking-wider text-purple-400 font-semibold bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-800/40">
+            {currentItem?.category || '综合精选'}
+          </span>
+          <span className="text-xs text-slate-400 font-normal">
+            来源：{currentItem?.source}
+          </span>
+          <span className="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-md border border-white/5">
+            难度：{currentItem?.difficulty?.toUpperCase()}
+          </span>
+          <span className="text-[11px] text-purple-300 bg-purple-950/40 border border-purple-800/40 px-2 py-0.5 rounded-md font-mono">
+            {currentItem?.accent === 'en-GB' ? '🇬🇧 英音' : '🇺🇸 美音'}
+          </span>
+          {currentItem?.has_audio ? (
+            <span className="text-[11px] font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-600/50 px-2 py-0.5 rounded-md flex items-center gap-1 font-mono shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>🎙️ 真实原声播客</span>
+            </span>
+          ) : (
+            <span className="text-[11px] text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md font-mono">
+              🤖 文本伴读
+            </span>
+          )}
+        </div>
+
+        <h1 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug">
+          {currentItem?.title}
+        </h1>
+      </section>
+
+      {/* ===================== 3. MIDDLE SCROLLABLE TEXT STREAM (ONLY CONTENT SCROLLS) ===================== */}
       <main
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto custom-scrollbar px-4 sm:px-8 py-5 min-h-0 select-text scroll-smooth"
+        className="flex-1 overflow-y-auto custom-scrollbar px-4 sm:px-8 py-4 min-h-0 select-text scroll-smooth"
       >
-        {/* 文章元信息与标题 */}
-        <section className="mb-4 space-y-2 text-left border-b border-slate-800/80 pb-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-purple-400 font-semibold bg-purple-950/60 px-2.5 py-0.5 rounded-md border border-purple-800/40">
-              {currentItem?.category || '综合精选'}
-            </span>
-            <span className="text-xs text-slate-400 font-normal">
-              来源：{currentItem?.source}
-            </span>
-            <span className="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-md border border-white/5">
-              难度：{currentItem?.difficulty?.toUpperCase()}
-            </span>
-            <span className="text-[11px] text-purple-300 bg-purple-950/40 border border-purple-800/40 px-2 py-0.5 rounded-md font-mono">
-              {currentItem?.accent === 'en-GB' ? '🇬🇧 英音' : '🇺🇸 美音'}
-            </span>
-            {currentItem?.has_audio ? (
-              <span className="text-[11px] font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-600/50 px-2 py-0.5 rounded-md flex items-center gap-1 font-mono shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>🎙️ 真实原声播客</span>
-              </span>
-            ) : (
-              <span className="text-[11px] text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md font-mono">
-                🤖 文本伴读
-              </span>
-            )}
-          </div>
-
-          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
-            {currentItem?.title}
-          </h1>
-        </section>
-
         {/* 紧凑双语精读排版 */}
-        <article className="text-left select-text space-y-2.5 sm:space-y-3 my-2 pb-6">
+        <article className="text-left select-text space-y-2.5 sm:space-y-3 pb-6">
           {currentItem?.sentences?.map((sentence, idx) => {
             const isCurrent = currentSentenceIndex === idx;
             return (
@@ -710,7 +689,7 @@ export default function FlappyFeedPlayer() {
                       <span>{loopingIndex === idx ? '复读中' : '复读'}</span>
                     </button>
 
-                    {/* AI 伴学快捷按钮 */}
+                    {/* AI 私教快捷按钮 */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -724,10 +703,10 @@ export default function FlappyFeedPlayer() {
                           ? 'bg-purple-900/60 text-purple-300 border border-purple-700/50 opacity-100 hover:bg-purple-800/60'
                           : 'text-slate-400 hover:text-purple-200 hover:bg-purple-950/50 opacity-0 group-hover:opacity-100'
                       }`}
-                      title="针对此句呼出 AI 私教进行语法拆解与 A2 降级"
+                      title="针对此句呼出 AI 私教进行语法拆解与释疑"
                     >
-                      <Bot className="w-2.5 h-2.5" />
-                      <span>AI</span>
+                      <Bot className="w-3 h-3" />
+                      <span>AI 私教</span>
                     </button>
                   </span>
                 </div>
@@ -749,25 +728,12 @@ export default function FlappyFeedPlayer() {
       </main>
 
       {/* ===================== 3. BOTTOM FIXED AUDIO CONTROL BAR ===================== */}
-      <footer className="flex-shrink-0 z-20 px-3 sm:px-6 py-2.5 sm:py-3 border-t border-slate-800/80 bg-[#0D1224]/95 backdrop-blur-xl flex items-center justify-between gap-2 shadow-lg">
-        {/* 左侧：复读与倍速切换 */}
+      <footer className="flex-shrink-0 z-20 px-4 sm:px-6 py-2.5 sm:py-3 border-t border-slate-800/80 bg-[#0D1224]/95 backdrop-blur-xl flex items-center justify-between gap-2 shadow-lg">
+        {/* 左侧：倍速切换 */}
         <div className="flex items-center gap-1.5">
           <button
-            onClick={toggleCurrentSentenceLoop}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${
-              loopingIndex !== null
-                ? 'bg-purple-600 text-white border-purple-500 shadow-md shadow-purple-600/30'
-                : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
-            }`}
-            title="单句循环复读磨耳朵 (快捷键: R)"
-          >
-            <Repeat1 className={`w-3.5 h-3.5 ${loopingIndex !== null ? 'animate-pulse text-amber-300' : ''}`} />
-            <span className="hidden sm:inline">{loopingIndex !== null ? '复读中' : '单句复读'}</span>
-          </button>
-
-          <button
             onClick={cyclePlaybackRate}
-            className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 text-xs font-mono font-bold transition-colors"
+            className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 text-xs font-mono font-bold transition-colors cursor-pointer"
             title="切换语速 (0.8x / 1.0x / 1.25x)"
           >
             {playbackRate.toFixed(1)}x
@@ -778,35 +744,24 @@ export default function FlappyFeedPlayer() {
         <div>
           <button
             onClick={togglePlayPause}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-violet-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-purple-600/30 active:scale-95 transition-all"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-violet-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-purple-600/30 active:scale-95 transition-all cursor-pointer"
             title="播放 / 暂停 (快捷键: 空格键)"
           >
-            {isPlaying ? <Pause className="w-5 h-5 sm:w-6 sm:h-6 fill-current" /> : <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5" />}
+            {isPlaying ? (
+              <Pause className="w-5 h-5 sm:w-6 sm:h-6 fill-current" />
+            ) : (
+              <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5" />
+            )}
           </button>
         </div>
 
-        {/* 右侧：当前句进度与 AI 私教 */}
+        {/* 右侧：当前句进度指示 */}
         <div className="flex items-center gap-2">
           {currentItem?.sentences?.length ? (
-            <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">
+            <span className="text-xs font-mono text-slate-400">
               第 {currentSentenceIndex + 1} / {currentItem.sentences.length} 句
             </span>
           ) : null}
-
-          <button
-            onClick={() => {
-              const cur = currentItem?.sentences?.[currentSentenceIndex];
-              setAiTarget({
-                text: cur?.text || currentItem?.title || '',
-                context: currentItem?.title,
-              });
-            }}
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-purple-600/25 transition-all"
-            title="呼出 AI 私教针对当前句答疑"
-          >
-            <Bot className="w-4 h-4" />
-            <span>AI 私教</span>
-          </button>
         </div>
       </footer>
 
