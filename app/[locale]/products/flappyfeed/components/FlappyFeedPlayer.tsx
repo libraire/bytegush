@@ -26,6 +26,13 @@ import VocabularyDrawer from './VocabularyDrawer';
 import ArticleSearchModal from './ArticleSearchModal';
 import LoginGateModal from './LoginGateModal';
 
+function formatTime(seconds: number): string {
+  if (isNaN(seconds) || seconds < 0 || !isFinite(seconds)) return '00:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
 export default function FlappyFeedPlayer() {
   const t = useTranslations('FlappyFeed');
   const { isAuthenticated, openAuthModal } = useCustomAuth();
@@ -54,6 +61,11 @@ export default function FlappyFeedPlayer() {
   const [loopingIndex, setLoopingIndex] = useState<number | null>(null);
   const [showBilingual, setShowBilingual] = useState(true);
   const [accent, setAccent] = useState<'en-US' | 'en-GB'>('en-US');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const isSeekingRef = useRef(false);
+  isSeekingRef.current = isSeeking;
 
   // Modal / Drawer state
   const [selectedWord, setSelectedWord] = useState<{
@@ -81,6 +93,9 @@ export default function FlappyFeedPlayer() {
   const currentItem: FeedItem | undefined = feedList[currentIndex];
   currentItemRef.current = currentItem;
   const currentSentence: SentenceItem | undefined = currentItem?.sentences?.[currentSentenceIndex];
+
+  const effectiveDuration =
+    duration || (currentItem?.total_duration_ms ? currentItem.total_duration_ms / 1000 : 0);
 
   // Helper: Gently scroll active sentence into view (centered vertically)
   const scrollActiveSentenceIntoView = useCallback((index: number) => {
@@ -374,6 +389,8 @@ export default function FlappyFeedPlayer() {
     loadedAudioArticleIdRef.current = activeArticleId;
 
     setCurrentSentenceIndex(0);
+    setCurrentTime(0);
+    setDuration(currentItem?.total_duration_ms ? currentItem.total_duration_ms / 1000 : 0);
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
@@ -410,6 +427,9 @@ export default function FlappyFeedPlayer() {
     if (!audio || !currentItem?.sentences?.length) return;
 
     const ms = Math.floor(audio.currentTime * 1000);
+    if (!isSeekingRef.current) {
+      setCurrentTime(audio.currentTime);
+    }
     const sentences = currentItem.sentences;
 
     // 1. If currently looping a specific sentence, keep locked and loop strictly within its boundary
@@ -499,6 +519,18 @@ export default function FlappyFeedPlayer() {
       <audio
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={(e) => {
+          const d = e.currentTarget.duration;
+          if (d && !isNaN(d) && isFinite(d)) {
+            setDuration(d);
+          }
+        }}
+        onDurationChange={(e) => {
+          const d = e.currentTarget.duration;
+          if (d && !isNaN(d) && isFinite(d)) {
+            setDuration(d);
+          }
+        }}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onEnded={() => {
@@ -728,40 +760,78 @@ export default function FlappyFeedPlayer() {
       </main>
 
       {/* ===================== 3. BOTTOM FIXED AUDIO CONTROL BAR ===================== */}
-      <footer className="flex-shrink-0 z-20 px-4 sm:px-6 py-2.5 sm:py-3 border-t border-slate-800/80 bg-[#0D1224]/95 backdrop-blur-xl flex items-center justify-between gap-2 shadow-lg">
-        {/* 左侧：倍速切换 */}
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={cyclePlaybackRate}
-            className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 text-xs font-mono font-bold transition-colors cursor-pointer"
-            title="切换语速 (0.8x / 1.0x / 1.25x)"
-          >
-            {playbackRate.toFixed(1)}x
-          </button>
-        </div>
-
-        {/* 中间：大播放/暂停按钮 */}
-        <div>
-          <button
-            onClick={togglePlayPause}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-violet-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-purple-600/30 active:scale-95 transition-all cursor-pointer"
-            title="播放 / 暂停 (快捷键: 空格键)"
-          >
-            {isPlaying ? (
-              <Pause className="w-5 h-5 sm:w-6 sm:h-6 fill-current" />
-            ) : (
-              <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5" />
-            )}
-          </button>
-        </div>
-
-        {/* 右侧：当前句进度指示 */}
-        <div className="flex items-center gap-2">
-          {currentItem?.sentences?.length ? (
-            <span className="text-xs font-mono text-slate-400">
-              第 {currentSentenceIndex + 1} / {currentItem.sentences.length} 句
+      <footer className="flex-shrink-0 z-20 px-4 sm:px-6 py-2.5 sm:py-3 border-t border-slate-800/80 bg-[#0D1224]/95 backdrop-blur-xl flex flex-col gap-2 shadow-lg">
+        {/* 原声音频专属进度条 (仅原声音频展示) */}
+        {currentItem?.has_audio && (
+          <div className="w-full flex items-center gap-2.5 px-0.5 -mt-0.5">
+            <span className="text-[11px] font-mono text-slate-400 w-10 text-right select-none">
+              {formatTime(currentTime)}
             </span>
-          ) : null}
+            <div className="relative flex-1 flex items-center group py-1">
+              <input
+                type="range"
+                min={0}
+                max={effectiveDuration || 100}
+                step={0.1}
+                value={currentTime}
+                onPointerDown={() => setIsSeeking(true)}
+                onChange={(e) => setCurrentTime(parseFloat(e.target.value))}
+                onPointerUp={(e) => {
+                  setIsSeeking(false);
+                  const newTime = parseFloat(e.currentTarget.value);
+                  if (audioRef.current) {
+                    audioRef.current.currentTime = newTime;
+                  }
+                }}
+                className="w-full h-1.5 group-hover:h-2 bg-slate-800/90 rounded-full appearance-none cursor-pointer accent-purple-500 transition-all focus:outline-none"
+                style={{
+                  background: `linear-gradient(to right, rgb(168 85 247) ${(currentTime / (effectiveDuration || 1)) * 100}%, rgb(30 41 59) ${(currentTime / (effectiveDuration || 1)) * 100}%)`,
+                }}
+                title="拖动调整播放进度"
+              />
+            </div>
+            <span className="text-[11px] font-mono text-slate-400 w-10 text-left select-none">
+              {formatTime(effectiveDuration)}
+            </span>
+          </div>
+        )}
+
+        {/* 控制按钮行 */}
+        <div className="w-full flex items-center justify-between gap-2">
+          {/* 左侧：倍速切换 */}
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={cyclePlaybackRate}
+              className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 text-xs font-mono font-bold transition-colors cursor-pointer"
+              title="切换语速 (0.8x / 1.0x / 1.25x)"
+            >
+              {playbackRate.toFixed(1)}x
+            </button>
+          </div>
+
+          {/* 中间：圆形大播放/暂停按钮 */}
+          <div>
+            <button
+              onClick={togglePlayPause}
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-purple-600 via-violet-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-purple-600/35 border border-purple-400/25 active:scale-95 transition-all cursor-pointer"
+              title="播放 / 暂停 (快捷键: 空格键)"
+            >
+              {isPlaying ? (
+                <Pause className="w-5 h-5 sm:w-6 sm:h-6 fill-current" />
+              ) : (
+                <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5" />
+              )}
+            </button>
+          </div>
+
+          {/* 右侧：当前句进度指示 */}
+          <div className="flex items-center gap-2">
+            {currentItem?.sentences?.length ? (
+              <span className="text-xs font-mono text-slate-400">
+                第 {currentSentenceIndex + 1} / {currentItem.sentences.length} 句
+              </span>
+            ) : null}
+          </div>
         </div>
       </footer>
 
